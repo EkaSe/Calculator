@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace Calculator
 {
@@ -15,9 +14,9 @@ namespace Calculator
 			factorial,
 		};
 		
-		static protected int Priority (double currentOperator){
+		static int Priority (OperatorCode currentOperator){
 			int result = 0;
-			switch ((int) currentOperator) {
+			switch ((int) expression [i]) {
 				case (int) OperatorCode.plus:
 					result = 1;
 					break;
@@ -36,6 +35,7 @@ namespace Calculator
 				case (int) OperatorCode.factorial:
 					result = 5;
 					break;
+				}
 			}
 			return result;
 		}
@@ -59,7 +59,7 @@ namespace Calculator
 							result = expression [i - 1] / expression [i + 1];
 							break;
 						}
-						expression.RemoveRange (i - 1, 3);
+						expression.RemoveRange (i - 1, i + 1);
 						expression.Insert (i - 1, result);
 						i -= 2;
 					}
@@ -89,12 +89,6 @@ namespace Calculator
 				case "8":
 				case "9":
 					currentDigit = Convert.ToDouble(currentSymbol);
-					if (mantissaLength == 1)
-						currentNumber = currentNumber * 10 + currentDigit;
-					else {
-						currentNumber = currentNumber + currentDigit * mantissaLength;
-						mantissaLength *= 0.1;
-					}
 					break;
 				case ".": 
 					mantissaLength = 0.1;
@@ -136,27 +130,29 @@ namespace Calculator
 						j++;
 						if (j == input.Length)
 							return "Invalid string: parenthesis";
-						if (String.Equals (Convert.ToString (input [j]), ")"))
+						if (expression [j] == ")")
 							parenthesisCount--;
-						if (String.Equals (Convert.ToString (input [j]), "("))
+						if (expression [j] == "(")
 							parenthesisCount++;
 						if (parenthesisCount < 0)
 							return "Invalid string: parenthesis";
-					} while (parenthesisCount != 0);
-					string underParenthesis = input.Substring (i + 1, j - i - 1);
-					result = ProcessExpression (input.Substring (i + 1, j - i - 1));
-					currentNumber = Convert.ToDouble (result);
-					i = j;
+					} while ((parenthesisCount != 0);
+					result = ProcessExpression (expression.GetRange ( i + 1, j - i - 1);
+					expression.Add (Convert.ToDouble (result));
 					break;	
 				default:
 					result = "Invalid symbol: " + currentSymbol;
 					return result;
 				}
+				if (mantissaLength == 1)
+					currentNumber = currentNumber * 10 + currentDigit;
+				else {
+					currentNumber = currentNumber + currentDigit * mantissaLength;
+					mantissaLength *= 0.1;
+				}
 			}
 			expression.Add (currentNumber);
-			NumberFormatInfo provider = new NumberFormatInfo();
-			provider.NumberDecimalSeparator = ".";
-			result = Convert.ToString (Calculate (expression), provider);
+			result = Convert.ToString (Calculate (expression));
 			return result;
 		}
 	}
