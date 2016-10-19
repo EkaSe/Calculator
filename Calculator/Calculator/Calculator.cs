@@ -49,6 +49,37 @@ namespace Calculator
 			}
 			return result;
 		}
+
+		static public double FindOperand (string input) {
+			double currentNumber = 0;
+			double currentDigit = -1;
+			double mantissaLength = 1;
+			bool operandEnd = false;
+			int i = 0;
+			while (!operandEnd) {
+				char currentSymbol = input [i];
+				if (CharToDigit (currentSymbol) >= 0) {
+					currentDigit = (double) CharToDigit (input [i]);
+					if (mantissaLength == 1)
+						currentNumber = currentNumber * 10 + currentDigit;
+					else {
+						currentNumber = currentNumber + currentDigit * mantissaLength;
+						mantissaLength *= 0.1;
+					}
+				} else {
+					if (currentSymbol.Equals ('.'))
+						mantissaLength = 0.1;
+					else {
+						if (currentDigit >= 0)
+							operandEnd = true;
+					}
+				}
+				i++;
+				if (i == input.Length)
+					operandEnd = true;
+			}
+			return currentNumber;
+		}
 		
 		static double Calculate (List<double> expression) {
 			double result = expression[0];
