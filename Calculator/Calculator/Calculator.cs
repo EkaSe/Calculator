@@ -80,6 +80,43 @@ namespace Calculator
 			}
 			return currentNumber;
 		}
+
+		static public int FindOperator (string input) {
+			int firstOperator = -1;
+			bool operatorFound = false;
+			int i = 0;
+			while ((!operatorFound) && (i < input.Length)) {
+				char currentSymbol = input [i];
+				switch (currentSymbol) {
+				case '+': 
+					firstOperator = (int) OperatorCode.plus;
+					operatorFound = true;
+					break;
+				case '-': 
+					firstOperator = (int) OperatorCode.minus;
+					operatorFound = true;
+					break;
+				case '*': 
+					firstOperator = (int) OperatorCode.multiply;
+					operatorFound = true;
+					break;
+				case '/': 
+					firstOperator = (int) OperatorCode.divide;
+					operatorFound = true;
+					break;
+				case '!': 
+					firstOperator = (int) OperatorCode.factorial;
+					operatorFound = true;
+					break;
+				case '^': 
+					firstOperator = (int) OperatorCode.degree;
+					operatorFound = true;
+					break;
+				}
+				i++;
+			}
+			return firstOperator;
+		}
 		
 		static double Calculate (List<double> expression) {
 			double result = expression[0];

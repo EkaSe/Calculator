@@ -20,6 +20,14 @@ namespace Calculator
 			else Console.WriteLine ("Test: First operand in " + input + " is " + expectedOutput + " failed");
 		}
 
+		static public void FindOperatorTest (string input, int expectedOutput)
+		{
+			int result = Calculator.FindOperator (input);
+			if (result == expectedOutput)
+				Console.WriteLine ("Test: First operator in " + input + " is " + expectedOutput + " passed");
+			else Console.WriteLine ("Test: First operator in " + input + " is " + expectedOutput + " failed");
+		}
+
 		static public void RunTests ()
 		{
 			CalculatorTest ("12", "12");
@@ -47,6 +55,14 @@ namespace Calculator
 			FindOperandTest ("+50-5", 50);
 			FindOperandTest ("(17+2)*2", 17);
 			FindOperandTest ("-10.258", 10.258);
+
+			FindOperatorTest ("4 + 5", (int) Calculator.OperatorCode.plus);
+			FindOperatorTest ("10", -1);
+			FindOperatorTest ("-50*3", (int) Calculator.OperatorCode.minus);
+			FindOperatorTest ("(5/3", (int) Calculator.OperatorCode.divide);
+			FindOperatorTest ("*-+/", (int) Calculator.OperatorCode.multiply);
+			FindOperatorTest ("8!", (int) Calculator.OperatorCode.factorial);
+			FindOperatorTest ("2.05^2", (int) Calculator.OperatorCode.degree);
 		}
 	}
 }
