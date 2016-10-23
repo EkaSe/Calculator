@@ -6,6 +6,13 @@ namespace Calculator
 {
 	public class Calculator
 	{
+		static NumberFormatInfo formatProvider;
+
+		static void InitProvider () {
+			formatProvider = new NumberFormatInfo();
+			formatProvider.NumberDecimalSeparator = ".";
+		}
+
 		public enum OperatorCode {
 			plus,
 			minus,
@@ -18,7 +25,7 @@ namespace Calculator
 		static public int CharToDigit (char symbol) {
 			int code = (int) symbol;
 			int digit;
-			if ((code > 47) && (code < 58))
+			if ((code >= (int) '0') && (code <= (int) '9'))
 				digit = code - 48;
 			else
 				digit = -1;
@@ -50,74 +57,119 @@ namespace Calculator
 			return result;
 		}
 
-		static public double FindOperand (string input) {
-			double currentNumber = 0;
+		static public int FindOperand (string input, int startPosition, out double firstOperand) {
+			firstOperand = 0;
 			double currentDigit = -1;
 			double mantissaLength = 1;
 			bool operandEnd = false;
-			int i = 0;
+			int i = startPosition;
+			int endPosition = -1;
 			while (!operandEnd) {
 				char currentSymbol = input [i];
-				if (CharToDigit (currentSymbol) >= 0) {
-					currentDigit = (double) CharToDigit (input [i]);
+				int currentSymbolToDigit = CharToDigit (currentSymbol);
+				if (currentSymbolToDigit >= 0) {
+					currentDigit = (double) currentSymbolToDigit;
 					if (mantissaLength == 1)
-						currentNumber = currentNumber * 10 + currentDigit;
+						firstOperand = firstOperand * 10 + currentDigit;
 					else {
-						currentNumber = currentNumber + currentDigit * mantissaLength;
+						firstOperand = firstOperand + currentDigit * mantissaLength;
 						mantissaLength *= 0.1;
 					}
 				} else {
-					if (currentSymbol.Equals ('.'))
+					switch (currentSymbol) {
+					case '.':
 						mantissaLength = 0.1;
-					else {
-						if (currentDigit >= 0)
+						break;
+					case '(':
+						string substring; 
+						int parenthesisEnd = FindClosingParenthesis (input, i, out substring);
+						firstOperand = Convert.ToDouble (ProcessExpression (substring), formatProvider);
+						endPosition = parenthesisEnd;
+						operandEnd = true;
+						break;
+					default:
+						if (currentDigit >= 0) {
 							operandEnd = true;
+							endPosition = i - 1;
+						}
+						break;
 					}
 				}
 				i++;
-				if (i == input.Length)
+				if (i == input.Length) {
 					operandEnd = true;
+					if (currentDigit >= 0)
+						endPosition = input.Length - 1;
+				}
 			}
-			return currentNumber;
+			if (input [startPosition] == '-')
+				firstOperand = -firstOperand;
+			return endPosition;
 		}
 
-		static public int FindOperator (string input) {
-			int firstOperator = -1;
+		static public int FindOperator (string input, int startPosition, out OperatorCode firstOperator) {
+			int operatorPosition = -1;
 			bool operatorFound = false;
-			int i = 0;
+			int i = startPosition;
+			firstOperator = OperatorCode.plus;
 			while ((!operatorFound) && (i < input.Length)) {
 				char currentSymbol = input [i];
 				switch (currentSymbol) {
 				case '+': 
-					firstOperator = (int) OperatorCode.plus;
+					firstOperator = (int)OperatorCode.plus;
+					operatorPosition = i;
 					operatorFound = true;
 					break;
 				case '-': 
-					firstOperator = (int) OperatorCode.minus;
+					firstOperator = OperatorCode.minus;
+					operatorPosition = i;
 					operatorFound = true;
 					break;
 				case '*': 
-					firstOperator = (int) OperatorCode.multiply;
+					firstOperator = OperatorCode.multiply;
+					operatorPosition = i;
 					operatorFound = true;
 					break;
 				case '/': 
-					firstOperator = (int) OperatorCode.divide;
+					firstOperator = OperatorCode.divide;
+					operatorPosition = i;
 					operatorFound = true;
 					break;
 				case '!': 
-					firstOperator = (int) OperatorCode.factorial;
+					firstOperator = OperatorCode.factorial;
+					operatorPosition = i;
 					operatorFound = true;
 					break;
 				case '^': 
-					firstOperator = (int) OperatorCode.degree;
+					firstOperator = OperatorCode.degree;
+					operatorPosition = i;
 					operatorFound = true;
 					break;
 				}
 				i++;
 			}
-			return firstOperator;
+			return operatorPosition;
 		}
-		
+
+		static int FindClosingParenthesis (string input, int startPosition, out string substring) {
+			int parenthesisCount = 1;
+			int j = startPosition;
+			substring = "";
+			do {
+				j++;
+				if (j == input.Length)
+					return -1;
+				if (String.Equals (Convert.ToString (input [j]), ")"))
+					parenthesisCount--;
+				if (String.Equals (Convert.ToString (input [j]), "("))
+					parenthesisCount++;
+				if (parenthesisCount < 0)
+					return -1;
+			} while (parenthesisCount != 0);
+			substring = input.Substring (startPosition + 1, j - startPosition - 1);
+			return j;
+		}
+
 		static double Calculate (List<double> expression) {
 			double result = expression[0];
 			for (int priorityCount = 5; priorityCount > 0; priorityCount--) {
@@ -148,84 +200,28 @@ namespace Calculator
 
 		static public string ProcessExpression (string input)
 		{
+			InitProvider ();
 			List<double> expression = new List<double> ();
-			double currentNumber = 0;
-			double currentDigit = 0;
-			double mantissaLength = 1;
+			double currentOperand = 0;
+			OperatorCode currentOperator;
 			string result;
-			for (int i = 0; i < input.Length; i++) {
-				string currentSymbol = Convert.ToString (input [i]);
-				if (CharToDigit (input [i]) >= 0) {
-					currentDigit = (double) CharToDigit (input [i]);
-					if (mantissaLength == 1)
-						currentNumber = currentNumber * 10 + currentDigit;
-					else {
-						currentNumber = currentNumber + currentDigit * mantissaLength;
-						mantissaLength *= 0.1;
-					}
-				} else {
-					switch (currentSymbol) {
-					case ".": 
-						mantissaLength = 0.1;
-						break;
-					case " ": 
-						break;
-					case "+": 
-						expression.Add (currentNumber);
-						currentNumber = 0;
-						currentDigit = 0;
-						mantissaLength = 1;
-						expression.Add ((double)OperatorCode.plus);
-						break;
-					case "-": 
-						expression.Add (currentNumber);
-						currentNumber = 0;
-						currentDigit = 0;
-						mantissaLength = 1;
-						expression.Add ((double)OperatorCode.minus);
-						break;
-					case "*": 
-						expression.Add (currentNumber);
-						currentNumber = 0;
-						currentDigit = 0;
-						mantissaLength = 1;
-						expression.Add ((double)OperatorCode.multiply);
-						break;
-					case "/": 
-						expression.Add (currentNumber);
-						currentNumber = 0;
-						currentDigit = 0;
-						mantissaLength = 1;
-						expression.Add ((double)OperatorCode.divide);
-						break;
-					case "(": 
-						int parenthesisCount = 1;
-						int j = i;
-						do {
-							j++;
-							if (j == input.Length)
-								return "Invalid string: parenthesis";
-							if (String.Equals (Convert.ToString (input [j]), ")"))
-								parenthesisCount--;
-							if (String.Equals (Convert.ToString (input [j]), "("))
-								parenthesisCount++;
-							if (parenthesisCount < 0)
-								return "Invalid string: parenthesis";
-						} while (parenthesisCount != 0);
-						result = ProcessExpression (input.Substring (i + 1, j - i - 1));
-						currentNumber = Convert.ToDouble (result);
-						i = j;
-						break;	
-					default:
-						result = "Invalid symbol: " + currentSymbol;
-						return result;
-					}
-				}
+			int currentPosition = 0;
+			currentPosition = FindOperand (input, currentPosition, out currentOperand);
+			if (currentPosition == -1)
+				return "Invalid expression: no operand found";
+			else 
+				expression.Add (currentOperand);
+			currentPosition++;
+			while ((currentPosition < input.Length) && (currentPosition > 0)) {
+				currentPosition = FindOperator (input, currentPosition, out currentOperator);
+				expression.Add ((double) currentOperator);
+				currentPosition++;
+				if (currentOperator != OperatorCode.factorial)
+					currentPosition = FindOperand (input, currentPosition, out currentOperand);
+				expression.Add (currentOperand);
+				currentPosition++;
 			}
-			expression.Add (currentNumber);
-			NumberFormatInfo provider = new NumberFormatInfo();
-			provider.NumberDecimalSeparator = ".";
-			result = Convert.ToString (Calculate (expression), provider);
+			result = Convert.ToString (Calculate (expression), formatProvider);
 			return result;
 		}
 	}

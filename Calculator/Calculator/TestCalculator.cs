@@ -12,20 +12,26 @@ namespace Calculator
 			else Console.WriteLine ("Test " + input + " = " + expectedOutput + " failed");
 		}
 
-		static public void FindOperandTest (string input, double expectedOutput)
+		static public void FindOperandTest (string input, int startPosition, int expectedPosition, double expectedResult)
 		{
-			double result = Calculator.FindOperand (input);
-			if (result == expectedOutput)
-				Console.WriteLine ("Test: First operand in " + input + " is " + expectedOutput + " passed");
-			else Console.WriteLine ("Test: First operand in " + input + " is " + expectedOutput + " failed");
+			double result;
+			int foundPosition = Calculator.FindOperand (input, startPosition, out result);
+			if ((foundPosition == expectedPosition) && (result == expectedResult))
+				Console.WriteLine ("Test: First operand in " + input + " with start posiion " + startPosition 
+					+ " is " + expectedResult + " passed");
+			else Console.WriteLine ("Test: First operand in " + input + " with start posiion " + startPosition 
+				+ " is " + expectedResult + " failed");
 		}
 
-		static public void FindOperatorTest (string input, int expectedOutput)
+		static public void FindOperatorTest (string input, int startPosition, int expectedPosition, Calculator.OperatorCode expectedResult)
 		{
-			int result = Calculator.FindOperator (input);
-			if (result == expectedOutput)
-				Console.WriteLine ("Test: First operator in " + input + " is " + expectedOutput + " passed");
-			else Console.WriteLine ("Test: First operator in " + input + " is " + expectedOutput + " failed");
+			Calculator.OperatorCode result = Calculator.OperatorCode.plus;
+			int foundPosition = Calculator.FindOperator (input, startPosition, out result);
+			if ((foundPosition == expectedPosition) && (result == expectedResult))
+				Console.WriteLine ("Test: First operator in " + input + " with start posiion " + startPosition 
+					+ " is " + expectedResult + " passed");
+			else Console.WriteLine ("Test: First operator in " + input + " with start posiion " + startPosition 
+				+ " is " + expectedResult + " failed");
 		}
 
 		static public void RunTests ()
@@ -47,22 +53,23 @@ namespace Calculator
 			CalculatorTest ("5.5+2.15", "7.65");
 			CalculatorTest ("4^(1/2)", "2");
 			CalculatorTest ("0.125^(-1/3)", "2");
-
-			FindOperandTest ("5", 5);
-			FindOperandTest ("10", 10);
-			FindOperandTest ("05", 5);
-			FindOperandTest ("0.1", 0.1);
-			FindOperandTest ("+50-5", 50);
-			FindOperandTest ("(17+2)*2", 17);
-			FindOperandTest ("-10.258", 10.258);
-
-			FindOperatorTest ("4 + 5", (int) Calculator.OperatorCode.plus);
-			FindOperatorTest ("10", -1);
-			FindOperatorTest ("-50*3", (int) Calculator.OperatorCode.minus);
-			FindOperatorTest ("(5/3", (int) Calculator.OperatorCode.divide);
-			FindOperatorTest ("*-+/", (int) Calculator.OperatorCode.multiply);
-			FindOperatorTest ("8!", (int) Calculator.OperatorCode.factorial);
-			FindOperatorTest ("2.05^2", (int) Calculator.OperatorCode.degree);
+			Console.WriteLine ();
+			FindOperandTest ("5", 0, 0, 5);
+			FindOperandTest ("10", 0, 1, 10);
+			FindOperandTest ("05", 1, 1, 5);
+			FindOperandTest ("0.1", 0, 2, 0.1);
+			FindOperandTest ("+50-5", 3, 4, -5);
+			FindOperandTest ("(17+2)*2", 0, 5, 19);
+			FindOperandTest ("-10.258", 0, 6, -10.258);
+			FindOperandTest ("15.8 * (-8.4 / 2.1)", 6, 18, -4);
+			Console.WriteLine ();
+			FindOperatorTest ("4 + 5", 0, 2, Calculator.OperatorCode.plus);
+			FindOperatorTest ("10", 0, -1, Calculator.OperatorCode.plus);
+			FindOperatorTest ("-50*3", 0, 0, Calculator.OperatorCode.minus);
+			FindOperatorTest ("-50*3", 1, 3, Calculator.OperatorCode.multiply);
+			FindOperatorTest ("*-+/*", 3, 3, Calculator.OperatorCode.divide);
+			FindOperatorTest ("8!", 1, 1, Calculator.OperatorCode.factorial);
+			FindOperatorTest ("2.05^2", 1, 4, Calculator.OperatorCode.degree);
 		}
 	}
 }
