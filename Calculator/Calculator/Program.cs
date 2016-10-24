@@ -6,7 +6,8 @@ namespace Calculator
 	{
 		public static void Main (string[] args)
 		{
-			TestCalculator.RunTests ();
+			//TestCalculator.RunTests ();
+			TestCalculator.ConsoleCalculator ();
 		}
 	}
 }

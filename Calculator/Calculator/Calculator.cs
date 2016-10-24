@@ -19,14 +19,15 @@ namespace Calculator
 			multiply,
 			divide,
 			degree,
-			factorial
+			factorial,
+			unknown
 		};
 
 		static public int CharToDigit (char symbol) {
 			int code = (int) symbol;
 			int digit;
 			if ((code >= (int) '0') && (code <= (int) '9'))
-				digit = code - 48;
+				digit = code - (int) '0';
 			else
 				digit = -1;
 			return digit;
@@ -59,20 +60,20 @@ namespace Calculator
 
 		static public int FindOperand (string input, int startPosition, out double firstOperand) {
 			firstOperand = 0;
-			double currentDigit = -1;
+			double currentDecimal = -1;
 			double mantissaLength = 1;
 			bool operandEnd = false;
 			int i = startPosition;
 			int endPosition = -1;
 			while (!operandEnd) {
 				char currentSymbol = input [i];
-				int currentSymbolToDigit = CharToDigit (currentSymbol);
-				if (currentSymbolToDigit >= 0) {
-					currentDigit = (double) currentSymbolToDigit;
+				int currentDigit = CharToDigit (currentSymbol);
+				if (currentDigit >= 0) {
+					currentDecimal = (double) currentDigit;
 					if (mantissaLength == 1)
-						firstOperand = firstOperand * 10 + currentDigit;
+						firstOperand = firstOperand * 10 + currentDecimal;
 					else {
-						firstOperand = firstOperand + currentDigit * mantissaLength;
+						firstOperand = firstOperand + currentDecimal * mantissaLength;
 						mantissaLength *= 0.1;
 					}
 				} else {
@@ -88,7 +89,7 @@ namespace Calculator
 						operandEnd = true;
 						break;
 					default:
-						if (currentDigit >= 0) {
+						if (currentDecimal >= 0) {
 							operandEnd = true;
 							endPosition = i - 1;
 						}
@@ -98,7 +99,7 @@ namespace Calculator
 				i++;
 				if (i == input.Length) {
 					operandEnd = true;
-					if (currentDigit >= 0)
+					if (currentDecimal >= 0)
 						endPosition = input.Length - 1;
 				}
 			}
@@ -111,7 +112,7 @@ namespace Calculator
 			int operatorPosition = -1;
 			bool operatorFound = false;
 			int i = startPosition;
-			firstOperator = OperatorCode.plus;
+			firstOperator = OperatorCode.unknown;
 			while ((!operatorFound) && (i < input.Length)) {
 				char currentSymbol = input [i];
 				switch (currentSymbol) {

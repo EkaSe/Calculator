@@ -64,12 +64,19 @@ namespace Calculator
 			FindOperandTest ("15.8 * (-8.4 / 2.1)", 6, 18, -4);
 			Console.WriteLine ();
 			FindOperatorTest ("4 + 5", 0, 2, Calculator.OperatorCode.plus);
-			FindOperatorTest ("10", 0, -1, Calculator.OperatorCode.plus);
+			FindOperatorTest ("10", 0, -1, Calculator.OperatorCode.unknown);
 			FindOperatorTest ("-50*3", 0, 0, Calculator.OperatorCode.minus);
 			FindOperatorTest ("-50*3", 1, 3, Calculator.OperatorCode.multiply);
 			FindOperatorTest ("*-+/*", 3, 3, Calculator.OperatorCode.divide);
 			FindOperatorTest ("8!", 1, 1, Calculator.OperatorCode.factorial);
 			FindOperatorTest ("2.05^2", 1, 4, Calculator.OperatorCode.degree);
+		}
+
+		static public void ConsoleCalculator () {
+			Console.WriteLine ("Enter expression for calculation");
+			string input = Console.ReadLine ();
+			string result = Calculator.ProcessExpression (input);
+			Console.WriteLine ("= " + result);
 		}
 	}
 }
