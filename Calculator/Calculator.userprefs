@@ -1,1 +1,1 @@
-﻿<Properties StartupItem="Calculator/Calculator.csproj" />
+﻿<Properties StartupItem="Calculator/Calculator.UI.csproj" />

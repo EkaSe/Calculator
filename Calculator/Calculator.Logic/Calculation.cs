@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace Calculator.Logic
 {
-	public class Calculator
+	public class Calculation
 	{
 		static NumberFormatInfo formatProvider;
 
@@ -31,6 +31,36 @@ namespace Calculator.Logic
 			else
 				digit = -1;
 			return digit;
+		}
+
+		static public string DoubleToString (double number) {
+			string result = "";
+			return result;
+		}
+
+		static public double StringToDouble (string input) {
+			double result = 0;
+			char symbol;
+			double mantissaLength = 1;
+			for (int i = 0; i < input.Length; i++) {
+				symbol = input [i];
+				int digit = CharToDigit (symbol);
+				if (digit >= 0) {
+					if (mantissaLength == 1)
+						result = result * 10 + (double) digit;
+					else {
+						result = result + (double) digit * mantissaLength;
+						mantissaLength *= 0.1;
+					}
+				} else {
+					if ((symbol == '.') && (mantissaLength == 1))
+						mantissaLength = 0.1;
+				}
+			}
+			symbol = input [0];
+			if (symbol == '-')
+				result = -result;
+			return result;
 		}
 
 		static protected int Priority (double currentOperator){
@@ -84,7 +114,7 @@ namespace Calculator.Logic
 					case '(':
 						string substring; 
 						int parenthesisEnd = FindClosingParenthesis (input, i, out substring);
-						operand = Convert.ToDouble (ProcessExpression (substring), formatProvider);
+						operand = StringToDouble (ProcessExpression (substring));
 						endPosition = parenthesisEnd;
 						operandEnd = true;
 						break;

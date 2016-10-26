@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace Calculator.UI
+namespace Calculator.Tests
 {
 	class MainClass
 	{
 		public static void Main (string[] args)
 		{
-			CalculatorUI.ConsoleCalculator ();
+			TestCalculator.RunTests ();
 		}
 	}
 }

@@ -35,8 +35,13 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Calculator.cs" />
-    <Compile Include="TestCalculator.cs" />
+    <Compile Include="CalculatorUI.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Calculator.Logic\Calculator.Logic.csproj">
+      <Project>{3583129D-AB54-4122-ADEC-90908733CB54}</Project>
+      <Name>Calculator.Logic</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

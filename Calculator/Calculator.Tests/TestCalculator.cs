@@ -1,4 +1,5 @@
 ﻿using System;
+using static Calculator.Logic.Calculation;
 
 namespace Calculator
 {
@@ -6,7 +7,7 @@ namespace Calculator
 	{
 		static public void CalculatorTest (string input, string expectedOutput)
 		{
-			string result = Calculator.ProcessExpression (input);
+			string result = ProcessExpression (input);
 			if (result == expectedOutput)
 				Console.WriteLine ("Test " + input + " = " + expectedOutput + " passed");
 			else Console.WriteLine ("Test " + input + " = " + expectedOutput + " failed");
@@ -15,7 +16,7 @@ namespace Calculator
 		static public void FindOperandTest (string input, int startPosition, int expectedPosition, double expectedResult)
 		{
 			double result;
-			int foundPosition = Calculator.FindOperand (input, startPosition, out result);
+			int foundPosition = FindOperand (input, startPosition, out result);
 			if ((foundPosition == expectedPosition) && (result == expectedResult))
 				Console.WriteLine ("Test: First operand in " + input + " with start posiion " + startPosition 
 					+ " is " + expectedResult + " passed");
@@ -23,10 +24,10 @@ namespace Calculator
 				+ " is " + expectedResult + " failed");
 		}
 
-		static public void FindOperatorTest (string input, int startPosition, int expectedPosition, Calculator.OperatorCode expectedResult)
+		static public void FindOperatorTest (string input, int startPosition, int expectedPosition, OperatorCode expectedResult)
 		{
-			Calculator.OperatorCode result = Calculator.OperatorCode.plus;
-			int foundPosition = Calculator.FindOperator (input, startPosition, out result);
+			OperatorCode result = OperatorCode.plus;
+			int foundPosition = FindOperator (input, startPosition, out result);
 			if ((foundPosition == expectedPosition) && (result == expectedResult))
 				Console.WriteLine ("Test: First operator in " + input + " with start posiion " + startPosition 
 					+ " is " + expectedResult + " passed");
@@ -63,20 +64,13 @@ namespace Calculator
 			FindOperandTest ("-10.258", 0, 6, -10.258);
 			FindOperandTest ("15.8 * (-8.4 / 2.1)", 6, 18, -4);
 			Console.WriteLine ();
-			FindOperatorTest ("4 + 5", 0, 2, Calculator.OperatorCode.plus);
-			FindOperatorTest ("10", 0, -1, Calculator.OperatorCode.unknown);
-			FindOperatorTest ("-50*3", 0, 0, Calculator.OperatorCode.minus);
-			FindOperatorTest ("-50*3", 1, 3, Calculator.OperatorCode.multiply);
-			FindOperatorTest ("*-+/*", 3, 3, Calculator.OperatorCode.divide);
-			FindOperatorTest ("8!", 1, 1, Calculator.OperatorCode.factorial);
-			FindOperatorTest ("2.05^2", 1, 4, Calculator.OperatorCode.degree);
-		}
-
-		static public void ConsoleCalculator () {
-			Console.WriteLine ("Enter expression for calculation");
-			string input = Console.ReadLine ();
-			string result = Calculator.ProcessExpression (input);
-			Console.WriteLine ("= " + result);
+			FindOperatorTest ("4 + 5", 0, 2, OperatorCode.plus);
+			FindOperatorTest ("10", 0, -1, OperatorCode.unknown);
+			FindOperatorTest ("-50*3", 0, 0, OperatorCode.minus);
+			FindOperatorTest ("-50*3", 1, 3, OperatorCode.multiply);
+			FindOperatorTest ("*-+/*", 3, 3, OperatorCode.divide);
+			FindOperatorTest ("8!", 1, 1, OperatorCode.factorial);
+			FindOperatorTest ("2.05^2", 1, 4, OperatorCode.degree);
 		}
 	}
 }
