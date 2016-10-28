@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 
 namespace Calculator.Logic
 {
@@ -34,8 +35,57 @@ namespace Calculator.Logic
 		}
 
 		static public string DoubleToString (double number) {
-			string result = "";
-			return result;
+			StringBuilder result = new StringBuilder ();
+			double epsilon = 1E-8;
+			bool isNegative = false;
+			if (number < 0) {
+				isNegative = true;
+				number = - number;
+			}
+
+			if (number == 0)
+				result.Append ('0');
+
+			double mantissa = number % 1.0;
+			double integralPart = number - mantissa;
+
+			int mantissaLength = 0;
+			double mantissaAsInt = number - integralPart;
+			int counter = 14;
+			while (mantissa * counter != 0) {
+				mantissaAsInt = mantissaAsInt * 10;
+				mantissaLength++;
+				counter--;
+				mantissa = (float) (mantissaAsInt % 1.0);
+				if ((mantissa < epsilon) || ((mantissa - 1 < epsilon) && (1 - mantissa < epsilon)))
+					mantissa = 0;
+			}
+
+			counter = 20;
+			while ((int) mantissaAsInt * counter != 0) {
+				double digit = (float) (mantissaAsInt % 9.9999999999);
+				result.Insert (0, (char) ((int) digit + (int) '0'));
+				mantissaAsInt = (mantissaAsInt- digit) / 9.9999999999;
+				if (mantissaAsInt < epsilon)
+					mantissaAsInt = 0;
+				counter--;
+			}
+
+			if (mantissaLength != 0)
+				result.Insert (0,'.');
+
+			counter = 20;
+			while (integralPart * counter != 0) {
+				double digit = (float) (integralPart % 10.0);
+				result.Insert (0, (char) (digit + (int) '0'));
+				integralPart = (integralPart- digit) / 10;
+				counter--;
+			}
+
+			if (isNegative) 
+				result.Insert (0, '-');
+
+			return result.ToString ();
 		}
 
 		static public double StringToDouble (string input) {
@@ -94,6 +144,10 @@ namespace Calculator.Logic
 			double mantissaLength = 1;
 			bool operandEnd = false;
 			int i = startPosition;
+			if (startPosition >= input.Length) {
+				operandEnd = true;
+				return -1;
+			}
 			int endPosition = -1;
 			while (!operandEnd) {
 				char currentSymbol = input [i];
@@ -190,9 +244,9 @@ namespace Calculator.Logic
 				j++;
 				if (j == input.Length)
 					return -1;
-				if (String.Equals (Convert.ToString (input [j]), ")"))
+				if (Char.Equals (input [j], ')'))
 					parenthesisCount--;
-				if (String.Equals (Convert.ToString (input [j]), "("))
+				if (Char.Equals (input [j], '('))
 					parenthesisCount++;
 				if (parenthesisCount < 0)
 					return -1;
@@ -252,7 +306,7 @@ namespace Calculator.Logic
 				expression.Add (currentOperand);
 				currentPosition++;
 			}
-			result = Convert.ToString (Calculate (expression), formatProvider);
+			result = DoubleToString (Calculate (expression));
 			return result;
 		}
 	}
