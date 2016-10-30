@@ -36,8 +36,8 @@ namespace Calculator.Logic
 
 		static public string DoubleToString (double number) {
 			StringBuilder result = new StringBuilder ();
-			double epsilon = 1E-8;
 			bool isNegative = false;
+			bool isInt = true;
 			if (number < 0) {
 				isNegative = true;
 				number = - number;
@@ -46,50 +46,47 @@ namespace Calculator.Logic
 			if (number == 0)
 				result.Append ('0');
 
-			double mantissa = number % 1.0;
-			double integralPart = number - mantissa;
+			int integralPart = (int) number;
+			int mantissa = (int) (long)(number * 1E9 - integralPart * 1E9);
 
-			int mantissaLength = 0;
-			double mantissaAsInt = number - integralPart;
-			int counter = 14;
-			while (mantissa * counter != 0) {
-				mantissaAsInt = mantissaAsInt * 10;
-				mantissaLength++;
-				counter--;
-				mantissa = (float) (mantissaAsInt % 1.0);
-				if ((mantissa < epsilon) || ((mantissa - 1 < epsilon) && (1 - mantissa < epsilon)))
-					mantissa = 0;
+			int counter = 20;
+			if (mantissa != 0) {
+				result.Insert (0, '.');
+				isInt = false;
 			}
 
-			counter = 20;
-			while ((int) mantissaAsInt * counter != 0) {
-				double digit = (float) (mantissaAsInt % 9.9999999999);
-				result.Insert (0, (char) ((int) digit + (int) '0'));
-				mantissaAsInt = (mantissaAsInt- digit) / 9.9999999999;
-				if (mantissaAsInt < epsilon)
-					mantissaAsInt = 0;
+			while ((int) mantissa * counter != 0) {
+				int digit = mantissa % 10;
+				result.Insert (1, (char) (digit + (int) '0'));
+				mantissa = (mantissa- digit) / 10;
 				counter--;
 			}
-
-			if (mantissaLength != 0)
-				result.Insert (0,'.');
 
 			counter = 20;
 			while (integralPart * counter != 0) {
-				double digit = (float) (integralPart % 10.0);
+				int digit = integralPart % 10;
 				result.Insert (0, (char) (digit + (int) '0'));
-				integralPart = (integralPart- digit) / 10;
+				integralPart = (integralPart - digit) / 10;
 				counter--;
 			}
 
 			if (isNegative) 
 				result.Insert (0, '-');
 
+
+			if (!isInt) {
+				while (char.Equals (result [result.Length - 1], '0')) {
+					result.Remove (result.Length - 1, 1);
+				}
+			}
+
 			return result.ToString ();
 		}
 
 		static public double StringToDouble (string input) {
 			double result = 0;
+			if (input.Equals (""))
+				return 0;
 			char symbol;
 			double mantissaLength = 1;
 			for (int i = 0; i < input.Length; i++) {
