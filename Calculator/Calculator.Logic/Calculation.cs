@@ -7,12 +7,15 @@ namespace Calculator.Logic
 {
 	public class Calculation
 	{
-		static NumberFormatInfo formatProvider;
+		/*static NumberFormatInfo formatProvider;
 
 		static void InitProvider () {
 			formatProvider = new NumberFormatInfo();
 			formatProvider.NumberDecimalSeparator = ".";
-		}
+		}*/
+
+		static List<string> variableNames = new List<string> ();
+		static List<double> variableValues = new List<double> ();
 
 		public enum OperatorCode {
 			plus,
@@ -83,13 +86,21 @@ namespace Calculator.Logic
 			return result.ToString ();
 		}
 
-		static public double StringToDouble (string input) {
+		static public double StringToDouble (string input, out int outputCode) {
 			double result = 0;
-			if (input.Equals (""))
+			outputCode = 1;
+			bool isNegative = false;
+			if (input.Equals ("")) {
+				outputCode = 0;
 				return 0;
-			char symbol;
+			}
+			char symbol = input [0];
+			if (symbol == '-') 
+				isNegative = true;
 			double mantissaLength = 1;
 			for (int i = 0; i < input.Length; i++) {
+				if (isNegative && (i == 0))
+					i++;
 				symbol = input [i];
 				int digit = CharToDigit (symbol);
 				if (digit >= 0) {
@@ -102,11 +113,18 @@ namespace Calculator.Logic
 				} else {
 					if ((symbol == '.') && (mantissaLength == 1))
 						mantissaLength = 0.1;
+					else if (symbol != ' ') 
+						outputCode = -1;
 				}
 			}
-			symbol = input [0];
-			if (symbol == '-')
+			if (isNegative)
 				result = -result;
+			return result;
+		}
+
+		static public double StringToDouble (string input) {
+			int outputCodeUnused = 0;
+			double result = StringToDouble (input, out outputCodeUnused);
 			return result;
 		}
 
@@ -135,6 +153,60 @@ namespace Calculator.Logic
 			return result;
 		}
 
+		static protected bool isLetter (char symbol) {
+			bool result = false;
+			int code = (int)symbol;
+			if ((code >= (int)'A') && (code <= (int)'Z'))
+				result = true;
+			if ((code >= (int)'a') && (code <= (int)'z'))
+				result = true;
+			return result;
+		}
+
+		static public int FindVariable (string input, int startPosition, out double value) {
+			value = 0;
+			int endPosition = -1;
+			StringBuilder variable = new StringBuilder ();
+			bool variableEnd = false;
+			int i = startPosition;
+			char currentSymbol = input [i];
+			if (!isLetter (currentSymbol) && !Char.Equals(currentSymbol, '_'))
+				return -1;
+			while (!variableEnd) {
+				if (i == input.Length)
+					variableEnd = true;
+				else {
+					currentSymbol = input [i];
+					if (isLetter (currentSymbol) || currentSymbol.Equals ('_') || (CharToDigit (currentSymbol) != -1)) {
+						variable.Append (currentSymbol);
+						endPosition = i;
+					} else
+						variableEnd = true;
+				}
+				i++;
+			}
+
+			string variableName = variable.ToString ();
+			int variableIndex = variableNames.IndexOf (variableName);
+			if (variableIndex != -1)
+				value = variableValues [variableIndex];
+			else {
+				Console.WriteLine ("Enter value of variable " + variableName);
+				string variableValueString = Console.ReadLine ();
+				int inputIsDouble = 0;
+				double variableValue = StringToDouble (variableValueString, out inputIsDouble);
+				if (inputIsDouble == 1) {
+					variableNames.Add (variableName);
+					variableValues.Add (variableValue);
+					value = variableValue;
+				} else {
+					Console.WriteLine ("Invalid input");
+					endPosition = -2;
+				}
+			}
+			return endPosition;
+		}
+
 		static public int FindOperand (string input, int startPosition, out double operand) {
 			operand = 0;
 			double currentDecimal = -1;
@@ -145,9 +217,23 @@ namespace Calculator.Logic
 				operandEnd = true;
 				return -1;
 			}
+			if (Char.Equals (input [i], ' '))
+				i++;
 			int endPosition = -1;
+			char currentSymbol = input [i];
+			if (isLetter (currentSymbol) || currentSymbol.Equals ('_')) {
+				endPosition = FindVariable (input, i, out operand);
+				operandEnd = true;
+			} 
+			if (currentSymbol.Equals ('(')) {
+				string substring; 
+				int parenthesisEnd = FindClosingParenthesis (input, i, out substring);
+				operand = StringToDouble (ProcessExpression (substring));
+				endPosition = parenthesisEnd;
+				operandEnd = true;
+			}
 			while (!operandEnd) {
-				char currentSymbol = input [i];
+				currentSymbol = input [i];
 				int currentDigit = CharToDigit (currentSymbol);
 				if (currentDigit >= 0) {
 					currentDecimal = (double) currentDigit;
@@ -158,23 +244,11 @@ namespace Calculator.Logic
 						mantissaLength *= 0.1;
 					}
 				} else {
-					switch (currentSymbol) {
-					case '.':
+					if (currentSymbol.Equals ('.'))
 						mantissaLength = 0.1;
-						break;
-					case '(':
-						string substring; 
-						int parenthesisEnd = FindClosingParenthesis (input, i, out substring);
-						operand = StringToDouble (ProcessExpression (substring));
-						endPosition = parenthesisEnd;
+					else if (currentDecimal >= 0) {
 						operandEnd = true;
-						break;
-					default:
-						if (currentDecimal >= 0) {
-							operandEnd = true;
-							endPosition = i - 1;
-						}
-						break;
+						endPosition = i - 1;
 					}
 				}
 				i++;
@@ -282,7 +356,6 @@ namespace Calculator.Logic
 
 		static public string ProcessExpression (string input)
 		{
-			InitProvider ();
 			List<double> expression = new List<double> ();
 			double currentOperand = 0;
 			OperatorCode currentOperator;
