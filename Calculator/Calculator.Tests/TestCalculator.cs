@@ -17,7 +17,7 @@ namespace Calculator
 		{
 			double result;
 			int foundPosition = FindOperand (input, startPosition, out result);
-			if ((foundPosition == expectedPosition) && (result == expectedResult))
+			if (foundPosition == expectedPosition && result == expectedResult)
 				Console.WriteLine ("Test: First operand in " + input + " with start posiion " + startPosition 
 					+ " is " + expectedResult + " passed");
 			else Console.WriteLine ("Test: First operand in " + input + " with start posiion " + startPosition 
@@ -28,7 +28,7 @@ namespace Calculator
 		{
 			OperatorCode result = OperatorCode.plus;
 			int foundPosition = FindOperator (input, startPosition, out result);
-			if ((foundPosition == expectedPosition) && (result == expectedResult))
+			if (foundPosition == expectedPosition && result == expectedResult)
 				Console.WriteLine ("Test: First operator in " + input + " with start posiion " + startPosition 
 					+ " is " + expectedResult + " passed");
 			else Console.WriteLine ("Test: First operator in " + input + " with start posiion " + startPosition 
