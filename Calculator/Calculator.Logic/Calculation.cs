@@ -69,14 +69,14 @@ namespace Calculator.Logic
 			return result;
 		}
 
-		static public string ProcessExpression (string input)
+		static public string ProcessExpression (string input, Func<string, double> getValueByAlias)
 		{
 			List<double> expression = new List<double> ();
 			double currentOperand = 0;
 			OperatorCode currentOperator;
 			string result;
 			int currentPosition = 0;
-			currentPosition = Parser.FindOperand (input, currentPosition, out currentOperand);
+			currentPosition = Parser.FindOperand (input, currentPosition, out currentOperand, getValueByAlias);
 			if (currentPosition == -1)
 				return "Invalid expression: no operand found";
 			else 
@@ -87,7 +87,7 @@ namespace Calculator.Logic
 				expression.Add ((double) currentOperator);
 				currentPosition++;
 				if (currentOperator != OperatorCode.factorial)
-					currentPosition = Parser.FindOperand (input, currentPosition, out currentOperand);
+					currentPosition = Parser.FindOperand (input, currentPosition, out currentOperand, getValueByAlias);
 				expression.Add (currentOperand);
 				currentPosition++;
 			}

@@ -130,7 +130,7 @@ namespace Calculator.Logic
 			return result;
 		}
 
-		static public int FindAlias (string input, int startPosition, out double value) {
+		static public int FindAlias (string input, int startPosition, out double value, Func<string, double> getValueByAlias) {
 			value = 0;
 			int endPosition = -1;
 			StringBuilder alias = new StringBuilder ();
@@ -158,23 +158,14 @@ namespace Calculator.Logic
 			if (aliasIndex != -1)
 				value = aliasValues [aliasIndex];
 			else {
-				Console.WriteLine ("Enter value of variable " + aliasString);
-				string aliasValueString = Console.ReadLine ();
-				int inputIsDouble = 0;
-				double aliasValue = StringToDouble (aliasValueString, out inputIsDouble);
-				if (inputIsDouble == 1) {
-					aliases.Add (aliasString);
-					aliasValues.Add (aliasValue);
-					value = aliasValue;
-				} else {
-					Console.WriteLine ("Invalid input");
-					endPosition = -2;
-				}
+				value = getValueByAlias (aliasString);
+				aliases.Add (aliasString);
+				aliasValues.Add (value);
 			}
 			return endPosition;
 		}
 
-		static public int FindOperand (string input, int startPosition, out double operand) {
+		static public int FindOperand (string input, int startPosition, out double operand, Func<string, double> getValueByAlias) {
 			operand = 0;
 			double currentDecimal = -1;
 			double mantissaLength = 1;
@@ -189,13 +180,13 @@ namespace Calculator.Logic
 			int endPosition = -1;
 			char currentSymbol = input [i];
 			if (IsLetter (currentSymbol) || currentSymbol == '_') {
-				endPosition = FindAlias (input, i, out operand);
+				endPosition = FindAlias (input, i, out operand, getValueByAlias);
 				operandEnd = true;
 			} 
 			if (currentSymbol == '(') {
 				string substring; 
 				int parenthesisEnd = FindClosingParenthesis (input, i, out substring);
-				operand = StringToDouble (Calculation.ProcessExpression (substring));
+				operand = StringToDouble (Calculation.ProcessExpression (substring, getValueByAlias));
 				endPosition = parenthesisEnd;
 				operandEnd = true;
 			}
