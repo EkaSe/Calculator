@@ -5,3 +5,5 @@
 /home/semiash/projects2/Calculator/Calculator/Calculator.Tests/obj/x86/Debug/Calculator.Tests.exe.mdb
 /home/semiash/projects2/Calculator/Calculator/Calculator.Tests/bin/Debug/Calculator.Logic.dll
 /home/semiash/projects2/Calculator/Calculator/Calculator.Tests/bin/Debug/Calculator.Logic.dll.mdb
+/home/semiash/projects2/Calculator/Calculator/Calculator.Tests/bin/Debug/MyLibrary.dll
+/home/semiash/projects2/Calculator/Calculator/Calculator.Tests/bin/Debug/MyLibrary.dll.mdb

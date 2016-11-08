@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MyLibrary;
 
 namespace Calculator.Logic
 {
 	public class Parser
 	{
-		static List<string> aliases = new List<string> ();
-		static List<double> aliasValues = new List<double> ();
+		static MyExtendingArray aliases = new MyExtendingArray ();
+		static MyExtendingArray aliasValues = new MyExtendingArray ();
 
 		static public int CharToDigit (char symbol) {
 			int code = (int) symbol;
@@ -95,7 +96,7 @@ namespace Calculator.Logic
 						mantissaLength *= 0.1;
 					}
 				} else {
-					if (symbol == '.' && mantissaLength == 1)
+					if ((symbol == '.' || symbol == ',') && mantissaLength == 1)
 						mantissaLength = 0.1;
 					else if (symbol != ' ') 
 						outputCode = -1;
@@ -112,6 +113,11 @@ namespace Calculator.Logic
 			return result;
 		}
 
+		static public double ObjectToDouble (object input) {
+			string inputAsString = input.ToString ();
+			double result = StringToDouble (inputAsString);
+			return result;
+		}
 
 		static protected bool IsLetter (char symbol) {
 			bool result = false;
@@ -156,7 +162,7 @@ namespace Calculator.Logic
 			string aliasString = alias.ToString ();
 			int aliasIndex = aliases.IndexOf (aliasString);
 			if (aliasIndex != -1)
-				value = aliasValues [aliasIndex];
+				value = ObjectToDouble (aliasValues.Elements [aliasIndex]);
 			else {
 				value = getValueByAlias (aliasString);
 				aliases.Add (aliasString);

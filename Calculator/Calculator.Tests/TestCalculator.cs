@@ -1,4 +1,6 @@
 ﻿using System;
+using Calculator.Logic;
+using MyLibrary;
 using static Calculator.Logic.Calculation;
 using static Calculator.Logic.Parser;
 
@@ -102,6 +104,8 @@ namespace Calculator
 			FindOperatorTest ("*-+/*", 3, 3, OperatorCode.divide);
 			FindOperatorTest ("8!", 1, 1, OperatorCode.factorial);
 			FindOperatorTest ("2.05^2", 1, 4, OperatorCode.degree);
+
+			MyCollectionTest.MyListTest ();
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using static Calculator.Logic;
 using static Calculator.Logic.Calculation;
 using static Calculator.Logic.Parser;
 
