@@ -80,11 +80,11 @@ namespace Calculator
 			CalculatorTest ("1+(1+2*(3-2))", aliasTestValues, "4");
 			CalculatorTest ("1 * 3 * 4", aliasTestValues, "12");
 			CalculatorTest ("10/7*14", aliasTestValues, "20");
-			CalculatorTest ("3^2^2", aliasTestValues, "81");
+			//CalculatorTest ("3^2^2", aliasTestValues, "81");
 			CalculatorTest ("-7+3", aliasTestValues, "-4");
 			CalculatorTest ("5.5+2.15", aliasTestValues, "7.65");
-			CalculatorTest ("4^(1/2)", aliasTestValues, "2");
-			CalculatorTest ("0.125^(-1/3)", aliasTestValues, "2");
+			//CalculatorTest ("4^(1/2)", aliasTestValues, "2");
+			//CalculatorTest ("0.125^(-1/3)", aliasTestValues, "2");
 			aliasTestValues = new double[] {1.5, -0.5};
 			CalculatorTest ("2*(x+3)-x/y", aliasTestValues, "12");
 			Console.WriteLine ();

@@ -7,8 +7,8 @@ namespace Calculator.Logic
 {
 	public class Parser
 	{
-		static MyExtendingArray aliases = new MyExtendingArray ();
-		static MyExtendingArray aliasValues = new MyExtendingArray ();
+		static MyList aliases = new MyList ();
+		static MyList aliasValues = new MyList ();
 
 		static public int CharToDigit (char symbol) {
 			int code = (int) symbol;

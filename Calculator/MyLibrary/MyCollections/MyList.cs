@@ -2,20 +2,20 @@
 
 namespace MyLibrary
 {
-	public class MyExtendingArray
+	public class MyList
 	{
 		public object[] Elements;
 		public int Length;
 		public int Capacity;
 
-		public MyExtendingArray ()
+		public MyList ()
 		{
 			Length = 0;
 			Capacity = 4;
 			Elements = new object[Capacity];
 		}
 
-		public MyExtendingArray (object[] inputList)
+		public MyList (object[] inputList)
 		{
 			Elements = inputList;
 			Length = inputList.Length;

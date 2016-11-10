@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MyLibrary
 {
-	unsafe class LinkedListElement {
+	public class LinkedListElement {
 		public LinkedListElement PreviousElement;
 		public LinkedListElement NextElement;
 		public object Element;
@@ -79,11 +79,43 @@ namespace MyLibrary
 		}
 
 		public void Insert (object[] insertion, int startPosition) {
-			for (int i = 0; i < insertion.Length; i++) {
-				Insert (insertion [i], i + startPosition);
+			if (startPosition > Length) 
+				throw new Exception ("Insertion outside linked list bounds");
+			if (insertion.Length != 0) {
+				LinkedListElement preceedingElement = FirstElement;
+				for (int i = 1; i < startPosition; i++) {
+					preceedingElement = preceedingElement.NextElement;
+				}
+				LinkedListElement followingElement = preceedingElement.NextElement;
+				LinkedListElement insertedElement = new LinkedListElement (insertion [0], preceedingElement, followingElement);
+				preceedingElement.NextElement = insertedElement;
+				LinkedListElement nextInsertedElement;
+				for (int i = 0; i < insertion.Length - 1; i++) {
+					nextInsertedElement = new LinkedListElement (insertion [i + 1], insertedElement, followingElement);
+					insertedElement.NextElement = nextInsertedElement;
+					insertedElement = nextInsertedElement;
+				}
+				if (startPosition != Length)
+					followingElement.PreviousElement = insertedElement;
+				else
+					LastElement = insertedElement;
+				Length += insertion.Length;
 			}
 		}
 
+		public void InsertAfter (object insertion, LinkedListElement preceedingElement) {
+		}
+
+		public void RemoveELement (LinkedListElement element) {
+		}
+
+		public void Remove (int startPosition, int numberOfRemoved) {
+		}
+
+		public object[] ToArray (){
+			object[] array = new object[Length];
+			return array;
+		}
 
 	}
 }
