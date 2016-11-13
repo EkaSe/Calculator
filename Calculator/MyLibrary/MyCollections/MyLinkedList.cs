@@ -3,47 +3,52 @@ using System.Collections.Generic;
 
 namespace MyLibrary
 {
-	public class LinkedListElement {
-		public LinkedListElement PreviousElement;
-		public LinkedListElement NextElement;
+	public class Node {
+		public Node Previous;
+		public Node Next;
 		public object Element;
 
-		public LinkedListElement (object input, LinkedListElement previous, LinkedListElement next) {
+		public Node (object input, Node previousNode, Node nextNode) {
 			Element = input;
-			PreviousElement = previous;
-			NextElement = next;
+			Previous = previousNode;
+			Next = nextNode;
 		}
 
-		public LinkedListElement (object input) {
+		public Node (object input) {
 			Element = input;
-			PreviousElement = null;
-			NextElement = null;
+			Previous = null;
+			Next = null;
 		}
 
-		public LinkedListElement () {
-			PreviousElement = null;
-			NextElement = null;
+		public Node () {
+			Previous = null;
+			Next = null;
 		}
 	}
 
 	public class MyLinkedList
 	{
-		private LinkedListElement FirstElement;
-		private LinkedListElement LastElement;
-		public int Length;
+		public Node FirstNode;
+		public Node LastNode;
+
+		private int length;
+		public int Length {
+			get { return length; }
+			private set { length = value; }
+		}
 
 		public MyLinkedList ()
 		{
 			Length = 0;
-			FirstElement = new LinkedListElement ();
-			LastElement = new LinkedListElement ();
+			FirstNode = new Node ();
+			LastNode = new Node ();
 		}
 
 		public MyLinkedList (object[] inputList)
 		{
 			Length = 0;
-			FirstElement = new LinkedListElement ();
-			LastElement = new LinkedListElement ();
+			FirstNode = new Node ();
+			LastNode = new Node ();
 			for (int i = 0; i < inputList.Length; i++) {
 				Add (inputList [i]);
 			}
@@ -51,72 +56,106 @@ namespace MyLibrary
 
 		public void Add (object addedElement) {
 			Length++;
+			Node currentElement = new Node (addedElement);
 			if (Length == 1) {
-				FirstElement.Element = addedElement;
-				LastElement.Element = addedElement;
+				FirstNode = currentElement;
+				LastNode = currentElement;
+			} else {
+				currentElement.Previous = LastNode;
+				LastNode.Next = currentElement;
+				LastNode = currentElement;
 			}
-			LinkedListElement currentElement = new LinkedListElement (addedElement);
-			currentElement.NextElement = LastElement;
-			LastElement.NextElement = currentElement;
-			LastElement = currentElement;
+		}
+
+		public void InsertAfter (object insertion, Node preceedingNode) {
+			Node followingNode = preceedingNode.Next;
+			Node insertedElement = new Node (insertion, preceedingNode, followingNode);
+			preceedingNode.Next = insertedElement;
+			if (followingNode != null)
+				followingNode.Previous = insertedElement;
+			else
+				LastNode = insertedElement;
+			Length++;
 		}
 
 		public void Insert (object insertion, int position) {
-			if (position > Length) 
+			if (position > length) 
 				throw new Exception ("Insertion outside linked list bounds");
-			LinkedListElement preceedingElement = FirstElement;
+			Node preceedingElement = FirstNode;
 			for (int i = 1; i < position; i++) {
-				preceedingElement = preceedingElement.NextElement;
+				preceedingElement = preceedingElement.Next;
 			}
-			LinkedListElement followingElement = preceedingElement.NextElement;
-			LinkedListElement insertedElement = new LinkedListElement (insertion, preceedingElement, followingElement);
-			preceedingElement.NextElement = insertedElement;
-			if (position != Length)
-				followingElement.PreviousElement = insertedElement;
-			else
-				LastElement = insertedElement;
-			Length++;
+			InsertAfter (insertion, preceedingElement);
 		}
 
 		public void Insert (object[] insertion, int startPosition) {
 			if (startPosition > Length) 
 				throw new Exception ("Insertion outside linked list bounds");
 			if (insertion.Length != 0) {
-				LinkedListElement preceedingElement = FirstElement;
+				Node preceedingElement = FirstNode;
 				for (int i = 1; i < startPosition; i++) {
-					preceedingElement = preceedingElement.NextElement;
+					preceedingElement = preceedingElement.Next;
 				}
-				LinkedListElement followingElement = preceedingElement.NextElement;
-				LinkedListElement insertedElement = new LinkedListElement (insertion [0], preceedingElement, followingElement);
-				preceedingElement.NextElement = insertedElement;
-				LinkedListElement nextInsertedElement;
+				Node followingElement = preceedingElement.Next;
+				Node insertedElement = new Node (insertion [0], preceedingElement, followingElement);
+				preceedingElement.Next = insertedElement;
+				Node nextInsertedElement;
 				for (int i = 0; i < insertion.Length - 1; i++) {
-					nextInsertedElement = new LinkedListElement (insertion [i + 1], insertedElement, followingElement);
-					insertedElement.NextElement = nextInsertedElement;
+					nextInsertedElement = new Node (insertion [i + 1], insertedElement, followingElement);
+					insertedElement.Next = nextInsertedElement;
 					insertedElement = nextInsertedElement;
 				}
-				if (startPosition != Length)
-					followingElement.PreviousElement = insertedElement;
+				if (startPosition != length)
+					followingElement.Previous = insertedElement;
 				else
-					LastElement = insertedElement;
-				Length += insertion.Length;
+					LastNode = insertedElement;
+				length += insertion.Length;
 			}
 		}
 
-		public void InsertAfter (object insertion, LinkedListElement preceedingElement) {
+		public void Remove (Node element) {
+			if (element.Next != null)
+				element.Next.Previous = element.Previous;
+			else {
+				LastNode = element.Previous;
+				LastNode.Next = null;
+			}
+			if (element.Previous != null)
+				element.Previous.Next = element.Next;
+			else {
+				FirstNode = element.Next;
+				FirstNode.Previous = null;
+			}
+			Length--;
 		}
 
-		public void RemoveELement (LinkedListElement element) {
-		}
-
-		public void Remove (int startPosition, int numberOfRemoved) {
+		public void RemoveBefore (Node followingNode) {
+			Remove (followingNode.Previous);
 		}
 
 		public object[] ToArray (){
-			object[] array = new object[Length];
+			object[] array = new object[length];
 			return array;
 		}
 
+		public Node Navigate (Node currentNode, int offset) {
+			if (offset > 0) {
+				for (int i = 0; i < offset; i++) {
+					if (currentNode == LastNode)
+						i = offset;
+					else
+						currentNode = currentNode.Next;
+				}
+			} else {
+				for (int i = 0; i < offset; i++) {
+					if (currentNode == FirstNode)
+						i = offset;
+					else
+						currentNode = currentNode.Previous;
+				}
+			}
+			return currentNode;
+		}
 	}
 }
 

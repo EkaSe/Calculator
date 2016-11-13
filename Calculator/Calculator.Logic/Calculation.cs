@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MyLibrary;
 
 namespace Calculator.Logic
 {
@@ -16,7 +17,7 @@ namespace Calculator.Logic
 			unknown
 		};
 
-		static protected int Priority (double currentOperator){
+		static protected int Priority (object currentOperator){
 			int result = 0;
 			switch ((int) currentOperator) {
 			case (int) OperatorCode.plus:
@@ -41,28 +42,36 @@ namespace Calculator.Logic
 			return result;
 		}
 
-		static double Calculate (List<double> expression) {
-			double result = expression[0];
+		static double Calculate (MyLinkedList expression) {
+			double result = Parser.ObjectToDouble (expression.FirstNode.Element);
 			for (int priorityCount = 5; priorityCount > 0; priorityCount--) {
-				for (int i = 1; i < expression.Count; i += 2) {
-					if (Priority (expression [i]) == priorityCount) {
-						switch ((int) expression [i]) {
+				Node current = expression.FirstNode;
+				while (current.Next != null) {
+					double operand1 = Parser.ObjectToDouble (current.Element);
+					current = current.Next;
+					object currentOperator = current.Element;
+					current = current.Next;
+					double operand2 = Parser.ObjectToDouble (current.Element);
+					if (Priority (currentOperator) == priorityCount) {
+						switch ((int) currentOperator) {
 						case (int) OperatorCode.plus:
-							result = expression [i - 1] + expression [i + 1];
+							result = operand1 + operand2;
 							break;
 						case (int) OperatorCode.minus:
-							result = expression [i - 1] - expression [i + 1];
+							result = operand1 - operand2;
 							break;
 						case (int) OperatorCode.multiply:
-							result = expression [i - 1] * expression [i + 1];
+							result = operand1 * operand2;
 							break;
 						case (int) OperatorCode.divide:
-							result = expression [i - 1] / expression [i + 1];
+							result = operand1 / operand2;
 							break;
 						}
-						expression.RemoveRange (i - 1, 3);
-						expression.Insert (i - 1, result);
-						i -= 2;
+						expression.InsertAfter (result, current);
+						current = current.Next;
+						expression.RemoveBefore (current);
+						expression.RemoveBefore (current);
+						expression.RemoveBefore (current);
 					}
 				}
 			}
@@ -71,7 +80,7 @@ namespace Calculator.Logic
 
 		static public string ProcessExpression (string input, Func<string, double> getValueByAlias)
 		{
-			List<double> expression = new List<double> ();
+			MyLinkedList expression = new MyLinkedList ();
 			double currentOperand = 0;
 			OperatorCode currentOperator;
 			string result;
@@ -84,7 +93,7 @@ namespace Calculator.Logic
 			currentPosition++;
 			while (currentPosition < input.Length && currentPosition > 0) {
 				currentPosition = Parser.FindOperator (input, currentPosition, out currentOperator);
-				expression.Add ((double) currentOperator);
+				expression.Add (currentOperator);
 				currentPosition++;
 				if (currentOperator != OperatorCode.factorial)
 					currentPosition = Parser.FindOperand (input, currentPosition, out currentOperand, getValueByAlias);
