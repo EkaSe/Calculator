@@ -113,12 +113,6 @@ namespace Calculator.Logic
 			return result;
 		}
 
-		static public double ObjectToDouble (object input) {
-			string inputAsString = input.ToString ();
-			double result = StringToDouble (inputAsString);
-			return result;
-		}
-
 		static protected bool IsLetter (char symbol) {
 			bool result = false;
 			int code = (int)symbol;
@@ -162,7 +156,7 @@ namespace Calculator.Logic
 			string aliasString = alias.ToString ();
 			int aliasIndex = aliases.IndexOf (aliasString);
 			if (aliasIndex != -1)
-				value = ObjectToDouble (aliasValues.Elements [aliasIndex]);
+				value = (double) (aliasValues.Elements [aliasIndex]);
 			else {
 				value = getValueByAlias (aliasString);
 				aliases.Add (aliasString);

@@ -17,61 +17,73 @@ namespace Calculator.Logic
 			unknown
 		};
 
-		static protected int Priority (object currentOperator){
+		static private int Priority (OperatorCode currentOperator){
 			int result = 0;
-			switch ((int) currentOperator) {
-			case (int) OperatorCode.plus:
+			switch (currentOperator) {
+			case OperatorCode.plus:
 				result = 1;
 				break;
-			case (int) OperatorCode.minus:
+			case OperatorCode.minus:
 				result = 1;
 				break;
-			case (int) OperatorCode.multiply:
+			case OperatorCode.multiply:
 				result = 2;
 				break;
-			case (int) OperatorCode.divide:
+			case OperatorCode.divide:
 				result = 2;
 				break;
-			case (int) OperatorCode.degree:
+			case OperatorCode.degree:
 				result = 4;
 				break;
-			case (int) OperatorCode.factorial:
+			case OperatorCode.factorial:
 				result = 5;
 				break;
 			}
 			return result;
 		}
 
-		static double Calculate (MyLinkedList expression) {
-			double result = Parser.ObjectToDouble (expression.FirstNode.Element);
+		static double Calculate (MyLinkedList<OperatorCode> operators, MyLinkedList<double> operands) {
+			double result = operands.FirstNode.Element;
 			for (int priorityCount = 5; priorityCount > 0; priorityCount--) {
-				Node current = expression.FirstNode;
-				while (current.Next != null) {
-					double operand1 = Parser.ObjectToDouble (current.Element);
-					current = current.Next;
-					object currentOperator = current.Element;
-					current = current.Next;
-					double operand2 = Parser.ObjectToDouble (current.Element);
-					if (Priority (currentOperator) == priorityCount) {
-						switch ((int) currentOperator) {
-						case (int) OperatorCode.plus:
+				Node<double> currentOperand = operands.FirstNode;
+				for(Node<OperatorCode> currentOperator = operators.FirstNode; currentOperator != null; 
+					currentOperator = currentOperator.Next) {
+					double operand1;
+					double operand2;
+					if (Priority (currentOperator.Element) == priorityCount) {
+						switch (currentOperator.Element) {
+						case OperatorCode.plus:
+							operand1 = currentOperand.Element;
+							currentOperand = currentOperand.Next;
+							operand2 = currentOperand.Element;
 							result = operand1 + operand2;
 							break;
-						case (int) OperatorCode.minus:
+						case OperatorCode.minus:
+							operand1 = currentOperand.Element;
+							currentOperand = currentOperand.Next;
+							operand2 = currentOperand.Element;
 							result = operand1 - operand2;
 							break;
-						case (int) OperatorCode.multiply:
+						case OperatorCode.multiply:
+							operand1 = currentOperand.Element;
+							currentOperand = currentOperand.Next;
+							operand2 = currentOperand.Element;
 							result = operand1 * operand2;
 							break;
-						case (int) OperatorCode.divide:
+						case OperatorCode.divide:
+							operand1 = currentOperand.Element;
+							currentOperand = currentOperand.Next;
+							operand2 = currentOperand.Element;
 							result = operand1 / operand2;
 							break;
 						}
-						expression.InsertAfter (result, current);
-						current = current.Next;
-						expression.RemoveBefore (current);
-						expression.RemoveBefore (current);
-						expression.RemoveBefore (current);
+						operands.InsertAfter (result, currentOperand);
+						currentOperand = currentOperand.Next;
+						operands.RemoveBefore (currentOperand);
+						operands.RemoveBefore (currentOperand);
+						operators.Remove (currentOperator);
+					} else {
+						currentOperand = currentOperand.Next;
 					}
 				}
 			}
@@ -80,7 +92,8 @@ namespace Calculator.Logic
 
 		static public string ProcessExpression (string input, Func<string, double> getValueByAlias)
 		{
-			MyLinkedList expression = new MyLinkedList ();
+			MyLinkedList<OperatorCode> operators = new MyLinkedList<OperatorCode> ();
+			MyLinkedList<double> operands = new MyLinkedList<double> ();
 			double currentOperand = 0;
 			OperatorCode currentOperator;
 			string result;
@@ -89,18 +102,18 @@ namespace Calculator.Logic
 			if (currentPosition == -1)
 				return "Invalid expression: no operand found";
 			else 
-				expression.Add (currentOperand);
+				operands.Add (currentOperand);
 			currentPosition++;
 			while (currentPosition < input.Length && currentPosition > 0) {
 				currentPosition = Parser.FindOperator (input, currentPosition, out currentOperator);
-				expression.Add (currentOperator);
+				operators.Add (currentOperator);
 				currentPosition++;
 				if (currentOperator != OperatorCode.factorial)
 					currentPosition = Parser.FindOperand (input, currentPosition, out currentOperand, getValueByAlias);
-				expression.Add (currentOperand);
+				operands.Add (currentOperand);
 				currentPosition++;
 			}
-			result = Parser.DoubleToString (Calculate (expression));
+			result = Parser.DoubleToString (Calculate (operators, operands));
 			return result;
 		}
 	}

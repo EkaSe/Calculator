@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 namespace MyLibrary
 {
-	public class Node {
-		public Node Previous;
-		public Node Next;
-		public object Element;
+	public class Node <T> {
+		public Node<T> Previous;
+		public Node<T> Next;
+		public T Element;
 
-		public Node (object input, Node previousNode, Node nextNode) {
+		public Node (T input, Node<T> previousNode, Node<T> nextNode) {
 			Element = input;
 			Previous = previousNode;
 			Next = nextNode;
 		}
 
-		public Node (object input) {
+		public Node (T input) {
 			Element = input;
 			Previous = null;
 			Next = null;
@@ -26,10 +26,10 @@ namespace MyLibrary
 		}
 	}
 
-	public class MyLinkedList
+	public class MyLinkedList <T>
 	{
-		public Node FirstNode;
-		public Node LastNode;
+		public Node<T> FirstNode;
+		public Node<T> LastNode;
 
 		private int length;
 		public int Length {
@@ -40,23 +40,21 @@ namespace MyLibrary
 		public MyLinkedList ()
 		{
 			Length = 0;
-			FirstNode = new Node ();
-			LastNode = new Node ();
+			FirstNode = null;
+			LastNode = null;
 		}
 
-		public MyLinkedList (object[] inputList)
+		public MyLinkedList (T[] inputList)
 		{
 			Length = 0;
-			FirstNode = new Node ();
-			LastNode = new Node ();
 			for (int i = 0; i < inputList.Length; i++) {
 				Add (inputList [i]);
 			}
 		}
 
-		public void Add (object addedElement) {
+		public void Add (T addedElement) {
 			Length++;
-			Node currentElement = new Node (addedElement);
+			Node<T> currentElement = new Node<T> (addedElement);
 			if (Length == 1) {
 				FirstNode = currentElement;
 				LastNode = currentElement;
@@ -65,11 +63,13 @@ namespace MyLibrary
 				LastNode.Next = currentElement;
 				LastNode = currentElement;
 			}
+			FirstNode.Previous = null;
+			LastNode.Next = null;
 		}
 
-		public void InsertAfter (object insertion, Node preceedingNode) {
-			Node followingNode = preceedingNode.Next;
-			Node insertedElement = new Node (insertion, preceedingNode, followingNode);
+		public void InsertAfter (T insertion, Node<T> preceedingNode) {
+			Node<T> followingNode = preceedingNode.Next;
+			Node<T> insertedElement = new Node<T> (insertion, preceedingNode, followingNode);
 			preceedingNode.Next = insertedElement;
 			if (followingNode != null)
 				followingNode.Previous = insertedElement;
@@ -78,30 +78,30 @@ namespace MyLibrary
 			Length++;
 		}
 
-		public void Insert (object insertion, int position) {
+		public void Insert (T insertion, int position) {
 			if (position > length) 
 				throw new Exception ("Insertion outside linked list bounds");
-			Node preceedingElement = FirstNode;
+			Node<T> preceedingElement = FirstNode;
 			for (int i = 1; i < position; i++) {
 				preceedingElement = preceedingElement.Next;
 			}
 			InsertAfter (insertion, preceedingElement);
 		}
 
-		public void Insert (object[] insertion, int startPosition) {
+		public void Insert (T[] insertion, int startPosition) {
 			if (startPosition > Length) 
 				throw new Exception ("Insertion outside linked list bounds");
 			if (insertion.Length != 0) {
-				Node preceedingElement = FirstNode;
+				Node<T> preceedingElement = FirstNode;
 				for (int i = 1; i < startPosition; i++) {
 					preceedingElement = preceedingElement.Next;
 				}
-				Node followingElement = preceedingElement.Next;
-				Node insertedElement = new Node (insertion [0], preceedingElement, followingElement);
+				Node<T> followingElement = preceedingElement.Next;
+				Node<T> insertedElement = new Node<T> (insertion [0], preceedingElement, followingElement);
 				preceedingElement.Next = insertedElement;
-				Node nextInsertedElement;
+				Node<T> nextInsertedElement;
 				for (int i = 0; i < insertion.Length - 1; i++) {
-					nextInsertedElement = new Node (insertion [i + 1], insertedElement, followingElement);
+					nextInsertedElement = new Node<T> (insertion [i + 1], insertedElement, followingElement);
 					insertedElement.Next = nextInsertedElement;
 					insertedElement = nextInsertedElement;
 				}
@@ -113,32 +113,38 @@ namespace MyLibrary
 			}
 		}
 
-		public void Remove (Node element) {
-			if (element.Next != null)
-				element.Next.Previous = element.Previous;
-			else {
-				LastNode = element.Previous;
-				LastNode.Next = null;
-			}
-			if (element.Previous != null)
+		public void Remove (Node<T> element) {
+			if (element.Previous != null) {
 				element.Previous.Next = element.Next;
-			else {
-				FirstNode = element.Next;
-				FirstNode.Previous = null;
+				if (element.Next != null) {
+					element.Next.Previous = element.Previous;
+				} else {
+					LastNode = element.Previous;
+					LastNode.Next = null;
+				}
+			} else {
+				if (element.Next != null) {
+					FirstNode = element.Next;
+					FirstNode.Previous = null;
+
+				} else {
+					FirstNode = null;
+					LastNode = null;
+				}
 			}
 			Length--;
 		}
 
-		public void RemoveBefore (Node followingNode) {
+		public void RemoveBefore (Node<T> followingNode) {
 			Remove (followingNode.Previous);
 		}
 
-		public object[] ToArray (){
-			object[] array = new object[length];
+		public T[] ToArray (){
+			T[] array = new T[length];
 			return array;
 		}
 
-		public Node Navigate (Node currentNode, int offset) {
+		public Node<T> Navigate (Node<T> currentNode, int offset) {
 			if (offset > 0) {
 				for (int i = 0; i < offset; i++) {
 					if (currentNode == LastNode)
