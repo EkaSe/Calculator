@@ -139,6 +139,10 @@ namespace MyLibrary
 			Remove (followingNode.Previous);
 		}
 
+		public void RemoveAfter (Node<T> preceedingNode) {
+			Remove (preceedingNode.Next);
+		}
+
 		public T[] ToArray (){
 			T[] array = new T[length];
 			return array;
@@ -164,4 +168,3 @@ namespace MyLibrary
 		}
 	}
 }
-

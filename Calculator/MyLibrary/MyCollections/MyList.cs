@@ -2,9 +2,9 @@
 
 namespace MyLibrary
 {
-	public class MyList
+	public class MyList<T>
 	{
-		public object[] Elements;
+		public T[] Elements;
 		public int Length;
 		public int Capacity;
 
@@ -12,24 +12,24 @@ namespace MyLibrary
 		{
 			Length = 0;
 			Capacity = 4;
-			Elements = new object[Capacity];
+			Elements = new T[Capacity];
 		}
 
-		public MyList (object[] inputList)
+		public MyList (T[] inputList)
 		{
 			Elements = inputList;
 			Length = inputList.Length;
 			Capacity = 2 * Length;
 		}
 
-		public void Add (object addedElement) {
+		public void Add (T addedElement) {
 			if (Length < Capacity) {
 				Elements [Length] = addedElement;
 				Length++;
 			} else {
-				object[] temp = Elements;
+				T[] temp = Elements;
 				Capacity *= 2;
-				Elements = new object[Capacity];
+				Elements = new T[Capacity];
 				for (int i = 0; i < Length; i++) {
 					Elements [i] = temp [i];
 				}
@@ -37,7 +37,7 @@ namespace MyLibrary
 			}
 		}
 
-		public int IndexOf (object sought) {
+		public int IndexOf (T sought) {
 			int index = -1;
 			for (int i = 0; i < Length; i++) {
 				if (sought.Equals (Elements [i]))

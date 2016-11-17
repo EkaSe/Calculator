@@ -42,50 +42,72 @@ namespace Calculator.Logic
 			return result;
 		}
 
+		static double PerformOperation (OperatorCode currentOperator, MyLinkedList<double> operands, Node<double> currentOperand) {
+			double operand1;
+			double operand2;
+			double result = currentOperand.Element;
+			switch (currentOperator) {
+			case OperatorCode.plus:
+				operand1 = currentOperand.Element;
+				currentOperand = currentOperand.Next;
+				operand2 = currentOperand.Element;
+				result = operand1 + operand2;
+				break;
+			case OperatorCode.minus:
+				operand1 = currentOperand.Element;
+				currentOperand = currentOperand.Next;
+				operand2 = currentOperand.Element;
+				result = operand1 - operand2;
+				break;
+			case OperatorCode.multiply:
+				operand1 = currentOperand.Element;
+				currentOperand = currentOperand.Next;
+				operand2 = currentOperand.Element;
+				result = operand1 * operand2;
+				break;
+			case OperatorCode.divide:
+				operand1 = currentOperand.Element;
+				currentOperand = currentOperand.Next;
+				operand2 = currentOperand.Element;
+				result = operand1 / operand2;
+				break;
+			}
+			operands.InsertAfter (result, currentOperand);
+			currentOperand = currentOperand.Next;
+			operands.RemoveBefore (currentOperand);
+			operands.RemoveBefore (currentOperand);
+			return result;
+		}
+
 		static double Calculate (MyLinkedList<OperatorCode> operators, MyLinkedList<double> operands) {
 			double result = operands.FirstNode.Element;
-			for (int priorityCount = 5; priorityCount > 0; priorityCount--) {
-				Node<double> currentOperand = operands.FirstNode;
-				for(Node<OperatorCode> currentOperator = operators.FirstNode; currentOperator != null; 
-					currentOperator = currentOperator.Next) {
-					double operand1;
-					double operand2;
-					if (Priority (currentOperator.Element) == priorityCount) {
-						switch (currentOperator.Element) {
-						case OperatorCode.plus:
-							operand1 = currentOperand.Element;
-							currentOperand = currentOperand.Next;
-							operand2 = currentOperand.Element;
-							result = operand1 + operand2;
-							break;
-						case OperatorCode.minus:
-							operand1 = currentOperand.Element;
-							currentOperand = currentOperand.Next;
-							operand2 = currentOperand.Element;
-							result = operand1 - operand2;
-							break;
-						case OperatorCode.multiply:
-							operand1 = currentOperand.Element;
-							currentOperand = currentOperand.Next;
-							operand2 = currentOperand.Element;
-							result = operand1 * operand2;
-							break;
-						case OperatorCode.divide:
-							operand1 = currentOperand.Element;
-							currentOperand = currentOperand.Next;
-							operand2 = currentOperand.Element;
-							result = operand1 / operand2;
-							break;
-						}
-						operands.InsertAfter (result, currentOperand);
-						currentOperand = currentOperand.Next;
-						operands.RemoveBefore (currentOperand);
-						operands.RemoveBefore (currentOperand);
-						operators.Remove (currentOperator);
-					} else {
-						currentOperand = currentOperand.Next;
-					}
+			/*for (int priorityCount = 5; priorityCount > 0; priorityCount--) {
+                Node<double> currentOperand = operands.FirstNode;
+                for (Node<OperatorCode> currentOperator = operators.FirstNode; currentOperator != null; 
+                    currentOperator = currentOperator.Next) {
+                    if (Priority (currentOperator.Element) == priorityCount) {
+                        PerformOperation (currentOperator, currentOperand); //will currentOperator be changed?
+                        operators.Remove (currentOperator);
+                    } else {
+                        currentOperand = currentOperand.Next;
+                    }
+                }                
+            }*/
+			Node<double> currentOperand = operands.FirstNode;
+			for (Node<OperatorCode> currentOperator = operators.FirstNode; currentOperator != null; 
+				currentOperator = currentOperator.Next) {
+				Node<OperatorCode> mostPriorityOperator = currentOperator;
+				while (mostPriorityOperator.Next != null && Priority (mostPriorityOperator.Element) < Priority (mostPriorityOperator.Next.Element)) {
+					mostPriorityOperator = mostPriorityOperator.Next; 
+					currentOperand = currentOperand.Next;
 				}
+				while (mostPriorityOperator != currentOperator) {
+					PerformOperation (mostPriorityOperator.Element, operands, currentOperand);
+					currentOperand = currentOperand.Previous;
+					mostPriorityOperator = mostPriorityOperator.Previous;
+					operators.RemoveAfter (mostPriorityOperator);
+				}
+				PerformOperation (currentOperator.Element, operands, currentOperand);
 			}
 			return result;
 		}
