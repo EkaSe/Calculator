@@ -42,7 +42,7 @@ namespace Calculator.Logic
 			return result;
 		}
 
-		static double PerformOperation (OperatorCode currentOperator, MyLinkedList<double> operands, Node<double> currentOperand) {
+		static Node<double> PerformOperation (OperatorCode currentOperator, MyLinkedList<double> operands, Node<double> currentOperand) {
 			double operand1;
 			double operand2;
 			double result = currentOperand.Element;
@@ -76,23 +76,11 @@ namespace Calculator.Logic
 			currentOperand = currentOperand.Next;
 			operands.RemoveBefore (currentOperand);
 			operands.RemoveBefore (currentOperand);
-			return result;
+			return currentOperand;
 		}
 
 		static double Calculate (MyLinkedList<OperatorCode> operators, MyLinkedList<double> operands) {
 			double result = operands.FirstNode.Element;
-			/*for (int priorityCount = 5; priorityCount > 0; priorityCount--) {
-                Node<double> currentOperand = operands.FirstNode;
-                for (Node<OperatorCode> currentOperator = operators.FirstNode; currentOperator != null; 
-                    currentOperator = currentOperator.Next) {
-                    if (Priority (currentOperator.Element) == priorityCount) {
-                        PerformOperation (currentOperator, currentOperand); //will currentOperator be changed?
-                        operators.Remove (currentOperator);
-                    } else {
-                        currentOperand = currentOperand.Next;
-                    }
-                }                
-            }*/
 			Node<double> currentOperand = operands.FirstNode;
 			for (Node<OperatorCode> currentOperator = operators.FirstNode; currentOperator != null; 
 				currentOperator = currentOperator.Next) {
@@ -102,12 +90,13 @@ namespace Calculator.Logic
 					currentOperand = currentOperand.Next;
 				}
 				while (mostPriorityOperator != currentOperator) {
-					PerformOperation (mostPriorityOperator.Element, operands, currentOperand);
+					currentOperand = PerformOperation (mostPriorityOperator.Element, operands, currentOperand);
 					currentOperand = currentOperand.Previous;
 					mostPriorityOperator = mostPriorityOperator.Previous;
 					operators.RemoveAfter (mostPriorityOperator);
 				}
-				PerformOperation (currentOperator.Element, operands, currentOperand);
+				currentOperand = PerformOperation (currentOperator.Element, operands, currentOperand);
+				result = currentOperand.Element;
 			}
 			return result;
 		}
