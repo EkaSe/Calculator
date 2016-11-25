@@ -1,0 +1,44 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using MyLibrary;
+
+namespace Calculator.Logic
+{
+	public class ParsedStream
+	{
+		private string expression;
+		private int currentPosition;
+		private bool isEnd;
+		public bool IsEnd {
+			get { 
+				if (currentPosition >= expression.Length)
+					isEnd = true;
+				return isEnd; 
+			}
+			private set { isEnd = value; }
+		}
+
+		public ParsedStream (string input) {
+			expression = input;
+			currentPosition = 0;
+			if (input.Length > 0) 
+				isEnd = false;
+			else isEnd = true;
+		}
+
+		public void ReadOperand (out double operand, Func<string, double> getValueByAlias) {
+			currentPosition = Parser.FindOperand (expression, currentPosition, out operand, getValueByAlias);
+			if (currentPosition == -1)
+				isEnd = true;
+			currentPosition++;
+		}
+
+		public void ReadOperator (out Calculation.OperatorCode firstOperator) {
+			currentPosition = Parser.FindOperator (expression, currentPosition, out firstOperator);
+			if (currentPosition == -1)
+				isEnd = true;
+			currentPosition++;
+		}
+	}
+}

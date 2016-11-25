@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using MyLibrary;
@@ -113,7 +113,7 @@ namespace Calculator.Logic
 			return result;
 		}
 
-		static protected bool IsLetter (char symbol) {
+		static public bool IsLetter (char symbol) {
 			bool result = false;
 			int code = (int)symbol;
 			if ((int)'A' <= code && code <= (int)'Z' || (int)'a' <= code && code <= (int)'z')
@@ -121,7 +121,7 @@ namespace Calculator.Logic
 			return result;
 		}
 
-		static protected bool IsIdentifierChar (char symbol, bool isFirstChar) {
+		static public bool IsIdentifierChar (char symbol, bool isFirstChar) {
 			bool result = false;
 			if (CharToDigit (symbol) != -1 && !isFirstChar)
 				result = true;
@@ -152,7 +152,6 @@ namespace Calculator.Logic
 				}
 				i++;
 			}
-
 			string aliasString = alias.ToString ();
 			int aliasIndex = aliases.IndexOf (aliasString);
 			if (aliasIndex != -1)
@@ -283,7 +282,6 @@ namespace Calculator.Logic
 			substring = input.Substring (startPosition + 1, j - startPosition - 1);
 			return j;
 		}
-
 	}
 }
 

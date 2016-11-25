@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using MyLibrary;
@@ -108,21 +108,17 @@ namespace Calculator.Logic
 			double currentOperand = 0;
 			OperatorCode currentOperator;
 			string result;
-			int currentPosition = 0;
-			currentPosition = Parser.FindOperand (input, currentPosition, out currentOperand, getValueByAlias);
-			if (currentPosition == -1)
+			ParsedStream expression = new ParsedStream (input);
+			if (expression.IsEnd)
 				return "Invalid expression: no operand found";
-			else 
-				operands.Add (currentOperand);
-			currentPosition++;
-			while (currentPosition < input.Length && currentPosition > 0) {
-				currentPosition = Parser.FindOperator (input, currentPosition, out currentOperator);
+			expression.ReadOperand (out currentOperand, getValueByAlias); 
+			operands.Add (currentOperand);
+			while (!expression.IsEnd) {
+				expression.ReadOperator (out currentOperator);
 				operators.Add (currentOperator);
-				currentPosition++;
 				if (currentOperator != OperatorCode.factorial)
-					currentPosition = Parser.FindOperand (input, currentPosition, out currentOperand, getValueByAlias);
-				operands.Add (currentOperand);
-				currentPosition++;
+					expression.ReadOperand (out currentOperand, getValueByAlias);
+				operands.Add (currentOperand);				
 			}
 			result = Parser.DoubleToString (Calculate (operators, operands));
 			return result;

@@ -37,6 +37,8 @@
     <Compile Include="MyCollectionTest.cs" />
     <Compile Include="MyCollections\MyLinkedList.cs" />
     <Compile Include="MyCollections\MyList.cs" />
+    <Compile Include="MyCollections\MyStack.cs" />
+    <Compile Include="MyCollections\MyDictionary.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
