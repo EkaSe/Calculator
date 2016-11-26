@@ -27,12 +27,7 @@ namespace MyLibrary
 				Elements [Length] = addedElement;
 				Length++;
 			} else {
-				T[] temp = Elements;
-				Capacity *= 2;
-				Elements = new T[Capacity];
-				for (int i = 0; i < Length; i++) {
-					Elements [i] = temp [i];
-				}
+				ApproveCapacity (Length + 1);
 				Elements [Length++] = addedElement;
 			}
 		}
@@ -44,6 +39,19 @@ namespace MyLibrary
 					index = i;
 			}
 			return index;
+		}
+
+		public void ApproveCapacity (int requiredSize) {
+			if (Capacity < requiredSize) {
+				T[] temp = Elements;
+				while (Capacity < requiredSize) {
+					Capacity *= 2;
+				}
+				Elements = new T[Capacity];
+				for (int i = 0; i < Length; i++) {
+					Elements [i] = temp [i];
+				}
+			}
 		}
 	}
 }

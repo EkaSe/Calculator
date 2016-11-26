@@ -7,8 +7,7 @@ namespace Calculator.Logic
 {
 	public class Parser
 	{
-		static MyList<string> aliases = new MyList<string> ();
-		static MyList<double> aliasValues = new MyList<double> ();
+		static MyDictionary <string, double> aliases = new MyDictionary<string, double> ();
 
 		static public int CharToDigit (char symbol) {
 			int code = (int) symbol;
@@ -153,13 +152,12 @@ namespace Calculator.Logic
 				i++;
 			}
 			string aliasString = alias.ToString ();
-			int aliasIndex = aliases.IndexOf (aliasString);
-			if (aliasIndex != -1)
-				value = (double) (aliasValues.Elements [aliasIndex]);
-			else {
+			Node <MyLibrary.KeyValuePair <string, double>> aliasNode = aliases.SearchNode (aliasString);
+			if (aliasNode == null) {
 				value = getValueByAlias (aliasString);
-				aliases.Add (aliasString);
-				aliasValues.Add (value);
+				aliases.Add (new MyLibrary.KeyValuePair <string, double> (aliasString, value));
+			} else {
+				value = aliasNode.Element.Value;
 			}
 			return endPosition;
 		}

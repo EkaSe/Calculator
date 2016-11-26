@@ -20,9 +20,9 @@ namespace Calculator.Logic
 		}
 
 		public ParsedStream (string input) {
-			expression = input;
+			expression = SkipSpaces (input);
 			currentPosition = 0;
-			if (input.Length > 0) 
+			if (expression.Length > 0) 
 				isEnd = false;
 			else isEnd = true;
 		}
@@ -39,6 +39,15 @@ namespace Calculator.Logic
 			if (currentPosition == -1)
 				isEnd = true;
 			currentPosition++;
+		}
+
+		private string SkipSpaces (string input) {
+			StringBuilder result = new StringBuilder ();
+			for (int i = 0; i < input.Length; i++) {
+				if (input [i] != ' ')
+					result.Append (input [i]);
+			}
+			return result.ToString ();
 		}
 	}
 }
