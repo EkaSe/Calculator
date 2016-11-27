@@ -152,12 +152,11 @@ namespace Calculator.Logic
 				i++;
 			}
 			string aliasString = alias.ToString ();
-			Node <MyLibrary.KeyValuePair <string, double>> aliasNode = aliases.SearchNode (aliasString);
-			if (aliasNode == null) {
+			try {
+				value = aliases.Get (aliasString);
+			} catch {
 				value = getValueByAlias (aliasString);
-				aliases.Add (new MyLibrary.KeyValuePair <string, double> (aliasString, value));
-			} else {
-				value = aliasNode.Element.Value;
+				aliases.Add (aliasString, value);
 			}
 			return endPosition;
 		}

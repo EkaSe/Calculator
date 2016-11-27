@@ -27,11 +27,13 @@ namespace Calculator.Logic
 			else isEnd = true;
 		}
 
-		public void ReadOperand (out double operand, Func<string, double> getValueByAlias) {
+		public double ReadOperand (Func<string, double> getValueByAlias) {
+			double operand;
 			currentPosition = Parser.FindOperand (expression, currentPosition, out operand, getValueByAlias);
 			if (currentPosition == -1)
 				isEnd = true;
 			currentPosition++;
+			return operand;
 		}
 
 		public void ReadOperator (out Calculation.OperatorCode firstOperator) {

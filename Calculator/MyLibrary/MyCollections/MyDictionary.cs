@@ -35,7 +35,10 @@ namespace MyLibrary
 			return result;
 		}
 
-		public void Add (KeyValuePair <K, V> pair) {
+		public bool Add (K newKey, V newValue) {
+			KeyValuePair <K, V> pair = new KeyValuePair<K, V> (newKey, newValue);
+			if (SearchNode (newKey) != null)
+				return false;
 			int hash = HashCode (pair.Key);
 			HashTable.ApproveCapacity (hash);
 			MyLinkedList <KeyValuePair <K, V>> cell = HashTable.Elements [hash];
@@ -43,6 +46,7 @@ namespace MyLibrary
 				cell = new MyLinkedList<KeyValuePair<K, V>> ();
 			cell.Add (pair);
 			HashTable.Elements [hash] = cell;
+			return true;
 		}
 
 		public void Remove (K targetKey) {
@@ -65,6 +69,11 @@ namespace MyLibrary
 				}
 			}
 			return null;
+		}
+
+		public V Get (K targetKey) {
+			Node<KeyValuePair <K, V>> target = SearchNode (targetKey);
+			return target.Element.Value;
 		}
 	}
 }

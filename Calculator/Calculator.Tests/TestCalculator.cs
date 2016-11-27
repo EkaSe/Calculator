@@ -8,6 +8,8 @@ namespace Calculator
 {
 	public class TestCalculator
 	{
+		static int FailedTestsCount = 0;
+
 		static public void CalculatorTest (string input, double[] aliasValuesArray, string expectedOutput)
 		{
 
@@ -21,7 +23,10 @@ namespace Calculator
 			string result = ProcessExpression (input, getValueByAliasTest);
 			if (result == expectedOutput)
 				Console.WriteLine ("Test " + input + " = " + expectedOutput + " passed");
-			else Console.WriteLine ("Test " + input + " = " + expectedOutput + " failed");
+			else {
+				Console.WriteLine ("Test " + input + " = " + expectedOutput + " failed");
+				FailedTestsCount++;
+			}
 		}
 
 		static public void FindOperandTest (string input, int startPosition, double[] aliasValuesArray, int expectedPosition, double expectedResult)
@@ -38,8 +43,11 @@ namespace Calculator
 			if (foundPosition == expectedPosition && result == expectedResult)
 				Console.WriteLine ("Test: First operand in " + input + " with start posiion " + startPosition 
 					+ " is " + expectedResult + " passed");
-			else Console.WriteLine ("Test: First operand in " + input + " with start posiion " + startPosition 
+			else {
+				Console.WriteLine ("Test: First operand in " + input + " with start posiion " + startPosition 
 				+ " is " + expectedResult + " failed");
+				FailedTestsCount++;
+			}
 		}
 
 		static public void FindOperatorTest (string input, int startPosition, int expectedPosition, OperatorCode expectedResult)
@@ -49,15 +57,21 @@ namespace Calculator
 			if (foundPosition == expectedPosition && result == expectedResult)
 				Console.WriteLine ("Test: First operator in " + input + " with start posiion " + startPosition 
 					+ " is " + expectedResult + " passed");
-			else Console.WriteLine ("Test: First operator in " + input + " with start posiion " + startPosition 
+			else {
+				Console.WriteLine ("Test: First operator in " + input + " with start posiion " + startPosition 
 				+ " is " + expectedResult + " failed");
+				FailedTestsCount++;
+			}
 		}
 
 		static public void DoubleToStringTest (double number, string expectedResult) {
 			string result = DoubleToString (number);
 			if (result == expectedResult)
 				Console.WriteLine ("Test: Double to string conversion of " + number + " passed");
-			else Console.WriteLine ("Test: Double to string conversion of " + number + " failed");
+			else {
+				Console.WriteLine ("Test: Double to string conversion of " + number + " failed");
+				FailedTestsCount++;
+			}
 		}
 
 		static public void RunTests ()
@@ -106,6 +120,8 @@ namespace Calculator
 			FindOperatorTest ("2.05^2", 1, 4, OperatorCode.degree);
 
 			MyCollectionTest.MyListTest ();
+
+			Console.WriteLine ("\r\n" + FailedTestsCount + " tests failed");
 		}
 	}
 }
