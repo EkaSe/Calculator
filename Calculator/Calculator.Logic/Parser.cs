@@ -8,6 +8,7 @@ namespace Calculator.Logic
 	public class Parser
 	{
 		static MyDictionary <string, double> aliases = new MyDictionary<string, double> ();
+		static MyDictionary <string, double> variables = new MyDictionary<string, double> ();
 
 		static public int CharToDigit (char symbol) {
 			int code = (int) symbol;
@@ -146,6 +147,16 @@ namespace Calculator.Logic
 					if (IsIdentifierChar (currentSymbol, false)) {
 						alias.Append (currentSymbol);
 						endPosition = i;
+					} else if (currentSymbol == '=') {
+						// ? check for invalid expression : whether i == input.Length - 1
+						if (aliases.Contains (alias.ToString ())) {
+							throw new Exception ("Invalid string: Cannot assign new value to existing alias");
+							// Consider ending up calculations and waiting for new expression from user in case of invalid srtring
+						}
+						string substring = input.Substring (i + 1);
+						value = StringToDouble (Calculation.ProcessExpression (substring, getValueByAlias));
+						variables [alias.ToString ()] = value;
+						return input.Length;
 					} else
 						aliasEnd = true;
 				}
@@ -153,7 +164,9 @@ namespace Calculator.Logic
 			}
 			string aliasString = alias.ToString ();
 			if (aliases.Contains (aliasString)) {
-				value = aliases.Get (aliasString);
+				value = aliases [aliasString];
+			} else if (variables.Contains (aliasString)) {
+				value = variables [aliasString];
 			} else {
 				value = getValueByAlias (aliasString);
 				aliases.Add (aliasString, value);

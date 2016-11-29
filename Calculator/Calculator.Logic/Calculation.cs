@@ -8,7 +8,6 @@ namespace Calculator.Logic
 	public class Calculation
 	{
 		public enum OperatorCode {
-			assign,
 			plus,
 			minus,
 			multiply,
@@ -21,26 +20,23 @@ namespace Calculator.Logic
 		static private int Priority (OperatorCode currentOperator){
 			int result = 0;
 			switch (currentOperator) {
-			case OperatorCode.assign:
+			case OperatorCode.plus:
 				result = 1;
 				break;
-			case OperatorCode.plus:
-				result = 2;
-				break;
 			case OperatorCode.minus:
-				result = 2;
+				result = 1;
 				break;
 			case OperatorCode.multiply:
-				result = 3;
+				result = 2;
 				break;
 			case OperatorCode.divide:
-				result = 3;
+				result = 2;
 				break;
 			case OperatorCode.degree:
-				result = 4;
+				result = 3;
 				break;
 			case OperatorCode.factorial:
-				result = 5;
+				result = 4;
 				break;
 			}
 			return result;

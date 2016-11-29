@@ -101,6 +101,9 @@ namespace Calculator
 			//CalculatorTest ("0.125^(-1/3)", aliasTestValues, "2");
 			aliasTestValues = new double[] {1.5, -0.5};
 			CalculatorTest ("2*(x+3)-x/y", aliasTestValues, "12");
+			CalculatorTest ("a = 2*(x+3)-x/y", aliasTestValues, "12");
+			//CalculatorTest ("x = 2*(x+3)-x/y", aliasTestValues, "Invalid expression");
+			//CalculatorTest ("a = 2*(x=3)-x/y", aliasTestValues, "Invalid expression");
 			Console.WriteLine ();
 			FindOperandTest ("5", 0, aliasTestValues, 0, 5);
 			FindOperandTest ("10", 0, aliasTestValues, 1, 10);
