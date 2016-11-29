@@ -152,9 +152,9 @@ namespace Calculator.Logic
 				i++;
 			}
 			string aliasString = alias.ToString ();
-			try {
+			if (aliases.Contains (aliasString)) {
 				value = aliases.Get (aliasString);
-			} catch {
+			} else {
 				value = getValueByAlias (aliasString);
 				aliases.Add (aliasString, value);
 			}
@@ -226,7 +226,7 @@ namespace Calculator.Logic
 				char currentSymbol = input [i];
 				switch (currentSymbol) {
 				case '+': 
-					firstOperator = (int)Calculation.OperatorCode.plus;
+					firstOperator = Calculation.OperatorCode.plus;
 					operatorPosition = i;
 					operatorFound = true;
 					break;

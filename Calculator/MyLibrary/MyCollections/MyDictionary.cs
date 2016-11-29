@@ -16,6 +16,18 @@ namespace MyLibrary
 	{
 		MyList <MyLinkedList <KeyValuePair <K, V>>> HashTable = new MyList<MyLinkedList<KeyValuePair<K, V>>> ();
 
+		public V this [K key] {
+			get { return Get (key);    }
+			set {
+				if (Contains (key)) {
+					Node<KeyValuePair <K, V>> target = SearchNode (key);
+					target.Element.Value = value;
+				} else {
+					Add (key, value);
+				}
+			}
+		}
+
 		private int CharLeftCircularShift (int value, int bitCount) {
 			// cycle size as a parameter?
 			int cycleSize = 8;
@@ -74,6 +86,13 @@ namespace MyLibrary
 		public V Get (K targetKey) {
 			Node<KeyValuePair <K, V>> target = SearchNode (targetKey);
 			return target.Element.Value;
+		}
+
+		public bool Contains (K targetKey) {
+			if (SearchNode (targetKey) != null)
+				return true;
+			else 
+				return false;
 		}
 	}
 }

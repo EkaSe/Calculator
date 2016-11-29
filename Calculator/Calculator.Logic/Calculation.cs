@@ -8,6 +8,7 @@ namespace Calculator.Logic
 	public class Calculation
 	{
 		public enum OperatorCode {
+			assign,
 			plus,
 			minus,
 			multiply,
@@ -20,17 +21,20 @@ namespace Calculator.Logic
 		static private int Priority (OperatorCode currentOperator){
 			int result = 0;
 			switch (currentOperator) {
-			case OperatorCode.plus:
+			case OperatorCode.assign:
 				result = 1;
+				break;
+			case OperatorCode.plus:
+				result = 2;
 				break;
 			case OperatorCode.minus:
-				result = 1;
+				result = 2;
 				break;
 			case OperatorCode.multiply:
-				result = 2;
+				result = 3;
 				break;
 			case OperatorCode.divide:
-				result = 2;
+				result = 3;
 				break;
 			case OperatorCode.degree:
 				result = 4;
@@ -78,16 +82,16 @@ namespace Calculator.Logic
 		static double Calculate (MyLinkedList<OperatorCode> operators, MyLinkedList<double> operands) {
 			double result = operands.FirstNode.Element;
 			Node<double> currentOperand = operands.FirstNode;
-			MyStack <double> operandQueue = new MyStack<double> ();
-			MyStack <OperatorCode> operatorQueue = new MyStack<OperatorCode> ();
+			MyStack <double> operandStack = new MyStack<double> ();
+			MyStack <OperatorCode> operatorStack = new MyStack<OperatorCode> ();
 			for (Node<OperatorCode> currentOperator = operators.FirstNode; currentOperator != null; 
 				currentOperator = currentOperator.Next) {
-				operatorQueue.Push (currentOperator.Element);
-				operandQueue.Push (currentOperand.Element);
+				operatorStack.Push (currentOperator.Element);
+				operandStack.Push (currentOperand.Element);
 				currentOperand = currentOperand.Next;
 				if (currentOperator.Next == null || Priority (currentOperator.Element) >= Priority (currentOperator.Next.Element)) {
-					while (operatorQueue.Length > 0) {
-						currentOperand.Element = PerformOperation (operatorQueue.Pop(), operandQueue.Pop(), currentOperand.Element);
+					while (operatorStack.Length > 0) {
+						currentOperand.Element = PerformOperation (operatorStack.Pop(), operandStack.Pop(), currentOperand.Element);
 					}
 				}
 				result = currentOperand.Element;
@@ -102,16 +106,16 @@ namespace Calculator.Logic
 			double currentOperand = 0;
 			OperatorCode currentOperator;
 			string result;
-			ParsedStream expression = new ParsedStream (input);
+			ParsedStream expression = new ParsedStream (input, getValueByAlias);
 			if (expression.IsEnd)
 				return "Invalid expression: no operand found";
-			currentOperand = expression.ReadOperand (getValueByAlias); 
+			currentOperand = expression.ReadOperand (); 
 			operands.Add (currentOperand);
 			while (!expression.IsEnd) {
 				expression.ReadOperator (out currentOperator);
 				operators.Add (currentOperator);
 				if (currentOperator != OperatorCode.factorial)
-					currentOperand = expression.ReadOperand (getValueByAlias);
+					currentOperand = expression.ReadOperand ();
 				operands.Add (currentOperand);				
 			}
 			result = Parser.DoubleToString (Calculate (operators, operands));
