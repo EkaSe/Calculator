@@ -1,6 +1,6 @@
 ﻿using System;
 using static Calculator.Logic;
-using static Calculator.Logic.Calculation;
+using static Calculator.Logic.Interpreter;
 using static Calculator.Logic.Parser;
 
 namespace Calculator.UI

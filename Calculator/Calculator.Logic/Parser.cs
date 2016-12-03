@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using MyLibrary;
@@ -7,8 +7,26 @@ namespace Calculator.Logic
 {
 	public class Parser
 	{
+		static MyDictionary <string, double> aliasesLocal;
+		static MyDictionary <string, double> variablesLocal;
+
 		static MyDictionary <string, double> aliases = new MyDictionary<string, double> ();
 		static MyDictionary <string, double> variables = new MyDictionary<string, double> ();
+
+		static public void CreateLocals () {
+			aliasesLocal = aliases;
+			variablesLocal = variables;
+		}
+
+		static public void MergeLocals() {
+			aliases = aliasesLocal;
+			variables = variablesLocal;
+		}
+
+		static public void ClearDictionaries () {
+			aliases = new MyDictionary<string, double> ();
+			variables = new MyDictionary<string, double> ();
+		}
 
 		static public int CharToDigit (char symbol) {
 			int code = (int) symbol;
@@ -149,13 +167,13 @@ namespace Calculator.Logic
 						endPosition = i;
 					} else if (currentSymbol == '=') {
 						// ? check for invalid expression : whether i == input.Length - 1
-						if (aliases.Contains (alias.ToString ())) {
+						if (aliasesLocal.Contains (alias.ToString ())) {
 							throw new Exception ("Invalid string: Cannot assign new value to existing alias");
 							// Consider ending up calculations and waiting for new expression from user in case of invalid srtring
 						}
 						string substring = input.Substring (i + 1);
-						value = StringToDouble (Calculation.ProcessExpression (substring, getValueByAlias));
-						variables [alias.ToString ()] = value;
+						value = StringToDouble (Interpreter.ProcessExpression (substring, getValueByAlias));
+						variablesLocal [alias.ToString ()] = value;
 						return input.Length;
 					} else
 						aliasEnd = true;
@@ -163,13 +181,13 @@ namespace Calculator.Logic
 				i++;
 			}
 			string aliasString = alias.ToString ();
-			if (aliases.Contains (aliasString)) {
-				value = aliases [aliasString];
-			} else if (variables.Contains (aliasString)) {
-				value = variables [aliasString];
+			if (aliasesLocal.Contains (aliasString)) {
+				value = aliasesLocal [aliasString];
+			} else if (variablesLocal.Contains (aliasString)) {
+				value = variablesLocal [aliasString];
 			} else {
 				value = getValueByAlias (aliasString);
-				aliases.Add (aliasString, value);
+				aliasesLocal.Add (aliasString, value);
 			}
 			return endPosition;
 		}
@@ -195,7 +213,7 @@ namespace Calculator.Logic
 			if (currentSymbol == '(') {
 				string substring; 
 				int parenthesisEnd = FindClosingParenthesis (input, i, out substring);
-				operand = StringToDouble (Calculation.ProcessExpression (substring, getValueByAlias));
+				operand = StringToDouble (Interpreter.ProcessExpression (substring, getValueByAlias));
 				endPosition = parenthesisEnd;
 				operandEnd = true;
 			}
@@ -230,41 +248,41 @@ namespace Calculator.Logic
 			return endPosition;
 		}
 
-		static public int FindOperator (string input, int startPosition, out Calculation.OperatorCode firstOperator) {
+		static public int FindOperator (string input, int startPosition, out Interpreter.OperatorCode firstOperator) {
 			int operatorPosition = -1;
 			bool operatorFound = false;
 			int i = startPosition;
-			firstOperator = Calculation.OperatorCode.unknown;
+			firstOperator = Interpreter.OperatorCode.unknown;
 			while (!operatorFound && i < input.Length) {
 				char currentSymbol = input [i];
 				switch (currentSymbol) {
 				case '+': 
-					firstOperator = Calculation.OperatorCode.plus;
+					firstOperator = Interpreter.OperatorCode.plus;
 					operatorPosition = i;
 					operatorFound = true;
 					break;
 				case '-': 
-					firstOperator = Calculation.OperatorCode.minus;
+					firstOperator = Interpreter.OperatorCode.minus;
 					operatorPosition = i;
 					operatorFound = true;
 					break;
 				case '*': 
-					firstOperator = Calculation.OperatorCode.multiply;
+					firstOperator = Interpreter.OperatorCode.multiply;
 					operatorPosition = i;
 					operatorFound = true;
 					break;
 				case '/': 
-					firstOperator = Calculation.OperatorCode.divide;
+					firstOperator = Interpreter.OperatorCode.divide;
 					operatorPosition = i;
 					operatorFound = true;
 					break;
 				case '!': 
-					firstOperator = Calculation.OperatorCode.factorial;
+					firstOperator = Interpreter.OperatorCode.factorial;
 					operatorPosition = i;
 					operatorFound = true;
 					break;
 				case '^': 
-					firstOperator = Calculation.OperatorCode.degree;
+					firstOperator = Interpreter.OperatorCode.degree;
 					operatorPosition = i;
 					operatorFound = true;
 					break;

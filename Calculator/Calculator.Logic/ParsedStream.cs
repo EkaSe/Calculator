@@ -38,7 +38,7 @@ namespace Calculator.Logic
 			return operand;
 		}
 
-		public void ReadOperator (out Calculation.OperatorCode firstOperator) {
+		public void ReadOperator (out Interpreter.OperatorCode firstOperator) {
 			currentPosition = Parser.FindOperator (expression, currentPosition, out firstOperator);
 			if (currentPosition == -1)
 				isEnd = true;

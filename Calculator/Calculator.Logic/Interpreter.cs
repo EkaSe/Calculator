@@ -1,11 +1,11 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using MyLibrary;
 
 namespace Calculator.Logic
 {
-	public class Calculation
+	public class Interpreter
 	{
 		public enum OperatorCode {
 			plus,
@@ -99,6 +99,7 @@ namespace Calculator.Logic
 		{
 			MyLinkedList<OperatorCode> operators = new MyLinkedList<OperatorCode> ();
 			MyLinkedList<double> operands = new MyLinkedList<double> ();
+			Parser.CreateLocals (); //move to Run method?
 			double currentOperand = 0;
 			OperatorCode currentOperator;
 			string result;
@@ -115,7 +116,18 @@ namespace Calculator.Logic
 				operands.Add (currentOperand);				
 			}
 			result = Parser.DoubleToString (Calculate (operators, operands));
+			Parser.MergeLocals (); //move to Run method?
 			return result;
+		}
+
+		static public void Run (Func<string> getExpression, Func<string, bool> outputAction, Func<string, double> getValueByAlias) {
+			Parser.ClearDictionaries ();
+			bool finish = false;
+			while (!finish) {
+				string input = getExpression ();
+				string output = ProcessExpression (input, getValueByAlias);
+				finish = outputAction (output);
+			}
 		}
 	}
 }

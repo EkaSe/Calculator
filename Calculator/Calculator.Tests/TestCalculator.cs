@@ -1,7 +1,7 @@
 ﻿using System;
 using Calculator.Logic;
 using MyLibrary;
-using static Calculator.Logic.Calculation;
+using static Calculator.Logic.Interpreter;
 using static Calculator.Logic.Parser;
 
 namespace Calculator
@@ -14,6 +14,7 @@ namespace Calculator
 		{
 
 			int aliasIndex = 0;
+
 			Func<string, double> getValueByAliasTest = (newAlias) => {
 				double value = aliasValuesArray [aliasIndex];
 				aliasIndex++;
@@ -25,6 +26,41 @@ namespace Calculator
 				Console.WriteLine ("Test " + input + " = " + expectedOutput + " passed");
 			else {
 				Console.WriteLine ("Test " + input + " = " + expectedOutput + " failed");
+				FailedTestsCount++;
+			}
+		}
+
+		static public void InterpreterTest (string testName, string[] input, double[] aliasValuesArray, string expectedOutput)
+		{
+
+			int aliasIndex = 0;
+			int expressionIndex = 0;
+			string result = null;
+
+			Func<string> getExpression = () => {
+				return input [expressionIndex++];
+			};
+
+			Func<string, bool> outputAction = (output) => {
+				if (expressionIndex < input.Length)
+					return false;
+				else {
+					result = output;
+					return true;
+				}
+			};
+
+			Func<string, double> getValueByAliasTest = (newAlias) => {
+				double value = aliasValuesArray [aliasIndex];
+				aliasIndex++;
+				return value;
+			};
+
+			Interpreter.Run (getExpression, outputAction, getValueByAliasTest);
+			if (result == expectedOutput)
+				Console.WriteLine ("Test " + testName + " passed");
+			else {
+				Console.WriteLine ("Test " + testName + " failed");
 				FailedTestsCount++;
 			}
 		}
@@ -104,6 +140,11 @@ namespace Calculator
 			CalculatorTest ("a = 2*(x+3)-x/y", aliasTestValues, "12");
 			//CalculatorTest ("x = 2*(x+3)-x/y", aliasTestValues, "Invalid expression");
 			//CalculatorTest ("a = 2*(x=3)-x/y", aliasTestValues, "Invalid expression");
+			Console.WriteLine ();
+			aliasTestValues = new double[] { }; 
+			string[] expressionSet = new string[] {"x=3","x-1"};
+			InterpreterTest ("Interpreter1", expressionSet, aliasTestValues, "2");
+
 			Console.WriteLine ();
 			FindOperandTest ("5", 0, aliasTestValues, 0, 5);
 			FindOperandTest ("10", 0, aliasTestValues, 1, 10);
