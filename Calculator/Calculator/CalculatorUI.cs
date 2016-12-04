@@ -10,7 +10,7 @@ namespace Calculator.UI
 		static public void ConsoleCalculator () {
 
 			Func<string> getExpression = () => {
-				Console.Write(">>> ");
+				Console.Write(">> ");
 				return Console.ReadLine ();
 			};
 

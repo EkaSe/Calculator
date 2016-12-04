@@ -47,9 +47,6 @@ namespace Calculator.Logic
 				number = - number;
 			}
 
-			if (number == 0)
-				result.Append ('0');
-
 			int integralPart = (int) number;
 			int mantissa = (int) (long)(number * 1E9 - integralPart * 1E9);
 
@@ -202,21 +199,21 @@ namespace Calculator.Logic
 				operandEnd = true;
 				return -1;
 			}
-			if (input [i] == ' ')
-				i++;
 			int endPosition = -1;
+			if (input [startPosition] == '-' || input [startPosition] == '+' || input [startPosition] == ' ') 
+				i++;
 			char currentSymbol = input [i];
 			if (IsLetter (currentSymbol) || currentSymbol == '_') {
 				endPosition = FindAlias (input, i, out operand, getValueByAlias);
 				operandEnd = true;
-			} 
-			if (currentSymbol == '(') {
+			} else if (currentSymbol == '(') {
 				string substring; 
 				int parenthesisEnd = FindClosingParenthesis (input, i, out substring);
 				operand = StringToDouble (Interpreter.ProcessExpression (substring, getValueByAlias));
 				endPosition = parenthesisEnd;
 				operandEnd = true;
-			}
+			} else if (CharToDigit (currentSymbol) < 0)
+				throw new Exception ("Invalid expression: no operand found");
 			while (!operandEnd) {
 				currentSymbol = input [i];
 				int currentDigit = CharToDigit (currentSymbol);

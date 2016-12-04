@@ -42,7 +42,7 @@ namespace Calculator
 			};
 
 			Func<string, bool> outputAction = (output) => {
-				if (expressionIndex < input.Length)
+				if (expressionIndex < input.Length && output != "q")
 					return false;
 				else {
 					result = output;
@@ -122,6 +122,7 @@ namespace Calculator
 			CalculatorTest ("-12", aliasTestValues, "-12");
 			CalculatorTest ("+12.34", aliasTestValues, "12.34");
 			CalculatorTest ("2+3", aliasTestValues, "5");
+			CalculatorTest ("2-2", aliasTestValues, "0");
 			CalculatorTest ("10-5", aliasTestValues, "5");
 			CalculatorTest ("7*8", aliasTestValues, "56");
 			CalculatorTest ("32/8", aliasTestValues, "4");
@@ -143,7 +144,11 @@ namespace Calculator
 			Console.WriteLine ();
 			aliasTestValues = new double[] { }; 
 			string[] expressionSet = new string[] {"x=3","x-1"};
-			InterpreterTest ("Interpreter1", expressionSet, aliasTestValues, "2");
+			InterpreterTest ("Interpreter 1", expressionSet, aliasTestValues, "2");
+			expressionSet = new string[] {"x = x - 3"};
+			InterpreterTest ("Interpreter 2: x = x -3 ", expressionSet, aliasTestValues, "?");
+			expressionSet = new string[] {"/"};
+			InterpreterTest ("Interpreter 3: no operand ", expressionSet, aliasTestValues, "Invalid expression: no operand found");
 
 			Console.WriteLine ();
 			FindOperandTest ("5", 0, aliasTestValues, 0, 5);

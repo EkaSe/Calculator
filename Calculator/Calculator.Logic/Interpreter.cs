@@ -105,7 +105,7 @@ namespace Calculator.Logic
 			string result;
 			ParsedStream expression = new ParsedStream (input, getValueByAlias);
 			if (expression.IsEnd)
-				return "Invalid expression: no operand found";
+				throw new Exception ("Invalid expression: no operand found");
 			currentOperand = expression.ReadOperand (); 
 			operands.Add (currentOperand);
 			while (!expression.IsEnd) {
@@ -126,9 +126,13 @@ namespace Calculator.Logic
 			while (!finish) {
 				string input = getExpression ();
 				string output;
-				if (input != "q" && input != "Q")
-					output = ProcessExpression (input, getValueByAlias);
-				else output = "q";
+				if (input != "q" && input != "Q") {
+					try {
+						output = ProcessExpression (input, getValueByAlias);
+					} catch (Exception e) {
+						output = e.Message;
+					}
+				} else output = "q";
 				finish = outputAction (output);
 			}
 		}

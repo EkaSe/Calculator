@@ -1,4 +1,4 @@
-﻿<Properties StartupItem="Calculator/Calculator.UI.csproj">
+﻿<Properties StartupItem="Calculator.Tests/Calculator.Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="MyLibrary/MyCollections/MyLinkedList.cs">
     <Files>
