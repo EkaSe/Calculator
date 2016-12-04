@@ -125,7 +125,10 @@ namespace Calculator.Logic
 			bool finish = false;
 			while (!finish) {
 				string input = getExpression ();
-				string output = ProcessExpression (input, getValueByAlias);
+				string output;
+				if (input != "q" && input != "Q")
+					output = ProcessExpression (input, getValueByAlias);
+				else output = "q";
 				finish = outputAction (output);
 			}
 		}
