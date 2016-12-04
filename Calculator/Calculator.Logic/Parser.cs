@@ -145,6 +145,22 @@ namespace Calculator.Logic
 			return result;
 		}
 
+		static public bool CheckVariable (string input) {
+			if (aliases.Contains (input))
+				return false;
+			if (input.Length == 0)
+				return false;
+			if (variables.Contains (input))
+				return true;
+			if (!IsIdentifierChar (input [0], true))
+				return false;
+			for (int i = 0; i < input.Length; i++) {
+				if (!IsIdentifierChar (input [i], false))
+					return false;
+			}
+			return true;
+		}
+
 		static public int FindAlias (string input, int startPosition, out double value, Func<string, double> getValueByAlias) {
 			value = 0;
 			int endPosition = -1;
