@@ -95,6 +95,27 @@ namespace Calculator.Logic
 			return result;
 		}
 
+		static public string ProcessStatement (string input, Func<string, double> getValueByAlias) {
+			string statement = Parser.SkipSpaces (input);
+			string result;
+			int assignPosition = statement.IndexOf ('=');
+			if (assignPosition > 0) {
+				string expression = statement.Substring (assignPosition + 1);
+				string assignee = statement.Substring (0, assignPosition - 1);
+				if (!Parser.CheckVariable (assignee)) {
+					throw new Exception ("Invalid expression: Cannot assign value to " + assignee);
+				} else {
+					string value = ProcessExpression (expression, getValueByAlias);
+					//to do: check that assignee is not present in expression
+					result = assignee + " = " + value;
+					Parser.Assign (assignee, Parser.StringToDouble (value));
+				}
+			} else {
+				result = ProcessExpression (statement, getValueByAlias);
+			}
+			return result;
+		}
+
 		static public string ProcessExpression (string input, Func<string, double> getValueByAlias)
 		{
 			MyLinkedList<OperatorCode> operators = new MyLinkedList<OperatorCode> ();

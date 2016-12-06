@@ -128,6 +128,15 @@ namespace Calculator.Logic
 			return result;
 		}
 
+		static public string SkipSpaces (string input) {
+			StringBuilder result = new StringBuilder ();
+			for (int i = 0; i < input.Length; i++) {
+				if (input [i] != ' ')
+					result.Append (input [i]);
+			}
+			return result.ToString ();
+		}
+
 		static public bool IsLetter (char symbol) {
 			bool result = false;
 			int code = (int)symbol;
@@ -159,6 +168,11 @@ namespace Calculator.Logic
 					return false;
 			}
 			return true;
+		}
+
+		static public void Assign (string name, double value) {
+			//to do: if exists, change variable value
+			variables.Add (name, value);
 		}
 
 		static public int FindAlias (string input, int startPosition, out double value, Func<string, double> getValueByAlias) {

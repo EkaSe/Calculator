@@ -21,7 +21,7 @@ namespace Calculator.Logic
 		private Func<string, double> getValueByAlias;
 
 		public ParsedStream (string input, Func<string, double> getValueByAliasFunc) {
-			expression = SkipSpaces (input);
+			expression = Parser.SkipSpaces (input);
 			currentPosition = 0;
 			if (expression.Length > 0) 
 				isEnd = false;
@@ -43,15 +43,6 @@ namespace Calculator.Logic
 			if (currentPosition == -1)
 				isEnd = true;
 			currentPosition++;
-		}
-
-		private string SkipSpaces (string input) {
-			StringBuilder result = new StringBuilder ();
-			for (int i = 0; i < input.Length; i++) {
-				if (input [i] != ' ')
-					result.Append (input [i]);
-			}
-			return result.ToString ();
 		}
 	}
 }
