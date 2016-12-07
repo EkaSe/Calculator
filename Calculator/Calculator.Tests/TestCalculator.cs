@@ -138,17 +138,18 @@ namespace Calculator
 			//CalculatorTest ("0.125^(-1/3)", aliasTestValues, "2");
 			aliasTestValues = new double[] {1.5, -0.5};
 			CalculatorTest ("2*(x+3)-x/y", aliasTestValues, "12");
-			CalculatorTest ("a = 2*(x+3)-x/y", aliasTestValues, "12");
-			//CalculatorTest ("x = 2*(x+3)-x/y", aliasTestValues, "Invalid expression");
-			//CalculatorTest ("a = 2*(x=3)-x/y", aliasTestValues, "Invalid expression");
+
 			Console.WriteLine ();
 			aliasTestValues = new double[] { }; 
 			string[] expressionSet = new string[] {"x=3","x-1"};
-			InterpreterTest ("Interpreter 1", expressionSet, aliasTestValues, "2");
+			InterpreterTest ("Interpreter 1:", expressionSet, aliasTestValues, "2");
 			expressionSet = new string[] {"x = x - 3"};
-			InterpreterTest ("Interpreter 2: x = x -3 ", expressionSet, aliasTestValues, "?");
+			InterpreterTest ("Interpreter 2: x = x -3 ", expressionSet, aliasTestValues, "Invalid expression: Cannot assign value to x");
 			expressionSet = new string[] {"/"};
 			InterpreterTest ("Interpreter 3: no operand ", expressionSet, aliasTestValues, "Invalid expression: no operand found");
+			expressionSet = new string[] {"a = 2*(x+3)-x/y"};
+			aliasTestValues = new double[] {1.5, -0.5};
+			InterpreterTest ("Interpreter 4:", expressionSet, aliasTestValues, "a = 12");
 
 			Console.WriteLine ();
 			FindOperandTest ("5", 0, aliasTestValues, 0, 5);

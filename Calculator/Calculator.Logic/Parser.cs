@@ -76,13 +76,28 @@ namespace Calculator.Logic
 			if (isNegative) 
 				result.Insert (0, '-');
 
-
 			if (!isInt) {
 				while (result [result.Length - 1] == '0') {
 					result.Remove (result.Length - 1, 1);
 				}
 			}
 
+			return result.ToString ();
+		}
+
+		static public char ToLowerCase (char symbol) {
+			int code = (int)symbol;
+			if ((int)'A' <= code && code <= (int)'Z') 
+				return (char) (code - (int) 'A' + (int) 'a');
+			else
+				return symbol;
+		}
+
+		static public string ToLowerCase (string input) {
+			StringBuilder result = new StringBuilder ();
+			for (int i = 0; i < input.Length; i++) {
+				result.Append (ToLowerCase (input [i]));
+			}
 			return result.ToString ();
 		}
 
@@ -170,9 +185,15 @@ namespace Calculator.Logic
 			return true;
 		}
 
-		static public void Assign (string name, double value) {
-			//to do: if exists, change variable value
-			variables.Add (name, value);
+		static public void AssignVariable (string name, double value) {
+			variables [name] = value;
+		}
+
+		static public bool IsVariable (string name) {
+			if (variables.Contains (name))
+				return true;
+			else
+				return false;
 		}
 
 		static public int FindAlias (string input, int startPosition, out double value, Func<string, double> getValueByAlias) {
@@ -192,16 +213,16 @@ namespace Calculator.Logic
 					if (IsIdentifierChar (currentSymbol, false)) {
 						alias.Append (currentSymbol);
 						endPosition = i;
-					} else if (currentSymbol == '=') {
-						// ? check for invalid expression : whether i == input.Length - 1
-						if (aliasesLocal.Contains (alias.ToString ())) {
-							throw new Exception ("Invalid string: Cannot assign new value to existing alias");
-							// Consider ending up calculations and waiting for new expression from user in case of invalid srtring
-						}
-						string substring = input.Substring (i + 1);
-						value = StringToDouble (Interpreter.ProcessExpression (substring, getValueByAlias));
-						variablesLocal [alias.ToString ()] = value;
-						return input.Length;
+						/*} else if (currentSymbol == '=') {
+                        // ? check for invalid expression : whether i == input.Length - 1
+                        if (aliasesLocal.Contains (alias.ToString ())) {
+                            throw new Exception ("Invalid string: Cannot assign new value to existing alias");
+                            // Consider ending up calculations and waiting for new expression from user in case of invalid srtring
+                        }
+                        string substring = input.Substring (i + 1);
+                        value = StringToDouble (Interpreter.ProcessExpression (substring, getValueByAlias));
+                        variablesLocal [alias.ToString ()] = value;
+                        return input.Length;*/
 					} else
 						aliasEnd = true;
 				}
@@ -339,4 +360,3 @@ namespace Calculator.Logic
 		}
 	}
 }
-

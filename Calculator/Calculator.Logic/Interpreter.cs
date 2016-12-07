@@ -101,15 +101,15 @@ namespace Calculator.Logic
 			int assignPosition = statement.IndexOf ('=');
 			if (assignPosition > 0) {
 				string expression = statement.Substring (assignPosition + 1);
-				string assignee = statement.Substring (0, assignPosition - 1);
-				if (!Parser.CheckVariable (assignee)) {
-					throw new Exception ("Invalid expression: Cannot assign value to " + assignee);
-				} else {
+				if (expression.IndexOf ('=') >= 0)
+					throw new Exception ("Invalid expression: Assignment under assignment");
+				string assignee = statement.Substring (0, assignPosition);
+				if (Parser.CheckVariable (assignee) && (expression.IndexOf(assignee) < 0 || Parser.IsVariable (assignee))) {
 					string value = ProcessExpression (expression, getValueByAlias);
-					//to do: check that assignee is not present in expression
 					result = assignee + " = " + value;
-					Parser.Assign (assignee, Parser.StringToDouble (value));
-				}
+					Parser.AssignVariable (assignee, Parser.StringToDouble (value));
+				} else
+					throw new Exception ("Invalid expression: Cannot assign value to " + assignee);
 			} else {
 				result = ProcessExpression (statement, getValueByAlias);
 			}
@@ -134,7 +134,7 @@ namespace Calculator.Logic
 				operators.Add (currentOperator);
 				if (currentOperator != OperatorCode.factorial)
 					currentOperand = expression.ReadOperand ();
-				operands.Add (currentOperand);				
+				operands.Add (currentOperand);                
 			}
 			result = Parser.DoubleToString (Calculate (operators, operands));
 			Parser.MergeLocals (); //move to Run method?
@@ -147,9 +147,9 @@ namespace Calculator.Logic
 			while (!finish) {
 				string input = getExpression ();
 				string output;
-				if (input != "q" && input != "Q") {
+				if (Parser.ToLowerCase (input) != "q") {
 					try {
-						output = ProcessExpression (input, getValueByAlias);
+						output = ProcessStatement (input, getValueByAlias);
 					} catch (Exception e) {
 						output = e.Message;
 					}
