@@ -22,26 +22,8 @@ namespace Calculator.UI
 					return true;
 			};
 
-			Func<string, double> getValueByAliasUI = (newAlias) => {
-				bool isValueReceived = false;
-				double value = 0;
-				while (!isValueReceived) {
-					Console.WriteLine ("Enter value of variable " + newAlias);
-					string aliasValueString = Console.ReadLine ();
-					int inputIsDouble = 0;
-					double aliasValue = StringToDouble (aliasValueString, out inputIsDouble);
-					if (inputIsDouble == 1) {
-						value = aliasValue;
-						isValueReceived = true;
-					} else {
-						Console.WriteLine ("Invalid input");
-					}
-				}
-				return value;
-			};
-
 			Console.WriteLine ("Enter expression for calculation (q to quit)");
-			Interpreter.Run (getExpression, outputAction, getValueByAliasUI);
+			Interpreter.Run (getExpression, outputAction);
 		}
 	}
 }

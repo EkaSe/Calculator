@@ -10,18 +10,9 @@ namespace Calculator
 	{
 		static int FailedTestsCount = 0;
 
-		static public void CalculatorTest (string input, double[] aliasValuesArray, string expectedOutput)
+		static public void CalculatorTest (string input, string expectedOutput)
 		{
-
-			int aliasIndex = 0;
-
-			Func<string, double> getValueByAliasTest = (newAlias) => {
-				double value = aliasValuesArray [aliasIndex];
-				aliasIndex++;
-				return value;
-			};
-
-			string result = ProcessExpression (input, getValueByAliasTest);
+			string result = ProcessExpression (input);
 			if (result == expectedOutput)
 				Console.WriteLine ("Test " + input + " = " + expectedOutput + " passed");
 			else {
@@ -30,10 +21,8 @@ namespace Calculator
 			}
 		}
 
-		static public void InterpreterTest (string testName, string[] input, double[] aliasValuesArray, string expectedOutput)
+		static public void InterpreterTest (string testName, string[] input, string expectedOutput)
 		{
-
-			int aliasIndex = 0;
 			int expressionIndex = 0;
 			string result = null;
 
@@ -50,13 +39,7 @@ namespace Calculator
 				}
 			};
 
-			Func<string, double> getValueByAliasTest = (newAlias) => {
-				double value = aliasValuesArray [aliasIndex];
-				aliasIndex++;
-				return value;
-			};
-
-			Interpreter.Run (getExpression, outputAction, getValueByAliasTest);
+			Interpreter.Run (getExpression, outputAction);
 			if (result == expectedOutput)
 				Console.WriteLine ("Test " + testName + " passed");
 			else {
@@ -65,17 +48,10 @@ namespace Calculator
 			}
 		}
 
-		static public void FindOperandTest (string input, int startPosition, double[] aliasValuesArray, int expectedPosition, double expectedResult)
+		static public void FindOperandTest (string input, int startPosition, int expectedPosition, double expectedResult)
 		{
-			int aliasIndex = 0;
-			Func<string, double> getValueByAliasTest = (newAlias) => {
-				double value = aliasValuesArray [aliasIndex];
-				aliasIndex++;
-				return value;
-			};
-
 			double result;
-			int foundPosition = FindOperand (input, startPosition, out result, getValueByAliasTest);
+			int foundPosition = FindOperand (input, startPosition, out result);
 			if (foundPosition == expectedPosition && result == expectedResult)
 				Console.WriteLine ("Test: First operand in " + input + " with start posiion " + startPosition 
 					+ " is " + expectedResult + " passed");
@@ -117,49 +93,47 @@ namespace Calculator
 			DoubleToStringTest (1234567890.123456, "1234567890.123456");
 
 			Console.WriteLine ();
-			double[] aliasTestValues = new double[] { }; 
-			CalculatorTest ("12", aliasTestValues, "12");
-			CalculatorTest ("-12", aliasTestValues, "-12");
-			CalculatorTest ("+12.34", aliasTestValues, "12.34");
-			CalculatorTest ("2+3", aliasTestValues, "5");
-			CalculatorTest ("2-2", aliasTestValues, "0");
-			CalculatorTest ("10-5", aliasTestValues, "5");
-			CalculatorTest ("7*8", aliasTestValues, "56");
-			CalculatorTest ("32/8", aliasTestValues, "4");
-			CalculatorTest ("2+8/2", aliasTestValues, "6");
-			CalculatorTest ("(2+2)*2", aliasTestValues, "8");
-			CalculatorTest ("1+(1+2*(3-2))", aliasTestValues, "4");
-			CalculatorTest ("1 * 3 * 4", aliasTestValues, "12");
-			CalculatorTest ("10/7*14", aliasTestValues, "20");
-			//CalculatorTest ("3^2^2", aliasTestValues, "81");
-			CalculatorTest ("-7+3", aliasTestValues, "-4");
-			CalculatorTest ("5.5+2.15", aliasTestValues, "7.65");
-			//CalculatorTest ("4^(1/2)", aliasTestValues, "2");
-			//CalculatorTest ("0.125^(-1/3)", aliasTestValues, "2");
-			aliasTestValues = new double[] {1.5, -0.5};
-			CalculatorTest ("2*(x+3)-x/y", aliasTestValues, "12");
+			CalculatorTest ("12", "12");
+			CalculatorTest ("-12", "-12");
+			CalculatorTest ("+12.34", "12.34");
+			CalculatorTest ("2+3", "5");
+			CalculatorTest ("2-2", "0");
+			CalculatorTest ("10-5", "5");
+			CalculatorTest ("7*8", "56");
+			CalculatorTest ("32/8", "4");
+			CalculatorTest ("2+8/2", "6");
+			CalculatorTest ("(2+2)*2", "8");
+			CalculatorTest ("1+(1+2*(3-2))", "4");
+			CalculatorTest ("1 * 3 * 4", "12");
+			CalculatorTest ("10/7*14", "20");
+			//CalculatorTest ("3^2^2", "81");
+			CalculatorTest ("-7+3", "-4");
+			CalculatorTest ("5.5+2.15", "7.65");
+			//CalculatorTest ("4^(1/2)", "2");
+			//CalculatorTest ("0.125^(-1/3)", "2");
+			CalculatorTest ("2*(x+3)-x/y", "12");
 
 			Console.WriteLine ();
-			aliasTestValues = new double[] { }; 
 			string[] expressionSet = new string[] {"x=3","x-1"};
-			InterpreterTest ("Interpreter 1:", expressionSet, aliasTestValues, "2");
+			InterpreterTest ("Interpreter 1:", expressionSet, "2");
 			expressionSet = new string[] {"x = x - 3"};
-			InterpreterTest ("Interpreter 2: x = x -3 ", expressionSet, aliasTestValues, "Invalid expression: Cannot assign value to x");
+			InterpreterTest ("Interpreter 2: x = x -3 ", expressionSet, "Invalid expression: Cannot assign value to x");
 			expressionSet = new string[] {"/"};
-			InterpreterTest ("Interpreter 3: no operand ", expressionSet, aliasTestValues, "Invalid expression: no operand found");
+			InterpreterTest ("Interpreter 3: no operand ", expressionSet, "Invalid expression: no operand found");
 			expressionSet = new string[] {"a = 2*(x+3)-x/y"};
-			aliasTestValues = new double[] {1.5, -0.5};
-			InterpreterTest ("Interpreter 4:", expressionSet, aliasTestValues, "a = 12");
+			InterpreterTest ("Interpreter 4:", expressionSet, "a = 12");
+			expressionSet = new string[] {"x=3","x=x-1"};
+			InterpreterTest ("Interpreter 5:", expressionSet, "x = 2");
 
 			Console.WriteLine ();
-			FindOperandTest ("5", 0, aliasTestValues, 0, 5);
-			FindOperandTest ("10", 0, aliasTestValues, 1, 10);
-			FindOperandTest ("05", 1, aliasTestValues, 1, 5);
-			FindOperandTest ("0.1", 0, aliasTestValues, 2, 0.1);
-			FindOperandTest ("+50-5", 3, aliasTestValues, 4, -5);
-			FindOperandTest ("(17+2)*2", 0, aliasTestValues, 5, 19);
-			FindOperandTest ("-10.258", 0, aliasTestValues, 6, -10.258);
-			FindOperandTest ("15.8 * (-8.4 / 2.1)", 6, aliasTestValues, 18, -4);
+			FindOperandTest ("5", 0, 0, 5);
+			FindOperandTest ("10", 0, 1, 10);
+			FindOperandTest ("05", 1, 1, 5);
+			FindOperandTest ("0.1", 0, 2, 0.1);
+			FindOperandTest ("+50-5", 3, 4, -5);
+			FindOperandTest ("(17+2)*2", 0, 5, 19);
+			FindOperandTest ("-10.258", 0, 6, -10.258);
+			FindOperandTest ("15.8 * (-8.4 / 2.1)", 6, 18, -4);
 			Console.WriteLine ();
 			FindOperatorTest ("4 + 5", 0, 2, OperatorCode.plus);
 			FindOperatorTest ("10", 0, -1, OperatorCode.unknown);

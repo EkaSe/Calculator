@@ -95,7 +95,7 @@ namespace Calculator.Logic
 			return result;
 		}
 
-		static public string ProcessStatement (string input, Func<string, double> getValueByAlias) {
+		static public string ProcessStatement (string input) {
 			string statement = Parser.SkipSpaces (input);
 			string result;
 			int assignPosition = statement.IndexOf ('=');
@@ -104,27 +104,28 @@ namespace Calculator.Logic
 				if (expression.IndexOf ('=') >= 0)
 					throw new Exception ("Invalid expression: Assignment under assignment");
 				string assignee = statement.Substring (0, assignPosition);
-				if (Parser.CheckVariable (assignee) && (expression.IndexOf(assignee) < 0 || Parser.IsVariable (assignee))) {
-					string value = ProcessExpression (expression, getValueByAlias);
+				if (Variables.CheckVariable (assignee) && (expression.IndexOf(assignee) < 0 || Variables.IsVariable (assignee))) {
+					string value = ProcessExpression (expression);
 					result = assignee + " = " + value;
-					Parser.AssignVariable (assignee, Parser.StringToDouble (value));
+					//assign to locals first
+					Variables.AssignVariable (assignee, Parser.StringToDouble (value));
 				} else
 					throw new Exception ("Invalid expression: Cannot assign value to " + assignee);
 			} else {
-				result = ProcessExpression (statement, getValueByAlias);
+				result = ProcessExpression (statement);
 			}
 			return result;
 		}
 
-		static public string ProcessExpression (string input, Func<string, double> getValueByAlias)
+		static public string ProcessExpression (string input)
 		{
 			MyLinkedList<OperatorCode> operators = new MyLinkedList<OperatorCode> ();
 			MyLinkedList<double> operands = new MyLinkedList<double> ();
-			Parser.CreateLocals (); //move to Run method?
+			Variables.CreateLocals (); //move to Run method?
 			double currentOperand = 0;
 			OperatorCode currentOperator;
 			string result;
-			ParsedStream expression = new ParsedStream (input, getValueByAlias);
+			ParsedStream expression = new ParsedStream (input);
 			if (expression.IsEnd)
 				throw new Exception ("Invalid expression: no operand found");
 			currentOperand = expression.ReadOperand (); 
@@ -137,19 +138,19 @@ namespace Calculator.Logic
 				operands.Add (currentOperand);                
 			}
 			result = Parser.DoubleToString (Calculate (operators, operands));
-			Parser.MergeLocals (); //move to Run method?
+			Variables.MergeLocals (); //move to Run method?
 			return result;
 		}
 
-		static public void Run (Func<string> getExpression, Func<string, bool> outputAction, Func<string, double> getValueByAlias) {
-			Parser.ClearDictionaries ();
+		static public void Run (Func<string> getExpression, Func<string, bool> outputAction) {
+			Variables.ClearDictionaries ();
 			bool finish = false;
 			while (!finish) {
 				string input = getExpression ();
 				string output;
 				if (Parser.ToLowerCase (input) != "q") {
 					try {
-						output = ProcessStatement (input, getValueByAlias);
+						output = ProcessStatement (input);
 					} catch (Exception e) {
 						output = e.Message;
 					}

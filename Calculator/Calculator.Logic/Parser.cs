@@ -7,6 +7,7 @@ namespace Calculator.Logic
 {
 	public class Parser
 	{
+		/*
 		static MyDictionary <string, double> aliasesLocal;
 		static MyDictionary <string, double> variablesLocal;
 
@@ -27,6 +28,34 @@ namespace Calculator.Logic
 			aliases = new MyDictionary<string, double> ();
 			variables = new MyDictionary<string, double> ();
 		}
+
+		static public bool CheckVariable (string input) {
+			if (aliases.Contains (input))
+				return false;
+			if (input.Length == 0)
+				return false;
+			if (variables.Contains (input))
+				return true;
+			if (!IsIdentifierChar (input [0], true))
+				return false;
+			for (int i = 0; i < input.Length; i++) {
+				if (!IsIdentifierChar (input [i], false))
+					return false;
+			}
+			return true;
+		}
+
+		static public void AssignVariable (string name, double value) {
+			variables [name] = value;
+		}
+
+		static public bool IsVariable (string name) {
+			if (variables.Contains (name))
+				return true;
+			else
+				return false;
+		}
+		*/
 
 		static public int CharToDigit (char symbol) {
 			int code = (int) symbol;
@@ -169,34 +198,7 @@ namespace Calculator.Logic
 			return result;
 		}
 
-		static public bool CheckVariable (string input) {
-			if (aliases.Contains (input))
-				return false;
-			if (input.Length == 0)
-				return false;
-			if (variables.Contains (input))
-				return true;
-			if (!IsIdentifierChar (input [0], true))
-				return false;
-			for (int i = 0; i < input.Length; i++) {
-				if (!IsIdentifierChar (input [i], false))
-					return false;
-			}
-			return true;
-		}
-
-		static public void AssignVariable (string name, double value) {
-			variables [name] = value;
-		}
-
-		static public bool IsVariable (string name) {
-			if (variables.Contains (name))
-				return true;
-			else
-				return false;
-		}
-
-		static public int FindAlias (string input, int startPosition, out double value, Func<string, double> getValueByAlias) {
+		static public int FindAlias (string input, int startPosition, out double value) {
 			value = 0;
 			int endPosition = -1;
 			StringBuilder alias = new StringBuilder ();
@@ -213,34 +215,21 @@ namespace Calculator.Logic
 					if (IsIdentifierChar (currentSymbol, false)) {
 						alias.Append (currentSymbol);
 						endPosition = i;
-						/*} else if (currentSymbol == '=') {
-                        // ? check for invalid expression : whether i == input.Length - 1
-                        if (aliasesLocal.Contains (alias.ToString ())) {
-                            throw new Exception ("Invalid string: Cannot assign new value to existing alias");
-                            // Consider ending up calculations and waiting for new expression from user in case of invalid srtring
-                        }
-                        string substring = input.Substring (i + 1);
-                        value = StringToDouble (Interpreter.ProcessExpression (substring, getValueByAlias));
-                        variablesLocal [alias.ToString ()] = value;
-                        return input.Length;*/
 					} else
 						aliasEnd = true;
 				}
 				i++;
 			}
 			string aliasString = alias.ToString ();
-			if (aliasesLocal.Contains (aliasString)) {
-				value = aliasesLocal [aliasString];
-			} else if (variablesLocal.Contains (aliasString)) {
-				value = variablesLocal [aliasString];
+			if (Variables.IsLocal (aliasString)) {
+				value = Variables.GetLocal (aliasString);
 			} else {
-				value = getValueByAlias (aliasString);
-				aliasesLocal.Add (aliasString, value);
+				throw new Exception ("Invalid expression: {0} doesn't exist yet", aliasString);
 			}
 			return endPosition;
 		}
 
-		static public int FindOperand (string input, int startPosition, out double operand, Func<string, double> getValueByAlias) {
+		static public int FindOperand (string input, int startPosition, out double operand) {
 			operand = 0;
 			double currentDecimal = -1;
 			double mantissaLength = 1;
@@ -255,12 +244,12 @@ namespace Calculator.Logic
 				i++;
 			char currentSymbol = input [i];
 			if (IsLetter (currentSymbol) || currentSymbol == '_') {
-				endPosition = FindAlias (input, i, out operand, getValueByAlias);
+				endPosition = FindAlias (input, i, out operand);
 				operandEnd = true;
 			} else if (currentSymbol == '(') {
 				string substring; 
 				int parenthesisEnd = FindClosingParenthesis (input, i, out substring);
-				operand = StringToDouble (Interpreter.ProcessExpression (substring, getValueByAlias));
+				operand = StringToDouble (Interpreter.ProcessExpression (substring));
 				endPosition = parenthesisEnd;
 				operandEnd = true;
 			} else if (CharToDigit (currentSymbol) < 0)

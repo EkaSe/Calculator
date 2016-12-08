@@ -35,6 +35,7 @@
     <Compile Include="Parser.cs" />
     <Compile Include="ParsedStream.cs" />
     <Compile Include="Interpreter.cs" />
+    <Compile Include="Variables.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

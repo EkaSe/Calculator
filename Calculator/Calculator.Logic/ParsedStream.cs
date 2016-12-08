@@ -18,20 +18,18 @@ namespace Calculator.Logic
 			}
 			private set { isEnd = value; }
 		}
-		private Func<string, double> getValueByAlias;
 
-		public ParsedStream (string input, Func<string, double> getValueByAliasFunc) {
+		public ParsedStream (string input) {
 			expression = Parser.SkipSpaces (input);
 			currentPosition = 0;
 			if (expression.Length > 0) 
 				isEnd = false;
 			else isEnd = true;
-			getValueByAlias = getValueByAliasFunc;
 		}
 
 		public double ReadOperand () {
 			double operand;
-			currentPosition = Parser.FindOperand (expression, currentPosition, out operand, getValueByAlias);
+			currentPosition = Parser.FindOperand (expression, currentPosition, out operand);
 			if (currentPosition == -1)
 				isEnd = true;
 			currentPosition++;
