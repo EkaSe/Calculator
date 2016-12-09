@@ -98,6 +98,7 @@ namespace Calculator.Logic
 		static public string ProcessStatement (string input) {
 			string statement = Parser.SkipSpaces (input);
 			string result;
+			Variables.CreateLocals (); 
 			int assignPosition = statement.IndexOf ('=');
 			if (assignPosition > 0) {
 				string expression = statement.Substring (assignPosition + 1);
@@ -107,13 +108,13 @@ namespace Calculator.Logic
 				if (Variables.CheckVariable (assignee) && (expression.IndexOf(assignee) < 0 || Variables.IsVariable (assignee))) {
 					string value = ProcessExpression (expression);
 					result = assignee + " = " + value;
-					//assign to locals first
-					Variables.AssignVariable (assignee, Parser.StringToDouble (value));
+					Variables.AssignLocal (assignee, Parser.StringToDouble (value));
 				} else
 					throw new Exception ("Invalid expression: Cannot assign value to " + assignee);
 			} else {
 				result = ProcessExpression (statement);
 			}
+			Variables.MergeLocals ();
 			return result;
 		}
 
@@ -121,7 +122,6 @@ namespace Calculator.Logic
 		{
 			MyLinkedList<OperatorCode> operators = new MyLinkedList<OperatorCode> ();
 			MyLinkedList<double> operands = new MyLinkedList<double> ();
-			Variables.CreateLocals (); //move to Run method?
 			double currentOperand = 0;
 			OperatorCode currentOperator;
 			string result;
@@ -138,7 +138,6 @@ namespace Calculator.Logic
 				operands.Add (currentOperand);                
 			}
 			result = Parser.DoubleToString (Calculate (operators, operands));
-			Variables.MergeLocals (); //move to Run method?
 			return result;
 		}
 

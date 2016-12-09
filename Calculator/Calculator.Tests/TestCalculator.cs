@@ -12,13 +12,9 @@ namespace Calculator
 
 		static public void CalculatorTest (string input, string expectedOutput)
 		{
-			string result = ProcessExpression (input);
-			if (result == expectedOutput)
-				Console.WriteLine ("Test " + input + " = " + expectedOutput + " passed");
-			else {
-				Console.WriteLine ("Test " + input + " = " + expectedOutput + " failed");
-				FailedTestsCount++;
-			}
+			string testName = input;
+			string [] expressionSet = new string [] {input};
+			InterpreterTest (testName, expressionSet, expectedOutput);
 		}
 
 		static public void InterpreterTest (string testName, string[] input, string expectedOutput)
@@ -57,7 +53,7 @@ namespace Calculator
 					+ " is " + expectedResult + " passed");
 			else {
 				Console.WriteLine ("Test: First operand in " + input + " with start posiion " + startPosition 
-				+ " is " + expectedResult + " failed");
+					+ " is " + expectedResult + " failed");
 				FailedTestsCount++;
 			}
 		}
@@ -71,7 +67,7 @@ namespace Calculator
 					+ " is " + expectedResult + " passed");
 			else {
 				Console.WriteLine ("Test: First operator in " + input + " with start posiion " + startPosition 
-				+ " is " + expectedResult + " failed");
+					+ " is " + expectedResult + " failed");
 				FailedTestsCount++;
 			}
 		}
@@ -111,7 +107,6 @@ namespace Calculator
 			CalculatorTest ("5.5+2.15", "7.65");
 			//CalculatorTest ("4^(1/2)", "2");
 			//CalculatorTest ("0.125^(-1/3)", "2");
-			CalculatorTest ("2*(x+3)-x/y", "12");
 
 			Console.WriteLine ();
 			string[] expressionSet = new string[] {"x=3","x-1"};
@@ -120,7 +115,7 @@ namespace Calculator
 			InterpreterTest ("Interpreter 2: x = x -3 ", expressionSet, "Invalid expression: Cannot assign value to x");
 			expressionSet = new string[] {"/"};
 			InterpreterTest ("Interpreter 3: no operand ", expressionSet, "Invalid expression: no operand found");
-			expressionSet = new string[] {"a = 2*(x+3)-x/y"};
+			expressionSet = new string[] {"x = 3 / 2","y=x/(-3)","a = 2*(x+3)-x/y"};
 			InterpreterTest ("Interpreter 4:", expressionSet, "a = 12");
 			expressionSet = new string[] {"x=3","x=x-1"};
 			InterpreterTest ("Interpreter 5:", expressionSet, "x = 2");
@@ -149,4 +144,3 @@ namespace Calculator
 		}
 	}
 }
-

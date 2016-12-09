@@ -9,10 +9,6 @@ namespace Calculator.Logic
 		static MyDictionary <string, double> locals;
 		static MyDictionary <string, double> variables = new MyDictionary<string, double> ();
 
-		/*public Variables () {
-			variables = new MyDictionary<string, double> ();
-		}*/
-
 		static public void CreateLocals () {
 			locals = variables;
 		}
@@ -66,4 +62,3 @@ namespace Calculator.Logic
 		}
 	}
 }
-

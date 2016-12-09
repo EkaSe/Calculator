@@ -8,54 +8,47 @@ namespace Calculator.Logic
 	public class Parser
 	{
 		/*
-		static MyDictionary <string, double> aliasesLocal;
-		static MyDictionary <string, double> variablesLocal;
-
-		static MyDictionary <string, double> aliases = new MyDictionary<string, double> ();
-		static MyDictionary <string, double> variables = new MyDictionary<string, double> ();
-
-		static public void CreateLocals () {
-			aliasesLocal = aliases;
-			variablesLocal = variables;
-		}
-
-		static public void MergeLocals() {
-			aliases = aliasesLocal;
-			variables = variablesLocal;
-		}
-
-		static public void ClearDictionaries () {
-			aliases = new MyDictionary<string, double> ();
-			variables = new MyDictionary<string, double> ();
-		}
-
-		static public bool CheckVariable (string input) {
-			if (aliases.Contains (input))
-				return false;
-			if (input.Length == 0)
-				return false;
-			if (variables.Contains (input))
-				return true;
-			if (!IsIdentifierChar (input [0], true))
-				return false;
-			for (int i = 0; i < input.Length; i++) {
-				if (!IsIdentifierChar (input [i], false))
-					return false;
-			}
-			return true;
-		}
-
-		static public void AssignVariable (string name, double value) {
-			variables [name] = value;
-		}
-
-		static public bool IsVariable (string name) {
-			if (variables.Contains (name))
-				return true;
-			else
-				return false;
-		}
-		*/
+        static MyDictionary <string, double> aliasesLocal;
+        static MyDictionary <string, double> variablesLocal;
+        static MyDictionary <string, double> aliases = new MyDictionary<string, double> ();
+        static MyDictionary <string, double> variables = new MyDictionary<string, double> ();
+        static public void CreateLocals () {
+            aliasesLocal = aliases;
+            variablesLocal = variables;
+        }
+        static public void MergeLocals() {
+            aliases = aliasesLocal;
+            variables = variablesLocal;
+        }
+        static public void ClearDictionaries () {
+            aliases = new MyDictionary<string, double> ();
+            variables = new MyDictionary<string, double> ();
+        }
+        static public bool CheckVariable (string input) {
+            if (aliases.Contains (input))
+                return false;
+            if (input.Length == 0)
+                return false;
+            if (variables.Contains (input))
+                return true;
+            if (!IsIdentifierChar (input [0], true))
+                return false;
+            for (int i = 0; i < input.Length; i++) {
+                if (!IsIdentifierChar (input [i], false))
+                    return false;
+            }
+            return true;
+        }
+        static public void AssignVariable (string name, double value) {
+            variables [name] = value;
+        }
+        static public bool IsVariable (string name) {
+            if (variables.Contains (name))
+                return true;
+            else
+                return false;
+        }
+        */
 
 		static public int CharToDigit (char symbol) {
 			int code = (int) symbol;
@@ -224,7 +217,7 @@ namespace Calculator.Logic
 			if (Variables.IsLocal (aliasString)) {
 				value = Variables.GetLocal (aliasString);
 			} else {
-				throw new Exception ("Invalid expression: {0} doesn't exist yet", aliasString);
+				throw new Exception ("Invalid expression: " + aliasString + " doesn't exist yet");
 			}
 			return endPosition;
 		}
