@@ -7,49 +7,6 @@ namespace Calculator.Logic
 {
 	public class Parser
 	{
-		/*
-        static MyDictionary <string, double> aliasesLocal;
-        static MyDictionary <string, double> variablesLocal;
-        static MyDictionary <string, double> aliases = new MyDictionary<string, double> ();
-        static MyDictionary <string, double> variables = new MyDictionary<string, double> ();
-        static public void CreateLocals () {
-            aliasesLocal = aliases;
-            variablesLocal = variables;
-        }
-        static public void MergeLocals() {
-            aliases = aliasesLocal;
-            variables = variablesLocal;
-        }
-        static public void ClearDictionaries () {
-            aliases = new MyDictionary<string, double> ();
-            variables = new MyDictionary<string, double> ();
-        }
-        static public bool CheckVariable (string input) {
-            if (aliases.Contains (input))
-                return false;
-            if (input.Length == 0)
-                return false;
-            if (variables.Contains (input))
-                return true;
-            if (!IsIdentifierChar (input [0], true))
-                return false;
-            for (int i = 0; i < input.Length; i++) {
-                if (!IsIdentifierChar (input [i], false))
-                    return false;
-            }
-            return true;
-        }
-        static public void AssignVariable (string name, double value) {
-            variables [name] = value;
-        }
-        static public bool IsVariable (string name) {
-            if (variables.Contains (name))
-                return true;
-            else
-                return false;
-        }
-        */
-
 		static public int CharToDigit (char symbol) {
 			int code = (int) symbol;
 			int digit;
@@ -191,9 +148,9 @@ namespace Calculator.Logic
 			return result;
 		}
 
-		static public int FindAlias (string input, int startPosition, out double value) {
-			value = 0;
+		static public int FindName (string input, int startPosition, out string name) {
 			int endPosition = -1;
+			name = null;
 			StringBuilder alias = new StringBuilder ();
 			bool aliasEnd = false;
 			int i = startPosition;
@@ -213,8 +170,21 @@ namespace Calculator.Logic
 				}
 				i++;
 			}
-			string aliasString = alias.ToString ();
-			if (Variables.IsLocal (aliasString)) {
+			name = alias.ToString ();
+			return endPosition;
+		}
+
+		static public int FindAlias (string input, int startPosition, out double value) {
+			value = 0;
+			string aliasString;
+			int endPosition = FindName (input, startPosition, out aliasString);
+			if (BuiltInFunc.IsFunctionName (aliasString) && endPosition != input.Length - 1 && input [endPosition + 1] == '(') {
+				//treat aliasString as variable if no arguments follow?
+				string arguments; 
+				endPosition = FindClosingParenthesis (input, endPosition + 1, out arguments);
+				BuiltInFunc BIF = new BuiltInFunc (aliasString, arguments);
+				value = BIF.Calculate ();
+			} else if (Variables.IsLocal (aliasString)) {
 				value = Variables.GetLocal (aliasString);
 			} else {
 				throw new Exception ("Invalid expression: " + aliasString + " doesn't exist yet");
@@ -278,41 +248,41 @@ namespace Calculator.Logic
 			return endPosition;
 		}
 
-		static public int FindOperator (string input, int startPosition, out Interpreter.OperatorCode firstOperator) {
+		static public int FindOperator (string input, int startPosition, out OperatorCode firstOperator) {
 			int operatorPosition = -1;
 			bool operatorFound = false;
 			int i = startPosition;
-			firstOperator = Interpreter.OperatorCode.unknown;
+			firstOperator = OperatorCode.unknown;
 			while (!operatorFound && i < input.Length) {
 				char currentSymbol = input [i];
 				switch (currentSymbol) {
 				case '+': 
-					firstOperator = Interpreter.OperatorCode.plus;
+					firstOperator = OperatorCode.plus;
 					operatorPosition = i;
 					operatorFound = true;
 					break;
 				case '-': 
-					firstOperator = Interpreter.OperatorCode.minus;
+					firstOperator = OperatorCode.minus;
 					operatorPosition = i;
 					operatorFound = true;
 					break;
 				case '*': 
-					firstOperator = Interpreter.OperatorCode.multiply;
+					firstOperator = OperatorCode.multiply;
 					operatorPosition = i;
 					operatorFound = true;
 					break;
 				case '/': 
-					firstOperator = Interpreter.OperatorCode.divide;
+					firstOperator = OperatorCode.divide;
 					operatorPosition = i;
 					operatorFound = true;
 					break;
 				case '!': 
-					firstOperator = Interpreter.OperatorCode.factorial;
+					firstOperator = OperatorCode.factorial;
 					operatorPosition = i;
 					operatorFound = true;
 					break;
 				case '^': 
-					firstOperator = Interpreter.OperatorCode.degree;
+					firstOperator = OperatorCode.degree;
 					operatorPosition = i;
 					operatorFound = true;
 					break;

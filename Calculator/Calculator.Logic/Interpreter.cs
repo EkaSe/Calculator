@@ -7,15 +7,6 @@ namespace Calculator.Logic
 {
 	public class Interpreter
 	{
-		public enum OperatorCode {
-			plus,
-			minus,
-			multiply,
-			divide,
-			degree,
-			factorial,
-			unknown
-		};
 
 		static private int Priority (OperatorCode currentOperator){
 			int result = 0;

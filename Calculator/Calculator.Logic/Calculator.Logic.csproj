@@ -35,7 +35,10 @@
     <Compile Include="Parser.cs" />
     <Compile Include="ParsedStream.cs" />
     <Compile Include="Interpreter.cs" />
-    <Compile Include="Variables.cs" />
+    <Compile Include="ExpressionParts\BuiltInFunc.cs" />
+    <Compile Include="ExpressionParts\MyOperator.cs" />
+    <Compile Include="ExpressionParts\Operand.cs" />
+    <Compile Include="ExpressionParts\Variables.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -43,5 +46,8 @@
       <Project>{764A4ABC-C59C-4117-89F4-5D39F1B9432E}</Project>
       <Name>MyLibrary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ExpressionParts\" />
   </ItemGroup>
 </Project>
