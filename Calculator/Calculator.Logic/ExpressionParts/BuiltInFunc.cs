@@ -11,21 +11,26 @@ namespace Calculator.Logic
 		sqrt
 	};
 
-	public class BuiltInFunc
-	{
-		BIFName ID = BIFName.undefinedFunc;
+	public class BuiltInFunc: Operand {
 		int operandCount;
-		MyList <Operand> operands;
+		MyList <Operand> operands; 
 
-		public BuiltInFunc () {
-		}
-
-		public BuiltInFunc (string name, string arguments) {
-			ID = CheckFunctionName (name);
-			double arg;
-			//int endPosition = Parser.FindOperand (arguments, 0, out arg);
-			//endPosition++;
-			//endPostion == arguments.Length || arguments [endPosition] == ","
+		public BuiltInFunc (string name, string arguments) : base() {
+			BIFName ID = CheckFunctionName (name);
+			operands = new MyList<Operand> ();
+			operandCount = 0;
+			StringBuilder newArg = new StringBuilder ();
+			for (int i = 0; i < arguments.Length; i++) {
+				if (arguments [i] == ',') {
+					newArg.Append (arguments [i]);
+				} else {
+					double newValue;
+					Parser.FindOperand (newArg.ToString (), 0, out newValue);
+					operands.Add (new Operand(newValue)); 
+					operandCount++;
+					newArg = new StringBuilder ();
+				}
+			}
 		}
 
 		public double Calculate () {

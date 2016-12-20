@@ -6,6 +6,7 @@ namespace Calculator.Tests
 	{
 		public static void Main (string[] args)
 		{
+			Calculator.Logic.Prerequisites.RegisterOperators ();
 			TestCalculator.RunTests ();
 		}
 	}

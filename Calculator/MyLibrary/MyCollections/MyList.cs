@@ -15,6 +15,11 @@ namespace MyLibrary
 			Elements = new T[Capacity];
 		}
 
+		public T this [int key] {
+			get { return Elements [key]; }
+			set { Elements [key] = value; }
+		}
+
 		public MyList (T[] inputList)
 		{
 			Elements = inputList;

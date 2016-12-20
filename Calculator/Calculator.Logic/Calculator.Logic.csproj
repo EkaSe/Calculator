@@ -39,6 +39,7 @@
     <Compile Include="ExpressionParts\MyOperator.cs" />
     <Compile Include="ExpressionParts\Operand.cs" />
     <Compile Include="ExpressionParts\Variables.cs" />
+    <Compile Include="Properties\Prerequisites.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

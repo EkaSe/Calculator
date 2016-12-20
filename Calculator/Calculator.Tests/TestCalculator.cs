@@ -138,8 +138,6 @@ namespace Calculator
 			FindOperatorTest ("8!", 1, 1, OperatorCode.factorial);
 			FindOperatorTest ("2.05^2", 1, 4, OperatorCode.degree);
 
-			//Console.WriteLine (BuiltInFunc.CheckFunctionName ("MAX"));
-
 			MyCollectionTest.MyListTest ();
 
 			Console.WriteLine ("\r\n" + FailedTestsCount + " tests failed");
