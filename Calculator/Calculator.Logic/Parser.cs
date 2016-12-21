@@ -178,13 +178,13 @@ namespace Calculator.Logic
 			value = 0;
 			string aliasString;
 			int endPosition = FindName (input, startPosition, out aliasString);
-			if (BuiltInFunc.IsFunctionName (aliasString) && endPosition != input.Length - 1 && input [endPosition + 1] == '(') {
+			/*if (BuiltInFunc.IsFunctionName (aliasString) && endPosition != input.Length - 1 && input [endPosition + 1] == '(') {
 				//treat aliasString as variable if no arguments follow?
 				string arguments; 
 				endPosition = FindClosingParenthesis (input, endPosition + 1, out arguments);
 				BuiltInFunc BIF = new BuiltInFunc (aliasString, arguments);
 				value = BIF.Calculate ();
-			} else if (Variables.IsLocal (aliasString)) {
+			} else*/ if (Variables.IsLocal (aliasString)) {
 				value = Variables.GetLocal (aliasString);
 			} else {
 				throw new Exception ("Invalid expression: " + aliasString + " doesn't exist yet");
@@ -292,7 +292,7 @@ namespace Calculator.Logic
 			return operatorPosition;
 		}
 
-		static int FindClosingParenthesis (string input, int startPosition, out string substring) {
+		static public int FindClosingParenthesis (string input, int startPosition, out string substring) {
 			int parenthesisCount = 1;
 			int j = startPosition;
 			substring = "";
