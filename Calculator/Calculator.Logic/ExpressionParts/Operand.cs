@@ -72,6 +72,8 @@ namespace Calculator.Logic
 			char currentSymbol = input [i];
 			if (Parser.IsLetter (currentSymbol) || currentSymbol == '_') {
 				//variable.Search && BIF
+				string alias = null;
+				endPosition = Parser.FindName (input, startPosition, out alias);
 				double number = 0;
 				endPosition = Parser.FindAlias (input, i, out number);
 				operand = new Operand (number);

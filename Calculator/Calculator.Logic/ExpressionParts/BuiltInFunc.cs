@@ -25,6 +25,10 @@ namespace Calculator.Logic
 			}
 		}
 
+		static protected int SearchAlias (string input, int startPosition, string alias) {
+			return startPosition;
+		}
+
 		abstract public double Value ();
 		abstract public int Search (string input, int startPosition);
 
@@ -45,21 +49,40 @@ namespace Calculator.Logic
 			}
 			return endPosition;
 		}*/
+	}
 
-		/*static public BIFName CheckFunctionName (string input) {
-			foreach (BIFName name in Enum.GetValues(typeof(BIFName))) {
-				if (name.ToString () == Parser.ToLowerCase (input))
-					return name;
-			}
-			return BIFName.undefinedFunc;
+	public class BIFSearch {
+		static MyList<BuiltInFunc> BIFList = new MyList<BuiltInFunc> ();
+
+		static public void RegisterBIF (BuiltInFunc newBIF) {
+			BIFList.Add (newBIF);
 		}
 
-		static public bool IsFunctionName (string input) {
-			if (CheckFunctionName (input) != BIFName.undefinedFunc)
-				return true;
-			else 
-				return false;
-		}*/
+		static public int Run (string input, int startPosition, out BuiltInFunc BIF) {
+			int position = -1;
+			BIF = null;
+			for (int i = 0; i < BIFList.Length; i++) {
+				BuiltInFunc currentBIF = BIFList [i];
+				int currentPosition = currentBIF.Search (input, startPosition);
+				if (currentPosition > 0 && (currentPosition < position || position < 0)) {
+					position = currentPosition;
+					BIF = currentBIF;
+				}
+			}
+			return position;
+		}
+	}
+
+	public class MinBIF : BuiltInFunc {
+		static string alias = "min";
+
+		public MinBIF (string name, string arguments) : base(name, arguments) {}
+
+		public double Value () {
+		}
+
+		public int Search (string input, int startPosition) {
+		}
 	}
 }
 
