@@ -40,7 +40,6 @@
     <Compile Include="ExpressionParts\Operand.cs" />
     <Compile Include="ExpressionParts\Variables.cs" />
     <Compile Include="Prerequisites.cs" />
-    <Compile Include="ExpressionParts\ClassSearch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

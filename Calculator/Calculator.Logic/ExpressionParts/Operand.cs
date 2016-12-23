@@ -16,9 +16,13 @@ namespace Calculator.Logic
 			get { 
 				return this.value;
 			}
-			set { //make it protected after unary minus is implemented?
+			set {
 				this.value = value;
 			}
+		}
+
+		protected double Evaluate () {
+			return this.value;
 		}
 
 		public int Search (string input, int startPosition) {
@@ -71,10 +75,17 @@ namespace Calculator.Logic
 				i++;
 			char currentSymbol = input [i];
 			if (Parser.IsLetter (currentSymbol) || currentSymbol == '_') {
-				//variable.Search && BIF
 				string alias = null;
 				endPosition = Parser.FindName (input, startPosition, out alias);
 				double number = 0;
+				BuiltInFunc BIF = null;
+				if (BIFSearch.Run (alias, out BIF) && endPosition != input.Length - 1 && input [endPosition + 1] == '(') {
+					//treat aliasString as variable if no arguments follow?
+					string arguments; 
+					endPosition = Parser.FindClosingParenthesis (input, endPosition + 1, out arguments);
+					BIF.SetArguments (arguments);
+					operand = BIF;
+				} // else variable search
 				endPosition = Parser.FindAlias (input, i, out number);
 				operand = new Operand (number);
 			}

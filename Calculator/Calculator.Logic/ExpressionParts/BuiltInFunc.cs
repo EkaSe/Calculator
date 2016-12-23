@@ -5,10 +5,15 @@ using MyLibrary;
 namespace Calculator.Logic
 {
 	abstract public class BuiltInFunc: Operand {
-		int operandCount;
-		MyList <Operand> operands; 
+		protected int operandCount;
+		protected MyList <Operand> operands; 
+		protected string name;
 
-		public BuiltInFunc (string name, string arguments) : base() {
+		public BuiltInFunc (string arguments) : base() {
+			SetArguments (arguments);
+		}
+
+		public void SetArguments (string arguments) {
 			operands = new MyList<Operand> ();
 			operandCount = 0;
 			StringBuilder newArg = new StringBuilder ();
@@ -23,32 +28,32 @@ namespace Calculator.Logic
 					newArg = new StringBuilder ();
 				}
 			}
+			value = Evaluate ();
 		}
 
-		static protected int SearchAlias (string input, int startPosition, string alias) {
-			return startPosition;
+		public bool CheckName (string alias) {
+			if (name == Parser.ToLowerCase (alias))
+				return true;
+			else return false;
 		}
-
-		abstract public double Value ();
-		abstract public int Search (string input, int startPosition);
 
 		/*static public int FindAlias (string input, int startPosition, out double value) {
-			value = 0;
-			string aliasString;
-			int endPosition = FindName (input, startPosition, out aliasString);
-			if (BuiltInFunc.IsFunctionName (aliasString) && endPosition != input.Length - 1 && input [endPosition + 1] == '(') {
-				//treat aliasString as variable if no arguments follow?
-				string arguments; 
-				endPosition = FindClosingParenthesis (input, endPosition + 1, out arguments);
-				BuiltInFunc BIF = new BuiltInFunc (aliasString, arguments);
-				value = BIF.Calculate ();
-			} else if (Variables.IsLocal (aliasString)) {
-				value = Variables.GetLocal (aliasString);
-			} else {
-				throw new Exception ("Invalid expression: " + aliasString + " doesn't exist yet");
-			}
-			return endPosition;
-		}*/
+            value = 0;
+            string aliasString;
+            int endPosition = FindName (input, startPosition, out aliasString);
+            if (BuiltInFunc.IsFunctionName (aliasString) && endPosition != input.Length - 1 && input [endPosition + 1] == '(') {
+                //treat aliasString as variable if no arguments follow?
+                string arguments; 
+                endPosition = FindClosingParenthesis (input, endPosition + 1, out arguments);
+                BuiltInFunc BIF = new BuiltInFunc (aliasString, arguments);
+                value = BIF.Calculate ();
+            } else if (Variables.IsLocal (aliasString)) {
+                value = Variables.GetLocal (aliasString);
+            } else {
+                throw new Exception ("Invalid expression: " + aliasString + " doesn't exist yet");
+            }
+            return endPosition;
+        }*/
 	}
 
 	public class BIFSearch {
@@ -58,31 +63,35 @@ namespace Calculator.Logic
 			BIFList.Add (newBIF);
 		}
 
-		static public int Run (string input, int startPosition, out BuiltInFunc BIF) {
-			int position = -1;
+		static public bool Run (string alias, out BuiltInFunc BIF) {
 			BIF = null;
 			for (int i = 0; i < BIFList.Length; i++) {
 				BuiltInFunc currentBIF = BIFList [i];
-				int currentPosition = currentBIF.Search (input, startPosition);
-				if (currentPosition > 0 && (currentPosition < position || position < 0)) {
-					position = currentPosition;
-					BIF = currentBIF;
+				if (currentBIF.CheckName (alias)) {
+					BIF = currentBIF; 
+					return true;
 				}
 			}
-			return position;
+			return false;
 		}
 	}
 
 	public class MinBIF : BuiltInFunc {
-		static string alias = "min";
-
-		public MinBIF (string name, string arguments) : base(name, arguments) {}
-
-		public double Value () {
+		public MinBIF (string arguments) : base(arguments) {
+			name = "min";
+			SetArguments (arguments);
 		}
 
-		public int Search (string input, int startPosition) {
+		protected double Evaluate () {
+			if (operands.Length > 0) {
+				value = operands [0].Value;
+				for (int i = 1; i < operands.Length; i++) {
+					if (value > operands [i].Value)
+						value = operands [i].Value;
+				}
+			} else 
+				throw new Exception ("min function cannot have empty list of arguments");
+			return value;
 		}
 	}
 }
-
