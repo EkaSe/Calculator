@@ -21,9 +21,9 @@ namespace Calculator.Logic
 				if (arguments [i] == ',') {
 					newArg.Append (arguments [i]);
 				} else {
-					double newValue;
-					Parser.FindOperand (newArg.ToString (), 0, out newValue); //change to operandSearcher
-					operands.Add (new Operand(newValue)); 
+					Operand newOperand = null;
+					OperandSearch.Run (newArg.ToString (), 0, out newOperand);
+					operands.Add (newOperand); 
 					operandCount++;
 					newArg = new StringBuilder ();
 				}
