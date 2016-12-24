@@ -9,6 +9,14 @@ namespace Calculator.Logic
 		protected MyList <Operand> operands; 
 		public string name;
 
+		public BuiltInFunc () : base() {
+		}
+
+		public BuiltInFunc (string newName, string arguments) : base() {
+			name = newName;
+			SetArguments (arguments);
+		}
+
 		public BuiltInFunc (string arguments) : base() {
 			SetArguments (arguments);
 		}
@@ -58,10 +66,8 @@ namespace Calculator.Logic
 	}
 
 	public class MinBIF : BuiltInFunc {
-		public MinBIF (string arguments) : base(arguments) {
-			name = "min";
-			SetArguments (arguments);
-		}
+		public MinBIF() : base() { name = "min"; }
+		public MinBIF (string arguments) : base("min", arguments) {}
 
 		new protected double Evaluate () {
 			if (operands.Length > 0) {
@@ -77,9 +83,8 @@ namespace Calculator.Logic
 	}
 
 	public class MaxBIF : BuiltInFunc {
-		public MaxBIF (string arguments) : base(arguments) {
-			name = "max";
-			SetArguments (arguments);
+		public MaxBIF() : base() { name = "max"; }
+		public MaxBIF (string arguments) : base("max", arguments) {
 		}
 
 		new protected double Evaluate () {
@@ -96,6 +101,8 @@ namespace Calculator.Logic
 	}
 
 	public class SqrtBIF : BuiltInFunc {
+		public SqrtBIF() : base() { name = "sqrt"; }
+
 		public SqrtBIF (string arguments) : base(arguments) {
 			name = "sqrt";
 			SetArguments (arguments);

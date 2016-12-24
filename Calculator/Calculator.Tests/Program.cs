@@ -7,6 +7,7 @@ namespace Calculator.Tests
 		public static void Main (string[] args)
 		{
 			Calculator.Logic.Prerequisites.RegisterOperators ();
+			Calculator.Logic.Prerequisites.RegisterBIFs ();
 			TestCalculator.RunTests ();
 		}
 	}

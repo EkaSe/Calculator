@@ -34,7 +34,7 @@ namespace MyLibrary
 			int N = bitCount % cycleSize;
 			int result = value;
 			if (N != 0)
-				result = value << N + value >> (cycleSize - N);
+				result = (value << N) + (value >> (cycleSize - N));
 			return result;
 		}
 

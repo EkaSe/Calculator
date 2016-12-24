@@ -10,6 +10,11 @@ namespace Calculator.Logic
 			OperatorSearch.RegisterOperator (new Multiply ());
 			OperatorSearch.RegisterOperator (new Divide ());
 		}
+		static public void RegisterBIFs () {
+			BIFSearch.RegisterBIF (new MaxBIF ());
+			BIFSearch.RegisterBIF (new MinBIF ());
+			BIFSearch.RegisterBIF (new SqrtBIF ());
+		}
 	}
 }
 
