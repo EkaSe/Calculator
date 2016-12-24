@@ -148,7 +148,45 @@ namespace Calculator.Logic
 			return result;
 		}
 
+		static public int FindNumber (string input, int startPosition, out double number) {
+			//reads double from start position
+			number = 0;
+			double currentDecimal = -1;
+			double mantissaLength = 1;
+			bool operandEnd = false;
+			int i = startPosition;
+			int endPosition = -1;
+			while (!operandEnd) {
+				char currentSymbol = input [i];
+				int currentDigit = Parser.CharToDigit (currentSymbol);
+				if (currentDigit >= 0) {
+					currentDecimal = (double) currentDigit;
+					if (mantissaLength == 1)
+						number = number * 10 + currentDecimal;
+					else {
+						number = number + currentDecimal * mantissaLength;
+						mantissaLength *= 0.1;
+					}
+				} else {
+					if (currentSymbol == '.')
+						mantissaLength = 0.1;
+					else if (currentDecimal >= 0) {
+						operandEnd = true;
+						endPosition = i - 1;
+					}
+				}
+				i++;
+				if (i == input.Length) {
+					operandEnd = true;
+					if (currentDecimal >= 0)
+						endPosition = input.Length - 1;
+				}
+			}
+			return endPosition;
+		}
+
 		static public int FindName (string input, int startPosition, out string name) {
+			//reads alias from start position, else returns -1
 			int endPosition = -1;
 			name = null;
 			StringBuilder alias = new StringBuilder ();
@@ -178,13 +216,7 @@ namespace Calculator.Logic
 			value = 0;
 			string aliasString;
 			int endPosition = FindName (input, startPosition, out aliasString);
-			/*if (BuiltInFunc.IsFunctionName (aliasString) && endPosition != input.Length - 1 && input [endPosition + 1] == '(') {
-				//treat aliasString as variable if no arguments follow?
-				string arguments; 
-				endPosition = FindClosingParenthesis (input, endPosition + 1, out arguments);
-				BuiltInFunc BIF = new BuiltInFunc (aliasString, arguments);
-				value = BIF.Calculate ();
-			} else*/ if (Variables.IsLocal (aliasString)) {
+			if (Variables.IsLocal (aliasString)) {
 				value = Variables.GetLocal (aliasString);
 			} else {
 				throw new Exception ("Invalid expression: " + aliasString + " doesn't exist yet");

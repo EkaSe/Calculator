@@ -120,6 +120,11 @@ namespace Calculator
 			expressionSet = new string[] {"x=3","x=x-1"};
 			InterpreterTest ("Interpreter 5:", expressionSet, "x = 2");
 
+			expressionSet = new string[] {"x=3","y = mIn (x, 10)"};
+			InterpreterTest ("Interpreter 6:", expressionSet, "y = 3");
+			expressionSet = new string[] {"x= - sqrt (9)","max (-x, max (1, 2))"};
+			InterpreterTest ("Interpreter 7:", expressionSet, "3");
+
 			Console.WriteLine ();
 			FindOperandTest ("5", 0, 0, 5);
 			FindOperandTest ("10", 0, 1, 10);

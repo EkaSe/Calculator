@@ -7,7 +7,7 @@ namespace Calculator.Logic
 	abstract public class BuiltInFunc: Operand {
 		protected int operandCount;
 		protected MyList <Operand> operands; 
-		protected string name;
+		public string name;
 
 		public BuiltInFunc (string arguments) : base() {
 			SetArguments (arguments);
@@ -30,49 +30,30 @@ namespace Calculator.Logic
 			}
 			value = Evaluate ();
 		}
-
-		public bool CheckName (string alias) {
-			if (name == Parser.ToLowerCase (alias))
-				return true;
-			else return false;
-		}
-
-		/*static public int FindAlias (string input, int startPosition, out double value) {
-            value = 0;
-            string aliasString;
-            int endPosition = FindName (input, startPosition, out aliasString);
-            if (BuiltInFunc.IsFunctionName (aliasString) && endPosition != input.Length - 1 && input [endPosition + 1] == '(') {
-                //treat aliasString as variable if no arguments follow?
-                string arguments; 
-                endPosition = FindClosingParenthesis (input, endPosition + 1, out arguments);
-                BuiltInFunc BIF = new BuiltInFunc (aliasString, arguments);
-                value = BIF.Calculate ();
-            } else if (Variables.IsLocal (aliasString)) {
-                value = Variables.GetLocal (aliasString);
-            } else {
-                throw new Exception ("Invalid expression: " + aliasString + " doesn't exist yet");
-            }
-            return endPosition;
-        }*/
 	}
 
 	public class BIFSearch {
-		static MyList<BuiltInFunc> BIFList = new MyList<BuiltInFunc> ();
+		static MyDictionary <string, BuiltInFunc> BIFList = new MyDictionary<string, BuiltInFunc> ();
 
 		static public void RegisterBIF (BuiltInFunc newBIF) {
-			BIFList.Add (newBIF);
+			BIFList.Add (newBIF.name, newBIF);
 		}
 
-		static public bool Run (string alias, out BuiltInFunc BIF) {
-			BIF = null;
-			for (int i = 0; i < BIFList.Length; i++) {
-				BuiltInFunc currentBIF = BIFList [i];
-				if (currentBIF.CheckName (alias)) {
-					BIF = currentBIF; 
-					return true;
-				}
-			}
-			return false;
+		static public int Run (string input, int startPosition, out Operand operand) {
+			operand = null;
+			string alias = null;
+			int endPosition = Parser.FindName (input, startPosition, out alias);
+			if (!BIFList.Contains (alias))
+				return -1;
+			else if (endPosition != input.Length - 1 && input [endPosition + 1] == '(') {
+				string arguments; 
+				endPosition = Parser.FindClosingParenthesis (input, endPosition + 1, out arguments);
+				BuiltInFunc BIF = BIFList [alias];
+				BIF.SetArguments (arguments);
+				operand = BIF;
+				return endPosition;
+			} else
+				return -1;
 		}
 	}
 
@@ -82,7 +63,7 @@ namespace Calculator.Logic
 			SetArguments (arguments);
 		}
 
-		protected double Evaluate () {
+		new protected double Evaluate () {
 			if (operands.Length > 0) {
 				value = operands [0].Value;
 				for (int i = 1; i < operands.Length; i++) {
@@ -91,6 +72,40 @@ namespace Calculator.Logic
 				}
 			} else 
 				throw new Exception ("min function cannot have empty list of arguments");
+			return value;
+		}
+	}
+
+	public class MaxBIF : BuiltInFunc {
+		public MaxBIF (string arguments) : base(arguments) {
+			name = "max";
+			SetArguments (arguments);
+		}
+
+		new protected double Evaluate () {
+			if (operands.Length > 0) {
+				value = operands [0].Value;
+				for (int i = 1; i < operands.Length; i++) {
+					if (value < operands [i].Value)
+						value = operands [i].Value;
+				}
+			} else 
+				throw new Exception ("max function cannot have empty list of arguments");
+			return value;
+		}
+	}
+
+	public class SqrtBIF : BuiltInFunc {
+		public SqrtBIF (string arguments) : base(arguments) {
+			name = "sqrt";
+			SetArguments (arguments);
+		}
+
+		new protected double Evaluate () {
+			if (operandCount == 1) {
+				value = System.Math.Sqrt (operands [0].Value);
+			} else 
+				throw new Exception ("sqrt function can have only 1 argument");
 			return value;
 		}
 	}

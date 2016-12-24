@@ -4,6 +4,21 @@ using System.Text;
 
 namespace Calculator.Logic
 {
+	public class VarSearch {
+		static public int Run (string input, int startPosition, out Operand operand) {
+			operand = null;
+			string alias;
+			int endPosition = Parser.FindName (input, startPosition, out alias);
+			if (endPosition > 0) {
+				if (Variables.IsLocal (alias))
+					operand = new Operand (Variables.GetLocal (alias));
+				else
+					throw new Exception ("Invalid expression: " + alias + " doesn't exist yet");
+			}
+			return endPosition;
+		}
+	}
+
 	public class Variables
 	{
 		static MyDictionary <string, double> locals;
