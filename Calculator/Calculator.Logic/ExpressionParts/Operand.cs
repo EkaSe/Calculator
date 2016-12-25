@@ -20,10 +20,6 @@ namespace Calculator.Logic
 				this.value = value;
 			}
 		}
-
-		virtual protected double Evaluate () {
-			return this.value;
-		}
 	}
 
 	public class OperandSearch {
@@ -37,9 +33,9 @@ namespace Calculator.Logic
 				i++;
 			char currentSymbol = input [i];
 			if (Parser.IsLetter (currentSymbol) || currentSymbol == '_') {
-				endPosition = BIFSearch.Run (input, startPosition, out operand);
+				endPosition = BIFSearch.Run (input, i, out operand);
 				if (endPosition < 0) {
-					VarSearch.Run (input, startPosition, out operand);
+					endPosition = VarSearch.Run (input, i, out operand);
 				} 
 			}
 			else if (currentSymbol == '(') {
@@ -53,7 +49,7 @@ namespace Calculator.Logic
 				operand = new Operand (number);
 			} else
 				throw new Exception ("Invalid expression: no operand found");
-			//replace with unary minus?!
+			//replace with unary minus?
 			if (input [startPosition] == '-')
 				operand.Value = - operand.Value;
 			return endPosition;

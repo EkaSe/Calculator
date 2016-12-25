@@ -27,17 +27,17 @@ namespace Calculator.Logic
 			else isEnd = true;
 		}
 
-		public double ReadOperand () {
-			double operand;
-			currentPosition = Parser.FindOperand (expression, currentPosition, out operand);
+		public Operand ReadOperand () {
+			Operand operand;
+			currentPosition = OperandSearch.Run (expression, currentPosition, out operand);
 			if (currentPosition == -1)
 				isEnd = true;
 			currentPosition++;
 			return operand;
 		}
 
-		public void ReadOperator (out OperatorCode firstOperator) {
-			currentPosition = Parser.FindOperator (expression, currentPosition, out firstOperator);
+		public void ReadOperator (out MyOperator firstOperator) {
+			currentPosition = OperatorSearch.Run (expression, currentPosition, out firstOperator);
 			if (currentPosition == -1)
 				isEnd = true;
 			currentPosition++;

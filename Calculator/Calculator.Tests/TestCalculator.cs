@@ -39,7 +39,7 @@ namespace Calculator
 			if (result == expectedOutput)
 				Console.WriteLine ("Test " + testName + " passed");
 			else {
-				Console.WriteLine ("Test " + testName + " failed");
+				Console.WriteLine ("Test " + testName + " failed: " + result);
 				FailedTestsCount++;
 			}
 		}
@@ -59,6 +59,7 @@ namespace Calculator
 			}
 		}
 
+		/*
 		static public void FindOperatorTest (string input, int startPosition, int expectedPosition, OperatorCode expectedResult)
 		{
 			OperatorCode result = OperatorCode.plus;
@@ -72,6 +73,7 @@ namespace Calculator
 				FailedTestsCount++;
 			}
 		}
+		*/
 
 		static public void DoubleToStringTest (double number, string expectedResult) {
 			string result = DoubleToString (number);
@@ -135,16 +137,6 @@ namespace Calculator
 			FindOperandTest ("(17+2)*2", 0, 5, 19);
 			FindOperandTest ("-10.258", 0, 6, -10.258);
 			FindOperandTest ("15.8 * (-8.4 / 2.1)", 6, 18, -4);
-			Console.WriteLine ();
-			/*
-			FindOperatorTest ("4 + 5", 0, 2, OperatorCode.plus);
-			FindOperatorTest ("10", 0, -1, OperatorCode.unknown);
-			FindOperatorTest ("-50*3", 0, 0, OperatorCode.minus);
-			FindOperatorTest ("-50*3", 1, 3, OperatorCode.multiply);
-			FindOperatorTest ("*-+/*", 3, 3, OperatorCode.divide);
-			FindOperatorTest ("8!", 1, 1, OperatorCode.factorial);
-			FindOperatorTest ("2.05^2", 1, 4, OperatorCode.degree);
-			*/
 
 			MyCollectionTest.MyListTest ();
 

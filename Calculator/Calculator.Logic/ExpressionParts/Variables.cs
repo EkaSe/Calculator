@@ -9,7 +9,7 @@ namespace Calculator.Logic
 			operand = null;
 			string alias;
 			int endPosition = Parser.FindName (input, startPosition, out alias);
-			if (endPosition > 0) {
+			if (endPosition >= 0) {
 				if (Variables.IsLocal (alias))
 					operand = new Operand (Variables.GetLocal (alias));
 				else

@@ -53,7 +53,7 @@ namespace MyLibrary
 					Capacity *= 2;
 				}
 				Elements = new T[Capacity];
-				for (int i = 0; i < Length; i++) {
+				for (int i = 0; i < temp.Length; i++) {
 					Elements [i] = temp [i];
 				}
 			}

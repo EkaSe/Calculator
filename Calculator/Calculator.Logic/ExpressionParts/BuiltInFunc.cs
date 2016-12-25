@@ -17,30 +17,30 @@ namespace Calculator.Logic
 			SetArguments (arguments);
 		}
 
-		public BuiltInFunc (string arguments) : base() {
+		public BuiltInFunc (string arguments) : 
+		base() {
 			SetArguments (arguments);
 		}
+
+		abstract public BuiltInFunc Clone ();
+
+		abstract protected double Evaluate ();
 
 		public void SetArguments (string arguments) {
 			operands = new MyList<Operand> ();
 			operandCount = 0;
-			StringBuilder newArg = new StringBuilder ();
-			for (int i = 0; i < arguments.Length; i++) {
-				if (arguments [i] == ',') {
-					newArg.Append (arguments [i]);
-				} else {
-					Operand newOperand = null;
-					OperandSearch.Run (newArg.ToString (), 0, out newOperand);
-					operands.Add (newOperand); 
-					operandCount++;
-					newArg = new StringBuilder ();
-				}
+			int argStart = 0;
+			while (argStart < arguments.Length) {
+				Operand newOperand = new Operand();
+				argStart = OperandSearch.Run (arguments, argStart, out newOperand) + 2;
+				operands.Add (newOperand); 
+				operandCount++;
 			}
 			value = Evaluate ();
 		}
 	}
 
-	public class BIFSearch {
+	static public class BIFSearch {
 		static MyDictionary <string, BuiltInFunc> BIFList = new MyDictionary<string, BuiltInFunc> ();
 
 		static public void RegisterBIF (BuiltInFunc newBIF) {
@@ -51,12 +51,13 @@ namespace Calculator.Logic
 			operand = null;
 			string alias = null;
 			int endPosition = Parser.FindName (input, startPosition, out alias);
+			alias = Parser.ToLowerCase (alias);
 			if (!BIFList.Contains (alias))
 				return -1;
 			else if (endPosition != input.Length - 1 && input [endPosition + 1] == '(') {
 				string arguments; 
 				endPosition = Parser.FindClosingParenthesis (input, endPosition + 1, out arguments);
-				BuiltInFunc BIF = BIFList [alias];
+				BuiltInFunc BIF = BIFList [alias].Clone();
 				BIF.SetArguments (arguments);
 				operand = BIF;
 				return endPosition;
@@ -68,8 +69,11 @@ namespace Calculator.Logic
 	public class MinBIF : BuiltInFunc {
 		public MinBIF() : base() { name = "min"; }
 		public MinBIF (string arguments) : base("min", arguments) {}
+		override public BuiltInFunc Clone () {
+			return new MinBIF ();
+		}
 
-		new protected double Evaluate () {
+		override protected double Evaluate () {
 			if (operands.Length > 0) {
 				value = operands [0].Value;
 				for (int i = 1; i < operands.Length; i++) {
@@ -84,10 +88,12 @@ namespace Calculator.Logic
 
 	public class MaxBIF : BuiltInFunc {
 		public MaxBIF() : base() { name = "max"; }
-		public MaxBIF (string arguments) : base("max", arguments) {
+		public MaxBIF (string arguments) : base("max", arguments) {}
+		override public BuiltInFunc Clone () {
+			return new MaxBIF ();
 		}
 
-		new protected double Evaluate () {
+		override protected double Evaluate () {
 			if (operands.Length > 0) {
 				value = operands [0].Value;
 				for (int i = 1; i < operands.Length; i++) {
@@ -102,13 +108,13 @@ namespace Calculator.Logic
 
 	public class SqrtBIF : BuiltInFunc {
 		public SqrtBIF() : base() { name = "sqrt"; }
+		public SqrtBIF (string arguments) : base("sqrt", arguments) {}
 
-		public SqrtBIF (string arguments) : base(arguments) {
-			name = "sqrt";
-			SetArguments (arguments);
+		override public BuiltInFunc Clone () {
+			return new SqrtBIF ();
 		}
 
-		new protected double Evaluate () {
+		override protected double Evaluate () {
 			if (operandCount == 1) {
 				value = System.Math.Sqrt (operands [0].Value);
 			} else 
