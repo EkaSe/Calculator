@@ -35,11 +35,21 @@
     <Compile Include="Parser.cs" />
     <Compile Include="ParsedStream.cs" />
     <Compile Include="Interpreter.cs" />
-    <Compile Include="ExpressionParts\BuiltInFunc.cs" />
-    <Compile Include="ExpressionParts\MyOperator.cs" />
-    <Compile Include="ExpressionParts\Operand.cs" />
-    <Compile Include="ExpressionParts\Variables.cs" />
     <Compile Include="Prerequisites.cs" />
+    <Compile Include="ExpressionParts\Operators\MyOperator.cs" />
+    <Compile Include="ExpressionParts\Operands\BuiltInFunc.cs" />
+    <Compile Include="ExpressionParts\Operands\Number.cs" />
+    <Compile Include="ExpressionParts\Operands\Operand.cs" />
+    <Compile Include="ExpressionParts\Operands\Variable.cs" />
+    <Compile Include="ExpressionParts\Operands\Variables.cs" />
+    <Compile Include="ExpressionParts\Operators\Plus.cs" />
+    <Compile Include="ExpressionParts\Operators\Minus.cs" />
+    <Compile Include="ExpressionParts\Operators\Multiply.cs" />
+    <Compile Include="ExpressionParts\Operators\Divide.cs" />
+    <Compile Include="ExpressionParts\Operators\UnaryOp.cs" />
+    <Compile Include="ExpressionParts\Operators\BinaryOp.cs" />
+    <Compile Include="ExpressionParts\Operators\Factorial.cs" />
+    <Compile Include="ExpressionParts\Operators\UnaryMinus.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -50,5 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ExpressionParts\" />
+    <Folder Include="ExpressionParts\Operators\" />
+    <Folder Include="ExpressionParts\Operands\" />
   </ItemGroup>
 </Project>

@@ -35,6 +35,8 @@ namespace Calculator.Logic
 				operands.Add (result);
 		}
 
+		abstract protected void PushOperands (MyStack<Operand> stack, ref Node<Operand> currentOperand);
+
 		public void Perform (MyLinkedList<Operand> operands, ref Node<Operand> currentOperand) {
 			Operand result = PerformOperation (ExtractOperands (operands, ref currentOperand));
 			InsertResult (result, operands, ref currentOperand);
@@ -52,7 +54,7 @@ namespace Calculator.Logic
 			}
 		}
 
-		public Operand Perform (MyStack<Operand> operandStack) {
+		virtual public Operand Perform (MyStack<Operand> operandStack) {
 			MyLinkedList<Operand> operands = new MyLinkedList<Operand> ();
 			for (int i = 0; i < operandCount; i++) {
 				operands.Insert (operandStack.Pop (), 0);
@@ -101,62 +103,6 @@ namespace Calculator.Logic
 				}
 			}
 			return position;
-		}
-	}
-
-	public class Plus: MyOperator {
-		public Plus (): base(1, 2) {}
-
-		protected override Operand PerformOperation (MyList<Operand> operands) {
-			Operand operand1 = operands [0];
-			Operand operand2 = operands [1];
-			return new Operand (operand1.Value + operand2.Value);
-		}
-
-		public override int Search (string input, int startPosition) {
-			return SearchBySign (input, startPosition, '+');
-		}
-	}
-
-	public class Minus: MyOperator {
-		public Minus (): base(1, 2) {}
-
-		protected override Operand PerformOperation (MyList<Operand> operands) {
-			Operand operand1 = operands [0];
-			Operand operand2 = operands [1];
-			return new Operand (operand1.Value - operand2.Value);
-		}
-
-		public override int Search (string input, int startPosition) {
-			return SearchBySign (input, startPosition, '-');
-		}
-	}
-
-	public class Multiply: MyOperator {
-		public Multiply (): base(2, 2) {}
-
-		protected override Operand PerformOperation (MyList<Operand> operands) {
-			Operand operand1 = operands [0];
-			Operand operand2 = operands [1];
-			return new Operand (operand1.Value * operand2.Value);
-		}
-
-		public override int Search (string input, int startPosition) {
-			return SearchBySign (input, startPosition, '*');
-		}
-	}
-
-	public class Divide: MyOperator {
-		public Divide (): base(2, 2) {}
-
-		protected override Operand PerformOperation (MyList<Operand> operands) {
-			Operand operand1 = operands [0];
-			Operand operand2 = operands [1];
-			return new Operand (operand1.Value / operand2.Value);
-		}
-
-		public override int Search (string input, int startPosition) {
-			return SearchBySign (input, startPosition, '/');
 		}
 	}
 }
