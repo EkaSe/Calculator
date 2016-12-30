@@ -9,10 +9,11 @@ namespace Calculator.Logic
 	{
 		private string expression;
 		private int currentPosition;
+		private Func<string, int, bool> endCondition;
 		private bool isEnd;
 		public bool IsEnd {
 			get { 
-				if (currentPosition >= expression.Length)
+				if (currentPosition >= expression.Length || endCondition (expression, currentPosition))
 					isEnd = true;
 				return isEnd; 
 			}
@@ -25,6 +26,19 @@ namespace Calculator.Logic
 			if (expression.Length > 0) 
 				isEnd = false;
 			else isEnd = true;
+			Func <string, int, bool> endCondition = (inputString, position) => {
+				return false;
+			};
+			//endCondition = 
+		}
+		
+		public ParsedStream (string input, Func <string, int, bool> endCondition) {
+			expression = Parser.SkipSpaces (input);
+			currentPosition = 0;
+			if (expression.Length > 0) 
+				isEnd = false;
+			else isEnd = true;
+			this.endCondition = endCondition;
 		}
 
 		public Operand ReadOperand () {
@@ -40,6 +54,10 @@ namespace Calculator.Logic
 			if (currentPosition == -1)
 				isEnd = true;
 			currentPosition++;
+		}
+		
+		public string GetRest () {
+			return expression.Substring (currentPosition);
 		}
 	}
 }

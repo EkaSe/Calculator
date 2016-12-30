@@ -24,15 +24,6 @@ namespace Calculator.Logic
 						operandStack.Push (operationResult);
 					}
 				}
-				/*currentOperator.Element.SkipOperands (ref currentOperand);
-				if (currentOperator.Next == null || currentOperator.Element.Priority >= currentOperator.Next.Element.Priority) {
-					while (operatorStack.Length > 0) {
-						MyOperator performedOperator = operatorStack.Pop ();
-						performedOperator.UnSkipOperands (ref currentOperand);
-						performedOperator.Perform (operands, ref currentOperand);
-					}
-				}
-				result = currentOperand.Element.Value;*/
 			}
 			result = operandStack.Pop().Value;
 			return result;
@@ -60,14 +51,14 @@ namespace Calculator.Logic
 			Variables.MergeLocals ();
 			return result;
 		}
-
-		static public string ProcessExpression (string input)
+		
+		static public string ProcessExpression (string input, Func <string, int, bool> endCondition, out string outlet)
 		{
 			MyLinkedList<MyOperator> operators = new MyLinkedList<MyOperator> ();
 			MyLinkedList<Operand> operands = new MyLinkedList<Operand> ();
 			MyOperator currentOperator;
 			string result;
-			ParsedStream expression = new ParsedStream (input);
+			ParsedStream expression = new ParsedStream (input, endCondition);
 			if (expression.IsEnd)
 				throw new Exception ("Invalid expression: no operand found");
 			Operand currentOperand = expression.ReadOperand (); 
@@ -81,7 +72,17 @@ namespace Calculator.Logic
 				}
 			}
 			result = Parser.DoubleToString (Calculate (operators, operands));
+			outlet = expression.GetRest();
 			return result;
+		}
+
+		static public string ProcessExpression (string input)
+		{
+			string outlet = null;
+			Func <string, int, bool> endCondition = (inputString, position) => {
+				return false;
+			};
+			return ProcessExpression (input, endCondition, out outlet);;
 		}
 
 		static public void Run (Func<string> getExpression, Func<string, bool> outputAction) {

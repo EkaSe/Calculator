@@ -29,11 +29,17 @@ namespace Calculator.Logic
 		public void SetArguments (string arguments) {
 			operands = new MyList<Operand> ();
 			operandCount = 0;
-			int argStart = 0;
-			while (argStart < arguments.Length) {
-				Operand newOperand = new Operand();
-				argStart = OperandSearch.Run (arguments, argStart, out newOperand) + 1;
-				operands.Add (newOperand); 
+			string restOfArgs = arguments;
+			Func <string, int, bool> endCondition = (input, currentPosition) => {
+				if (input [currentPosition] == ',')
+					return true;
+				else return false;
+			};
+			while (restOfArgs != "") {
+				if (restOfArgs [0] == ',')
+					restOfArgs = restOfArgs.Substring (1);
+				double newArg = Parser.StringToDouble (Interpreter.ProcessExpression (restOfArgs, endCondition, out restOfArgs));
+				operands.Add (new Operand (newArg)); 
 				operandCount++;
 			}
 			value = Evaluate ();
