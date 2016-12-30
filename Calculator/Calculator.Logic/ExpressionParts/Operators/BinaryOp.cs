@@ -16,7 +16,7 @@ namespace Calculator.Logic
 
 		abstract protected Operand PerformOperation (Operand arg1, Operand arg2);
 
-		override protected void PushOperands (MyStack<Operand> stack, ref Node<Operand> currentOperand) {
+		override public void PushOperands (MyStack<Operand> stack, ref Node<Operand> currentOperand) {
 			stack.Push (currentOperand.Element);
 			currentOperand = currentOperand.Next;
 		}

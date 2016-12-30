@@ -49,7 +49,6 @@
     <Compile Include="ExpressionParts\Operators\UnaryOp.cs" />
     <Compile Include="ExpressionParts\Operators\BinaryOp.cs" />
     <Compile Include="ExpressionParts\Operators\Factorial.cs" />
-    <Compile Include="ExpressionParts\Operators\UnaryMinus.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

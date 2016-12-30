@@ -30,9 +30,8 @@ namespace Calculator.Logic
 		public Operand ReadOperand () {
 			Operand operand;
 			currentPosition = OperandSearch.Run (expression, currentPosition, out operand);
-			if (currentPosition == -1)
+			if (currentPosition == -1 || currentPosition >= expression.Length)
 				isEnd = true;
-			currentPosition++;
 			return operand;
 		}
 

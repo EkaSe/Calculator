@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using MyLibrary;
 
@@ -12,9 +11,20 @@ namespace Calculator.Logic
 			double result = operands.FirstNode.Element.Value;
 			Node<Operand> currentOperand = operands.FirstNode;
 			MyStack <MyOperator> operatorStack = new MyStack<MyOperator> ();
+			MyStack <Operand> operandStack = new MyStack<Operand> ();
+			operandStack.Push (currentOperand.Element);
+			currentOperand = currentOperand.Next;
 			for (Node<MyOperator> currentOperator = operators.FirstNode; currentOperator != null; currentOperator = currentOperator.Next) {
 				operatorStack.Push (currentOperator.Element);
-				currentOperator.Element.SkipOperands (ref currentOperand);
+				currentOperator.Element.PushOperands (operandStack, ref currentOperand);
+				if (currentOperator.Next == null || currentOperator.Element.Priority >= currentOperator.Next.Element.Priority) {
+					while (operatorStack.Length > 0) {
+						MyOperator performedOperator = operatorStack.Pop ();
+						Operand operationResult = performedOperator.Perform (operandStack);
+						operandStack.Push (operationResult);
+					}
+				}
+				/*currentOperator.Element.SkipOperands (ref currentOperand);
 				if (currentOperator.Next == null || currentOperator.Element.Priority >= currentOperator.Next.Element.Priority) {
 					while (operatorStack.Length > 0) {
 						MyOperator performedOperator = operatorStack.Pop ();
@@ -22,8 +32,9 @@ namespace Calculator.Logic
 						performedOperator.Perform (operands, ref currentOperand);
 					}
 				}
-				result = currentOperand.Element.Value;
+				result = currentOperand.Element.Value;*/
 			}
+			result = operandStack.Pop().Value;
 			return result;
 		}
 
@@ -64,8 +75,10 @@ namespace Calculator.Logic
 			while (!expression.IsEnd) {
 				expression.ReadOperator (out currentOperator);
 				operators.Add (currentOperator);
-				currentOperand = expression.ReadOperand ();
-				operands.Add (currentOperand);
+				if (currentOperator.OperandCount == 2) {
+					currentOperand = expression.ReadOperand ();
+					operands.Add (currentOperand);
+				}
 			}
 			result = Parser.DoubleToString (Calculate (operators, operands));
 			return result;

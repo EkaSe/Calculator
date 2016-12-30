@@ -20,12 +20,17 @@ namespace Calculator.Logic
 
 	public class OperandSearch {
 		static public int Run (string input, int startPosition, out Operand operand) {
+			//returns position of the first symbol AFTER operand or -1 if not found
 			operand = null;
 			int i = startPosition;
 			if (startPosition >= input.Length) 
 				return -1;
 			int endPosition = -1;
-			if (input [startPosition] == '-' || input [startPosition] == '+' || input [startPosition] == ' ') 
+			if (input [startPosition] == '-') {
+				operand = new Number (0);
+				return startPosition;
+			}
+			if (input [startPosition] == '+' || input [startPosition] == ' ') 
 				i++;
 			char currentSymbol = input [i];
 			if (Parser.IsLetter (currentSymbol) || currentSymbol == '_') {
@@ -45,10 +50,7 @@ namespace Calculator.Logic
 				operand = new Operand (number);
 			} else
 				throw new Exception ("Invalid expression: no operand found");
-			//replace with unary minus?
-			if (input [startPosition] == '-')
-				operand.Value = - operand.Value;
-			return endPosition;
+			return endPosition + 1;
 		}
 	}
 }

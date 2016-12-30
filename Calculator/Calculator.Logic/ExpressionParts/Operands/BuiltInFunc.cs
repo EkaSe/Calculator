@@ -32,7 +32,7 @@ namespace Calculator.Logic
 			int argStart = 0;
 			while (argStart < arguments.Length) {
 				Operand newOperand = new Operand();
-				argStart = OperandSearch.Run (arguments, argStart, out newOperand) + 2;
+				argStart = OperandSearch.Run (arguments, argStart, out newOperand) + 1;
 				operands.Add (newOperand); 
 				operandCount++;
 			}

@@ -120,14 +120,14 @@ namespace Calculator
 			InterpreterTest ("Interpreter 3: no operand ", expressionSet, "Invalid expression: no operand found");
 			expressionSet = new string[] {"x = 3 / 2","y=x/(-3)","a = 2*(x+3)-x/y"};
 			InterpreterTest ("Interpreter 4:", expressionSet, "a = 12");
-			expressionSet = new string[] {"x=3","x=x-1"};
-			InterpreterTest ("Interpreter 5:", expressionSet, "x = 2");
+			expressionSet = new string[] {"x1=3","x1=x1-1"};
+			InterpreterTest ("Interpreter 5:", expressionSet, "x1 = 2");
 
 			expressionSet = new string[] {"x=3","y = mIn (x, 10)"};
 			InterpreterTest ("Interpreter 6:", expressionSet, "y = 3");
 			expressionSet = new string[] {"x= - sqrt (9)","max (-x, max (1, 2))"};
 			InterpreterTest ("Interpreter 7:", expressionSet, "3");
-
+			/*
 			Console.WriteLine ();
 			FindOperandTest ("5", 0, 0, 5);
 			FindOperandTest ("10", 0, 1, 10);
@@ -137,7 +137,7 @@ namespace Calculator
 			FindOperandTest ("(17+2)*2", 0, 5, 19);
 			FindOperandTest ("-10.258", 0, 6, -10.258);
 			FindOperandTest ("15.8 * (-8.4 / 2.1)", 6, 18, -4);
-
+*/
 			MyCollectionTest.MyListTest ();
 
 			Console.WriteLine ("\r\n" + FailedTestsCount + " tests failed");

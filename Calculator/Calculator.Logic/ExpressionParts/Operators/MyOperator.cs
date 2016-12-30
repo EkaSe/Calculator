@@ -6,7 +6,11 @@ namespace Calculator.Logic
 	abstract public class MyOperator
 	{
 		public int Priority;
-		protected int operandCount;
+		protected int operandCount; 
+		public int OperandCount {
+			get { return operandCount; }
+			private set { operandCount = value; }
+		}
 
 		public MyOperator (int priority, int operandCount) {
 			this.Priority = priority;
@@ -35,7 +39,7 @@ namespace Calculator.Logic
 				operands.Add (result);
 		}
 
-		abstract protected void PushOperands (MyStack<Operand> stack, ref Node<Operand> currentOperand);
+		abstract public void PushOperands (MyStack<Operand> stack, ref Node<Operand> currentOperand);
 
 		public void Perform (MyLinkedList<Operand> operands, ref Node<Operand> currentOperand) {
 			Operand result = PerformOperation (ExtractOperands (operands, ref currentOperand));
@@ -97,7 +101,7 @@ namespace Calculator.Logic
 			for (int i = 0; i < OperatorList.Length; i++) {
 				MyOperator currentOperator = OperatorList [i];
 				int currentPosition = currentOperator.Search (input, startPosition);
-				if (currentPosition > 0 && (currentPosition < position || position < 0)) {
+				if (currentPosition >= 0 && (currentPosition < position || position < 0)) {
 					position = currentPosition;
 					nextOperator = currentOperator;
 				}
