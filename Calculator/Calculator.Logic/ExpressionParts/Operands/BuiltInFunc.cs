@@ -39,7 +39,7 @@ namespace Calculator.Logic
 				if (restOfArgs [0] == ',')
 					restOfArgs = restOfArgs.Substring (1);
 				double newArg = Parser.StringToDouble (Interpreter.ProcessExpression (restOfArgs, endCondition, out restOfArgs));
-				operands.Add (new Operand (newArg)); 
+				operands.Add (new Number (newArg)); 
 				operandCount++;
 			}
 			value = Evaluate ();

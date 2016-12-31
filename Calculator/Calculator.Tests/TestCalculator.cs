@@ -105,7 +105,7 @@ namespace Calculator
 			CalculatorTest ("1+(1+2*(3-2))", "4");
 			CalculatorTest ("1 * 3 * 4", "12");
 			CalculatorTest ("10/7*14", "20");
-			//CalculatorTest ("3^2^2", "81");
+			CalculatorTest ("5!", "120");
 			CalculatorTest ("-7+3", "-4");
 			CalculatorTest ("5.5+2.15", "7.65");
 			//CalculatorTest ("4^(1/2)", "2");
@@ -127,17 +127,7 @@ namespace Calculator
 			InterpreterTest ("Interpreter 6:", expressionSet, "y = 3");
 			expressionSet = new string[] {"x= - sqrt (9)","max (-x, max (1, 2))"};
 			InterpreterTest ("Interpreter 7:", expressionSet, "3");
-			/*
-			Console.WriteLine ();
-			FindOperandTest ("5", 0, 0, 5);
-			FindOperandTest ("10", 0, 1, 10);
-			FindOperandTest ("05", 1, 1, 5);
-			FindOperandTest ("0.1", 0, 2, 0.1);
-			FindOperandTest ("+50-5", 3, 4, -5);
-			FindOperandTest ("(17+2)*2", 0, 5, 19);
-			FindOperandTest ("-10.258", 0, 6, -10.258);
-			FindOperandTest ("15.8 * (-8.4 / 2.1)", 6, 18, -4);
-*/
+
 			MyCollectionTest.MyListTest ();
 
 			Console.WriteLine ("\r\n" + FailedTestsCount + " tests failed");

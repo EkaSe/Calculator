@@ -11,7 +11,7 @@ namespace Calculator.Logic
 			int endPosition = Parser.FindName (input, startPosition, out alias);
 			if (endPosition >= 0) {
 				if (Variables.IsLocal (alias))
-					operand = new Operand (Variables.GetLocal (alias));
+					operand = new Variable (alias, Variables.GetLocal (alias));
 				else
 					throw new Exception ("Invalid expression: " + alias + " doesn't exist yet");
 			}

@@ -176,7 +176,7 @@ namespace Calculator.Logic
 					}
 				}
 				i++;
-				if (i == input.Length) {
+				if (i == input.Length && !operandEnd) {
 					operandEnd = true;
 					if (currentDecimal >= 0)
 						endPosition = input.Length - 1;

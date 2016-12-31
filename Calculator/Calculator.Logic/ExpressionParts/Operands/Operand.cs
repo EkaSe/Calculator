@@ -3,16 +3,13 @@ using MyLibrary;
 
 namespace Calculator.Logic
 {
-	public class Operand
+	abstract public class Operand
 	{
 		protected double value;
 
 		public Operand () {}
-		public Operand (double number) {
-			value = number;
-		}
 
-		public double Value {
+		virtual public double Value {
 			get { return this.value; }
 			set { this.value = value; }
 		}
@@ -42,12 +39,12 @@ namespace Calculator.Logic
 			else if (currentSymbol == '(') {
 				string substring; 
 				int parenthesisEnd = Parser.FindClosingParenthesis (input, i, out substring);
-				operand = new Operand (Parser.StringToDouble (Interpreter.ProcessExpression (substring)));
+				operand = new Number (Parser.StringToDouble (Interpreter.ProcessExpression (substring)));
 				endPosition = parenthesisEnd;
 			} else if (Parser.CharToDigit (currentSymbol) >= 0) {
 				double number = 0;
 				endPosition = Parser.FindNumber (input, i, out number);
-				operand = new Operand (number);
+				operand = new Number (number);
 			} else
 				throw new Exception ("Invalid expression: no operand found");
 			return endPosition + 1;

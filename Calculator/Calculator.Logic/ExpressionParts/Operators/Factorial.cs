@@ -14,13 +14,7 @@ namespace Calculator.Logic
 			for (int i = 1; i <= arg; i++) {
 				result = result * i;
 			}
-			return new Operand ((double) result);
-		}
-
-		//to be removed
-		protected override Operand PerformOperation (MyList<Operand> operands) {
-			Operand operand = operands [0];
-			return PerformOperation (operand);
+			return new Number ((double) result);
 		}
 
 		public override int Search (string input, int startPosition) {

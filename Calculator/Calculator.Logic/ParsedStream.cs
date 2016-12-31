@@ -26,10 +26,9 @@ namespace Calculator.Logic
 			if (expression.Length > 0) 
 				isEnd = false;
 			else isEnd = true;
-			Func <string, int, bool> endCondition = (inputString, position) => {
+			endCondition = (inputString, position) => {
 				return false;
 			};
-			//endCondition = 
 		}
 		
 		public ParsedStream (string input, Func <string, int, bool> endCondition) {
@@ -44,7 +43,7 @@ namespace Calculator.Logic
 		public Operand ReadOperand () {
 			Operand operand;
 			currentPosition = OperandSearch.Run (expression, currentPosition, out operand);
-			if (currentPosition == -1 || currentPosition >= expression.Length)
+			if (currentPosition == -1 || currentPosition > expression.Length)
 				isEnd = true;
 			return operand;
 		}

@@ -8,7 +8,6 @@ namespace Calculator.Logic
 		public UnaryOp (int priority) : base (priority, 1) { }
 
 		override public Operand Perform (MyStack<Operand> operandStack) {
-			MyLinkedList<Operand> operands = new MyLinkedList<Operand> ();
 			Operand result = PerformOperation (operandStack.Pop ());
 			return result;
 		}

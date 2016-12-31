@@ -17,58 +17,9 @@ namespace Calculator.Logic
 			this.operandCount = operandCount;
 		}
 
-		protected MyList<Operand> ExtractOperands (MyLinkedList<Operand> operands, ref Node<Operand> currentOperand) {
-			MyList<Operand> result = new MyList<Operand> ();
-			for (int i = 0; i < operandCount; i++) {
-				result.Add (currentOperand.Element);
-				if (i != operandCount - 1)
-					currentOperand = currentOperand.Next;
-			}
-			return result;
-		}
-
-		protected void InsertResult (Operand result, MyLinkedList<Operand> operands, ref Node<Operand> currentOperand) {
-			if (currentOperand != null) {
-				operands.InsertAfter (result, currentOperand);
-				currentOperand = currentOperand.Next;
-				for (int i = 0; i < operandCount; i++) {
-					operands.RemoveBefore (currentOperand);
-				}
-			}
-			else 
-				operands.Add (result);
-		}
-
 		abstract public void PushOperands (MyStack<Operand> stack, ref Node<Operand> currentOperand);
 
-		public void Perform (MyLinkedList<Operand> operands, ref Node<Operand> currentOperand) {
-			Operand result = PerformOperation (ExtractOperands (operands, ref currentOperand));
-			InsertResult (result, operands, ref currentOperand);
-		}
-
-		public void SkipOperands (ref Node<Operand> currentOperand) {
-			for (int i = 0; i < operandCount - 1; i++) {
-					currentOperand = currentOperand.Next;
-			}
-		}
-
-		public void UnSkipOperands (ref Node<Operand> currentOperand) {
-			for (int i = 0; i < operandCount - 1; i++) {
-				currentOperand = currentOperand.Previous;
-			}
-		}
-
-		virtual public Operand Perform (MyStack<Operand> operandStack) {
-			MyLinkedList<Operand> operands = new MyLinkedList<Operand> ();
-			for (int i = 0; i < operandCount; i++) {
-				operands.Insert (operandStack.Pop (), 0);
-			}
-			Node<Operand> currentOperand = operands.FirstNode;
-			Operand result = PerformOperation (ExtractOperands (operands, ref currentOperand));
-			return result;
-		}
-
-		abstract protected Operand PerformOperation (MyList<Operand> operands);
+		abstract public Operand Perform (MyStack<Operand> operandStack);
 
 		abstract public int Search (string input, int startPosition);
 
