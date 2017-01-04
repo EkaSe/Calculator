@@ -17,7 +17,6 @@ namespace Calculator.Logic
 			get { return Variables.GetLocal (name); }
 			set { Variables.AssignLocal (name, value); }
 		}
-
 	}
 }
 

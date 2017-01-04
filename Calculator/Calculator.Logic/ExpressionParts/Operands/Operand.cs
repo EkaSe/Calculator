@@ -3,11 +3,13 @@ using MyLibrary;
 
 namespace Calculator.Logic
 {
-	abstract public class Operand
+	abstract public class Operand: ExpressionPart
 	{
 		protected double value;
 
-		public Operand () {}
+		public Operand (): base(0) {
+			Priority = 100;
+		}
 
 		virtual public double Value {
 			get { return this.value; }

@@ -54,6 +54,12 @@ namespace Calculator.Logic
 				isEnd = true;
 			currentPosition++;
 		}
+
+		public MyOperator ReadOperator () {
+			MyOperator result = null;
+			ReadOperator (out result);
+			return result;
+		}
 		
 		public string GetRest () {
 			return expression.Substring (currentPosition);

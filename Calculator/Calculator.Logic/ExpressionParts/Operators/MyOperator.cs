@@ -3,16 +3,15 @@ using MyLibrary;
 
 namespace Calculator.Logic
 {
-	abstract public class MyOperator
+	abstract public class MyOperator: ExpressionPart
 	{
-		public int Priority;
 		protected int operandCount; 
 		public int OperandCount {
 			get { return operandCount; }
 			private set { operandCount = value; }
 		}
 
-		public MyOperator (int priority, int operandCount) {
+		public MyOperator (int priority, int operandCount): base (operandCount) {
 			this.Priority = priority;
 			this.operandCount = operandCount;
 		}

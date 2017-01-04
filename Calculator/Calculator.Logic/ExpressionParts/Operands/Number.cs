@@ -10,6 +10,8 @@ namespace Calculator.Logic
 			get { return this.value; }
 			set { this.value = value; }
 		}
+
+		override public ExpressionPart Clone () { return new Number (value); }
 	}
 }
 
