@@ -92,10 +92,10 @@ namespace Calculator.Logic
 			ExpressionPart newPart;
 			while (!expression.IsEnd) {
 				newPart = expression.ReadOperator ();
-				while (activeNode != Root && activeNode.Element.Priority <= newPart.Priority) {
+				while (activeNode != Root && activeNode.Element.Priority >= newPart.Priority) {
 					activeNode = activeNode.Previous;
 				}
-				if (activeNode == Root) {
+				if (activeNode == Root && Root.Element.Priority > newPart.Priority) {
 					this.InsertBefore (newPart, 0);
 				} else {
 					this.InsertAfter (newPart, 0, 1);
@@ -103,47 +103,8 @@ namespace Calculator.Logic
 				if (newPart.branchCount == 2) {
 					newPart = expression.ReadOperand ();
 					this.AddNext (newPart, 1);
-				}
-
+				} 
 			}
-			/*
-			MyLinkedList<MyOperator> operators = new MyLinkedList<MyOperator> ();
-			MyLinkedList<Operand> operands = new MyLinkedList<Operand> ();
-			MyOperator currentOperator;
-			ParsedStream expression = new ParsedStream (input);
-			if (expression.IsEnd)
-				throw new Exception ("Invalid expression: no operand found");
-			Operand currentOperand = expression.ReadOperand (); 
-			operands.Add (currentOperand);
-			while (!expression.IsEnd) {
-				expression.ReadOperator (out currentOperator);
-				operators.Add (currentOperator);
-				if (currentOperator.OperandCount == 2) {
-					currentOperand = expression.ReadOperand ();
-					operands.Add (currentOperand);
-				}
-			}
-
-			double result = operands.FirstNode.Element.Value;
-			Node<Operand> currentOperandNode = operands.FirstNode;
-			MyStack <MyOperator> operatorStack = new MyStack<MyOperator> ();
-			MyStack <Operand> operandStack = new MyStack<Operand> ();
-			operandStack.Push (currentOperandNode.Element);
-
-			currentOperandNode = currentOperandNode.Next;
-			for (Node<MyOperator> currentOperatorNode = operators.FirstNode; currentOperatorNode != null; currentOperatorNode = currentOperatorNode.Next) {
-				operatorStack.Push (currentOperatorNode.Element);
-				currentOperatorNode.Element.PushOperands (operandStack, ref currentOperandNode);
-				if (currentOperatorNode.Next == null || currentOperatorNode.Element.Priority >= currentOperatorNode.Next.Element.Priority) {
-					while (operatorStack.Length > 0) {
-						MyOperator performedOperator = operatorStack.Pop ();
-						Operand operationResult = performedOperator.Perform (operandStack);
-						operandStack.Push (operationResult);
-					}
-				}
-			}
-			result = operandStack.Pop().Value;
-			return result;*/
 		}
 	}
 }
