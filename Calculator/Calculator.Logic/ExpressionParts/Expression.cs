@@ -9,9 +9,7 @@ namespace Calculator.Logic
 		public Token (int count){
 			branchCount = count;
 		}
-		virtual public Token Clone () {
-			return this;
-		}
+		abstract public Token Clone ();
 	}
 
 	public class MultiNode <T> {
@@ -45,6 +43,11 @@ namespace Calculator.Logic
 
 		public Expression (Token rootElement) {
 			Root = new MultiNode<Token> (rootElement, rootElement.branchCount);
+			activeNode = Root;
+		}
+
+		public Expression (MultiNode <Token> newRoot) {
+			Root = newRoot;
 			activeNode = Root;
 		}
 
@@ -111,28 +114,16 @@ namespace Calculator.Logic
 		}
 
 		public double Calculate () {
-		}
-
-		/*public double Calculate (MyLinkedList<Operator> operators, MyLinkedList<Operand> operands) {
-			double result = operands.FirstNode.Element.Value;
-			Node<Operand> currentOperand = operands.FirstNode;
-			MyStack <Operator> operatorStack = new MyStack<Operator> ();
-			MyStack <Operand> operandStack = new MyStack<Operand> ();
-			operandStack.Push (currentOperand.Element);
-			currentOperand = currentOperand.Next;
-			for (Node<Operator> currentOperator = operators.FirstNode; currentOperator != null; currentOperator = currentOperator.Next) {
-				operatorStack.Push (currentOperator.Element);
-				currentOperator.Element.PushOperands (operandStack, ref currentOperand);
-				if (currentOperator.Next == null || currentOperator.Element.Priority >= currentOperator.Next.Element.Priority) {
-					while (operatorStack.Length > 0) {
-						Operator performedOperator = operatorStack.Pop ();
-						performedOperator.Perform (operandStack);
-					}
-				}
+			if (Root.DescendantCount == 0)
+				return ((Operand)Root.Element).Value;
+			MyStack<Operand> operandStack = new MyStack<Operand> ();
+			for (int i = 0; i < Root.DescendantCount; i++) {
+				Expression subTree = new Expression (Root.Descendants [i]);
+				operandStack.Push (new Number(subTree.Calculate ()));
 			}
-			result = operandStack.Pop().Value;
-			return result;
-		}*/
+			((Operator)Root.Element).Perform (operandStack);
+			return (operandStack.Pop()).Value;
+		}
 	}
 }
 

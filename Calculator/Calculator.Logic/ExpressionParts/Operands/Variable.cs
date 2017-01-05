@@ -17,6 +17,11 @@ namespace Calculator.Logic
 			get { return Variables.GetLocal (name); }
 			set { Variables.AssignLocal (name, value); }
 		}
+
+		override public Token Clone () {
+			//actual variable cloning has no sense since initializing of variables with the same name is not allowed
+			return this;
+		}
 	}
 }
 

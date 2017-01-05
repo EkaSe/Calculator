@@ -40,14 +40,12 @@ namespace Calculator.Logic
 				string assignee = statement.Substring (0, assignPosition);
 				if (Variables.CheckVariable (assignee) && (expression.IndexOf(assignee) < 0 || Variables.IsVariable (assignee))) {
 					string value = ProcessExpression (expression);
-					/**/Expression tree = new Expression (expression);
 					result = assignee + " = " + value;
 					Variables.AssignLocal (assignee, Parser.StringToDouble (value));
 				} else
 					throw new Exception ("Invalid expression: Cannot assign value to " + assignee);
 			} else {
 				result = ProcessExpression (statement);
-				/**/Expression tree = new Expression (statement);
 			}
 			Variables.MergeLocals ();
 			return result;
@@ -83,7 +81,7 @@ namespace Calculator.Logic
 			Func <string, int, bool> endCondition = (inputString, position) => {
 				return false;
 			};
-			return ProcessExpression (input, endCondition, out outlet);;
+			return ProcessExpression (input, endCondition, out outlet);
 		}
 
 		static public void Run (Func<string> getExpression, Func<string, bool> outputAction) {

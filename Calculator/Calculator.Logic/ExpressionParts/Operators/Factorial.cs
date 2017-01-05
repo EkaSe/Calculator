@@ -20,5 +20,9 @@ namespace Calculator.Logic
 		public override int Search (string input, int startPosition) {
 			return SearchBySign (input, startPosition, '!');
 		}
+
+		override public Token Clone () {
+			return new Factorial ();
+		}
 	}
 }
