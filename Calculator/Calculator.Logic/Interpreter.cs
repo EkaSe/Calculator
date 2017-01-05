@@ -7,21 +7,20 @@ namespace Calculator.Logic
 	public class Interpreter
 	{
 
-		static double Calculate (MyLinkedList<MyOperator> operators, MyLinkedList<Operand> operands) {
+		static double Calculate (MyLinkedList<Operator> operators, MyLinkedList<Operand> operands) {
 			double result = operands.FirstNode.Element.Value;
 			Node<Operand> currentOperand = operands.FirstNode;
-			MyStack <MyOperator> operatorStack = new MyStack<MyOperator> ();
+			MyStack <Operator> operatorStack = new MyStack<Operator> ();
 			MyStack <Operand> operandStack = new MyStack<Operand> ();
 			operandStack.Push (currentOperand.Element);
 			currentOperand = currentOperand.Next;
-			for (Node<MyOperator> currentOperator = operators.FirstNode; currentOperator != null; currentOperator = currentOperator.Next) {
+			for (Node<Operator> currentOperator = operators.FirstNode; currentOperator != null; currentOperator = currentOperator.Next) {
 				operatorStack.Push (currentOperator.Element);
 				currentOperator.Element.PushOperands (operandStack, ref currentOperand);
 				if (currentOperator.Next == null || currentOperator.Element.Priority >= currentOperator.Next.Element.Priority) {
 					while (operatorStack.Length > 0) {
-						MyOperator performedOperator = operatorStack.Pop ();
-						Operand operationResult = performedOperator.Perform (operandStack);
-						operandStack.Push (operationResult);
+						Operator performedOperator = operatorStack.Pop ();
+						performedOperator.Perform (operandStack);
 					}
 				}
 			}
@@ -41,12 +40,14 @@ namespace Calculator.Logic
 				string assignee = statement.Substring (0, assignPosition);
 				if (Variables.CheckVariable (assignee) && (expression.IndexOf(assignee) < 0 || Variables.IsVariable (assignee))) {
 					string value = ProcessExpression (expression);
+					/**/Expression tree = new Expression (expression);
 					result = assignee + " = " + value;
 					Variables.AssignLocal (assignee, Parser.StringToDouble (value));
 				} else
 					throw new Exception ("Invalid expression: Cannot assign value to " + assignee);
 			} else {
 				result = ProcessExpression (statement);
+				/**/Expression tree = new Expression (statement);
 			}
 			Variables.MergeLocals ();
 			return result;
@@ -54,9 +55,9 @@ namespace Calculator.Logic
 		
 		static public string ProcessExpression (string input, Func <string, int, bool> endCondition, out string outlet)
 		{
-			MyLinkedList<MyOperator> operators = new MyLinkedList<MyOperator> ();
+			MyLinkedList<Operator> operators = new MyLinkedList<Operator> ();
 			MyLinkedList<Operand> operands = new MyLinkedList<Operand> ();
-			MyOperator currentOperator;
+			Operator currentOperator;
 			string result;
 			ParsedStream expression = new ParsedStream (input, endCondition);
 			if (expression.IsEnd)

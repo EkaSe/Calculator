@@ -48,15 +48,15 @@ namespace Calculator.Logic
 			return operand;
 		}
 
-		public void ReadOperator (out MyOperator firstOperator) {
+		public void ReadOperator (out Operator firstOperator) {
 			currentPosition = OperatorSearch.Run (expression, currentPosition, out firstOperator);
 			if (currentPosition == -1)
 				isEnd = true;
 			currentPosition++;
 		}
 
-		public MyOperator ReadOperator () {
-			MyOperator result = null;
+		public Operator ReadOperator () {
+			Operator result = null;
 			ReadOperator (out result);
 			return result;
 		}

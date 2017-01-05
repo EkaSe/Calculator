@@ -3,97 +3,97 @@ using MyLibrary;
 
 namespace Calculator.Logic
 {
-	abstract public class ExpressionPart {
+	abstract public class Token {
 		public int Priority;
 		public int branchCount;
-		public ExpressionPart (int count){
+		public Token (int count){
 			branchCount = count;
 		}
-		virtual public ExpressionPart Clone () {
+		virtual public Token Clone () {
 			return this;
 		}
 	}
 
 	public class MultiNode <T> {
-		public MultiNode<T> Previous;
-		public MultiNode<T>[] Next;
-		public int NextCount;
+		public MultiNode<T> Ancestor;
+		public MultiNode<T>[] Descendants;
+		public int DescendantCount;
 		public T Element;
 		public int Index;
 
 		public MultiNode (T input) {
 			Element = input;
-			Previous = null;
-			Next = null;
-			NextCount = 0;
+			Ancestor = null;
+			Descendants = null;
+			DescendantCount = 0;
 			Index = -1;
 		}
 
 		public MultiNode (T input, int nextCount) {
 			Element = input;
-			Previous = null;
-			Next = new MultiNode<T>[nextCount];
-			NextCount = nextCount;
+			Ancestor = null;
+			Descendants = new MultiNode<T>[nextCount];
+			DescendantCount = nextCount;
 			Index = -1;
 		}
 	}
 
 	public class Expression
 	{
-		public MultiNode <ExpressionPart> Root;
-		private MultiNode <ExpressionPart> activeNode;
+		public MultiNode <Token> Root;
+		private MultiNode <Token> activeNode;
 
-		public Expression (ExpressionPart rootElement) {
-			Root = new MultiNode<ExpressionPart> (rootElement, rootElement.branchCount);
+		public Expression (Token rootElement) {
+			Root = new MultiNode<Token> (rootElement, rootElement.branchCount);
 			activeNode = Root;
 		}
 
-		public void InsertBefore (ExpressionPart insertion, int linkIndex) {
-			MultiNode <ExpressionPart> newNode = new MultiNode<ExpressionPart> (insertion, insertion.branchCount);
-			MultiNode <ExpressionPart> ancestor = activeNode.Previous;
-			newNode.Previous = ancestor;
+		public void InsertBefore (Token insertion, int linkIndex) {
+			MultiNode <Token> newNode = new MultiNode<Token> (insertion, insertion.branchCount);
+			MultiNode <Token> ancestor = activeNode.Ancestor;
+			newNode.Ancestor = ancestor;
 			if (ancestor == null)
 				Root = newNode;
 			else
-				ancestor.Next [activeNode.Index] = newNode;
+				ancestor.Descendants [activeNode.Index] = newNode;
 			newNode.Index = activeNode.Index;
-			activeNode.Previous = newNode;
-			newNode.Next [linkIndex] = activeNode;
+			activeNode.Ancestor = newNode;
+			newNode.Descendants [linkIndex] = activeNode;
 			activeNode.Index = linkIndex;
 			activeNode = newNode;
 		}
 
-		public void InsertAfter (ExpressionPart insertion, int newIndex, int scionIndex) {
-			MultiNode <ExpressionPart> newNode = new MultiNode<ExpressionPart> (insertion, insertion.branchCount);
-			MultiNode <ExpressionPart> scion = activeNode.Next [scionIndex];
-			newNode.Previous = activeNode;
-			activeNode.Next [scionIndex] = newNode;
+		public void InsertAfter (Token insertion, int newIndex, int scionIndex) {
+			MultiNode <Token> newNode = new MultiNode<Token> (insertion, insertion.branchCount);
+			MultiNode <Token> scion = activeNode.Descendants [scionIndex];
+			newNode.Ancestor = activeNode;
+			activeNode.Descendants [scionIndex] = newNode;
 			newNode.Index = scionIndex;
-			newNode.Next [newIndex] = scion;
+			newNode.Descendants [newIndex] = scion;
 			scion.Index = newIndex;
-			scion.Previous = newNode;
+			scion.Ancestor = newNode;
 			activeNode = newNode;
 		}
 
-		public void AddNext (ExpressionPart insertion, int inputIndex) {
+		public void AddNext (Token insertion, int inputIndex) {
 			//replace currentNode.Next [inputIndex] with newNode
-			MultiNode <ExpressionPart> newNode = new MultiNode<ExpressionPart> (insertion, insertion.branchCount);
-			activeNode.Next [inputIndex] = newNode;
+			MultiNode <Token> newNode = new MultiNode<Token> (insertion, insertion.branchCount);
+			activeNode.Descendants [inputIndex] = newNode;
 			newNode.Index = inputIndex;
-			newNode.Previous = activeNode;
+			newNode.Ancestor = activeNode;
 		}
 
 		public Expression (string input) {
-			ParsedStream expression = new ParsedStream (input);
-			if (expression.IsEnd)
+			ParsedStream stream = new ParsedStream (input);
+			if (stream.IsEnd)
 				throw new Exception ("Invalid expression: no operand found");
-			Root = new MultiNode<ExpressionPart> (expression.ReadOperand (), 0);
+			Root = new MultiNode<Token> (stream.ReadOperand (), 0);
 			activeNode = Root;
-			ExpressionPart newPart;
-			while (!expression.IsEnd) {
-				newPart = expression.ReadOperator ();
+			Token newPart;
+			while (!stream.IsEnd) {
+				newPart = stream.ReadOperator ();
 				while (activeNode != Root && activeNode.Element.Priority >= newPart.Priority) {
-					activeNode = activeNode.Previous;
+					activeNode = activeNode.Ancestor;
 				}
 				if (activeNode == Root && Root.Element.Priority > newPart.Priority) {
 					this.InsertBefore (newPart, 0);
@@ -101,11 +101,38 @@ namespace Calculator.Logic
 					this.InsertAfter (newPart, 0, 1);
 				}
 				if (newPart.branchCount == 2) {
-					newPart = expression.ReadOperand ();
+					newPart = stream.ReadOperand ();
 					this.AddNext (newPart, 1);
 				} 
 			}
 		}
+
+		public void Draw () {
+		}
+
+		public double Calculate () {
+		}
+
+		/*public double Calculate (MyLinkedList<Operator> operators, MyLinkedList<Operand> operands) {
+			double result = operands.FirstNode.Element.Value;
+			Node<Operand> currentOperand = operands.FirstNode;
+			MyStack <Operator> operatorStack = new MyStack<Operator> ();
+			MyStack <Operand> operandStack = new MyStack<Operand> ();
+			operandStack.Push (currentOperand.Element);
+			currentOperand = currentOperand.Next;
+			for (Node<Operator> currentOperator = operators.FirstNode; currentOperator != null; currentOperator = currentOperator.Next) {
+				operatorStack.Push (currentOperator.Element);
+				currentOperator.Element.PushOperands (operandStack, ref currentOperand);
+				if (currentOperator.Next == null || currentOperator.Element.Priority >= currentOperator.Next.Element.Priority) {
+					while (operatorStack.Length > 0) {
+						Operator performedOperator = operatorStack.Pop ();
+						performedOperator.Perform (operandStack);
+					}
+				}
+			}
+			result = operandStack.Pop().Value;
+			return result;
+		}*/
 	}
 }
 

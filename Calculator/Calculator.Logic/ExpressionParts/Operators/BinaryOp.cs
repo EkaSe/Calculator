@@ -3,15 +3,15 @@ using MyLibrary;
 
 namespace Calculator.Logic
 {
-	abstract public class BinaryOp: MyOperator
+	abstract public class BinaryOp: Operator
 	{
 		public BinaryOp (int priority) : base (priority, 2) { }
 
-		override public Operand Perform (MyStack<Operand> operandStack) {
+		override public void Perform (MyStack<Operand> operandStack) {
 			Operand arg2 = operandStack.Pop ();
 			Operand arg1 = operandStack.Pop ();
 			Operand result = PerformOperation (arg1, arg2);
-			return result;
+			operandStack.Push (result);
 		}
 
 		abstract protected Operand PerformOperation (Operand arg1, Operand arg2);

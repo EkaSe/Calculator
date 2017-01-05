@@ -131,8 +131,6 @@ namespace Calculator
 			MyCollectionTest.MyListTest ();
 
 			Console.WriteLine ("\r\n" + FailedTestsCount + " tests failed");
-
-			//Expression tree = new Expression ("1!*2-3!/4*5!");
 		}
 	}
 }

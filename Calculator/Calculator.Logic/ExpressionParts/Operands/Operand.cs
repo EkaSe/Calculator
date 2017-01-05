@@ -3,7 +3,7 @@ using MyLibrary;
 
 namespace Calculator.Logic
 {
-	abstract public class Operand: ExpressionPart
+	abstract public class Operand: Token
 	{
 		protected double value;
 

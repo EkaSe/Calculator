@@ -11,7 +11,7 @@ namespace Calculator.Logic
 			set { this.value = value; }
 		}
 
-		override public ExpressionPart Clone () { return new Number (value); }
+		override public Token Clone () { return new Number (value); }
 	}
 }
 

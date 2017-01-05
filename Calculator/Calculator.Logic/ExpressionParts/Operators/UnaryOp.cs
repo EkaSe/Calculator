@@ -3,13 +3,13 @@ using MyLibrary;
 
 namespace Calculator.Logic
 {
-	abstract public class UnaryOp: MyOperator
+	abstract public class UnaryOp: Operator
 	{
 		public UnaryOp (int priority) : base (priority, 1) { }
 
-		override public Operand Perform (MyStack<Operand> operandStack) {
+		override public void Perform (MyStack<Operand> operandStack) {
 			Operand result = PerformOperation (operandStack.Pop ());
-			return result;
+			operandStack.Push (result);
 		}
 
 		abstract protected Operand PerformOperation (Operand arg);

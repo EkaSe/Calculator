@@ -36,7 +36,6 @@
     <Compile Include="ParsedStream.cs" />
     <Compile Include="Interpreter.cs" />
     <Compile Include="Prerequisites.cs" />
-    <Compile Include="ExpressionParts\Operators\MyOperator.cs" />
     <Compile Include="ExpressionParts\Operands\BuiltInFunc.cs" />
     <Compile Include="ExpressionParts\Operands\Number.cs" />
     <Compile Include="ExpressionParts\Operands\Operand.cs" />
@@ -50,6 +49,7 @@
     <Compile Include="ExpressionParts\Operators\BinaryOp.cs" />
     <Compile Include="ExpressionParts\Operators\Factorial.cs" />
     <Compile Include="ExpressionParts\Expression.cs" />
+    <Compile Include="ExpressionParts\Operators\Operator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

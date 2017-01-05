@@ -73,7 +73,7 @@ namespace Calculator.Logic
 	public class MinBIF : BuiltInFunc {
 		public MinBIF() : base() { name = "min"; }
 		public MinBIF (string arguments) : base("min", arguments) {}
-		override public ExpressionPart Clone () {
+		override public Token Clone () {
 			return new MinBIF ();
 		}
 
@@ -93,7 +93,7 @@ namespace Calculator.Logic
 	public class MaxBIF : BuiltInFunc {
 		public MaxBIF() : base() { name = "max"; }
 		public MaxBIF (string arguments) : base("max", arguments) {}
-		override public ExpressionPart Clone () {
+		override public Token Clone () {
 			return new MaxBIF ();
 		}
 
@@ -114,7 +114,7 @@ namespace Calculator.Logic
 		public SqrtBIF() : base() { name = "sqrt"; }
 		public SqrtBIF (string arguments) : base("sqrt", arguments) {}
 
-		override public ExpressionPart Clone () {
+		override public Token Clone () {
 			return new SqrtBIF ();
 		}
 
