@@ -39,50 +39,38 @@ namespace Calculator.Logic
 					throw new Exception ("Invalid expression: Assignment under assignment");
 				string assignee = statement.Substring (0, assignPosition);
 				if (Variables.CheckVariable (assignee) && (expression.IndexOf(assignee) < 0 || Variables.IsVariable (assignee))) {
-					string value = ProcessExpression (expression);
+					Expression tree = new Expression (expression);
+					string value = Parser.DoubleToString (tree.Calculate ());
 					result = assignee + " = " + value;
 					Variables.AssignLocal (assignee, Parser.StringToDouble (value));
 				} else
 					throw new Exception ("Invalid expression: Cannot assign value to " + assignee);
 			} else {
-				result = ProcessExpression (statement);
+				Expression tree = new Expression (statement);
+				result = Parser.DoubleToString (tree.Calculate ());
 			}
 			Variables.MergeLocals ();
 			return result;
 		}
 		
-		static public string ProcessExpression (string input, Func <string, int, bool> endCondition, out string outlet)
+		/*static public string ProcessExpression (string input, Func <string, int, bool> endCondition, out string outlet)
 		{
-			MyLinkedList<Operator> operators = new MyLinkedList<Operator> ();
-			MyLinkedList<Operand> operands = new MyLinkedList<Operand> ();
-			Operator currentOperator;
-			string result;
-			ParsedStream expression = new ParsedStream (input, endCondition);
-			if (expression.IsEnd)
-				throw new Exception ("Invalid expression: no operand found");
-			Operand currentOperand = expression.ReadOperand (); 
-			operands.Add (currentOperand);
-			while (!expression.IsEnd) {
-				expression.ReadOperator (out currentOperator);
-				operators.Add (currentOperator);
-				if (currentOperator.OperandCount == 2) {
-					currentOperand = expression.ReadOperand ();
-					operands.Add (currentOperand);
-				}
-			}
-			result = Parser.DoubleToString (Calculate (operators, operands));
-			outlet = expression.GetRest();
+			Expression tree = new Expression (input, endCondition, out outlet);
+			string result = Parser.DoubleToString (tree.Calculate ());
 			return result;
 		}
 
 		static public string ProcessExpression (string input)
 		{
-			string outlet = null;
+			/*string outlet = null;
 			Func <string, int, bool> endCondition = (inputString, position) => {
 				return false;
 			};
-			return ProcessExpression (input, endCondition, out outlet);
-		}
+			return ProcessExpression (input, endCondition, out outlet);*//*
+			Expression tree = new Expression (input);
+			string result = Parser.DoubleToString (tree.Calculate ());
+			return result;
+		}*/
 
 		static public void Run (Func<string> getExpression, Func<string, bool> outputAction) {
 			Variables.ClearDictionaries ();

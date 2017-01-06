@@ -85,8 +85,13 @@ namespace Calculator.Logic
 			newNode.Index = inputIndex;
 			newNode.Ancestor = activeNode;
 		}
-
+			
 		public Expression (string input) {
+			/*string outlet = null;
+			Func <string, int, bool> endCondition = (inputString, position) => {
+				return false;
+			};*/
+			//How to avoid repeating of code below? Can we call one constructor from another?
 			ParsedStream stream = new ParsedStream (input);
 			if (stream.IsEnd)
 				throw new Exception ("Invalid expression: no operand found");
@@ -98,7 +103,7 @@ namespace Calculator.Logic
 				while (activeNode != Root && activeNode.Element.Priority >= newPart.Priority) {
 					activeNode = activeNode.Ancestor;
 				}
-				if (activeNode == Root && Root.Element.Priority > newPart.Priority) {
+				if (activeNode == Root && Root.Element.Priority >= newPart.Priority) {
 					this.InsertBefore (newPart, 0);
 				} else {
 					this.InsertAfter (newPart, 0, 1);
@@ -108,6 +113,31 @@ namespace Calculator.Logic
 					this.AddNext (newPart, 1);
 				} 
 			}
+		}
+
+		public Expression (string input, Func <string, int, bool> endCondition, out string outlet) {
+			ParsedStream stream = new ParsedStream (input, endCondition);
+			if (stream.IsEnd)
+				throw new Exception ("Invalid expression: no operand found");
+			Root = new MultiNode<Token> (stream.ReadOperand (), 0);
+			activeNode = Root;
+			Token newPart;
+			while (!stream.IsEnd) {
+				newPart = stream.ReadOperator ();
+				while (activeNode != Root && activeNode.Element.Priority >= newPart.Priority) {
+					activeNode = activeNode.Ancestor;
+				}
+				if (activeNode == Root && Root.Element.Priority >= newPart.Priority) {
+					this.InsertBefore (newPart, 0);
+				} else {
+					this.InsertAfter (newPart, 0, 1);
+				}
+				if (newPart.branchCount == 2) {
+					newPart = stream.ReadOperand ();
+					this.AddNext (newPart, 1);
+				} 
+			}
+			outlet = stream.GetRest();
 		}
 
 		public void Draw () {

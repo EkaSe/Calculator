@@ -36,7 +36,8 @@ namespace Calculator.Logic
 			while (restOfArgs != "") {
 				if (restOfArgs [0] == ',')
 					restOfArgs = restOfArgs.Substring (1);
-				double newArg = Parser.StringToDouble (Interpreter.ProcessExpression (restOfArgs, endCondition, out restOfArgs));
+				Expression tree = new Expression (restOfArgs, endCondition, out restOfArgs);
+				double newArg = tree.Calculate ();
 				operands.Add (new Number (newArg)); 
 				operandCount++;
 			}

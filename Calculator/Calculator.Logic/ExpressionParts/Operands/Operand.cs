@@ -41,7 +41,8 @@ namespace Calculator.Logic
 			else if (currentSymbol == '(') {
 				string substring; 
 				int parenthesisEnd = Parser.FindClosingParenthesis (input, i, out substring);
-				operand = new Number (Parser.StringToDouble (Interpreter.ProcessExpression (substring)));
+				Expression subtree = new Expression (substring);
+				operand = new Number (subtree.Calculate ());
 				endPosition = parenthesisEnd;
 			} else if (Parser.CharToDigit (currentSymbol) >= 0) {
 				double number = 0;
