@@ -8,7 +8,7 @@ namespace Calculator.Logic
 
 		public Subtree (string input): base () {
 			tree = new Expression (input);
-			branchCount = tree.Root.DescendantCount;
+			branchCount = tree.Root.branchCount;
 		}
 
 		override public double Value {

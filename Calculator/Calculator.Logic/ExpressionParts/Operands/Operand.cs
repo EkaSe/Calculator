@@ -15,6 +15,10 @@ namespace Calculator.Logic
 			get { return this.value; }
 			set { this.value = value; }
 		}
+
+		override public double Evaluate () {
+			return value;
+		}
 	}
 
 	public class OperandSearch {

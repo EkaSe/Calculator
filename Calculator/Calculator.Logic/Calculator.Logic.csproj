@@ -51,6 +51,8 @@
     <Compile Include="ExpressionParts\Expression.cs" />
     <Compile Include="ExpressionParts\Operators\Operator.cs" />
     <Compile Include="ExpressionParts\Operands\Subtree.cs" />
+    <Compile Include="ExpressionParts\Value.cs" />
+    <Compile Include="ExpressionParts\Token.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -3,15 +3,7 @@ using MyLibrary;
 
 namespace Calculator.Logic
 {
-	abstract public class Token {
-		public int Priority;
-		public int branchCount;
-		public Token (int count){
-			branchCount = count;
-		}
-		abstract public Token Clone ();
-	}
-
+	/*
 	public class MultiNode <T> {
 		public MultiNode<T> Ancestor;
 		public MultiNode<T>[] Descendants;
@@ -35,83 +27,74 @@ namespace Calculator.Logic
 			Index = -1;
 		}
 	}
-
+*/
 	public class Expression
 	{
-		public MultiNode <Token> Root;
-		private MultiNode <Token> activeNode;
+		public Token Root;
+		private Token activeNode;
 
-		public Expression (Token rootElement) {
-			Root = new MultiNode<Token> (rootElement, rootElement.branchCount);
-			activeNode = Root;
-		}
-
-		public Expression (MultiNode <Token> newRoot) {
+		public Expression (Token newRoot) {
 			Root = newRoot;
 			activeNode = Root;
 		}
 
 		public void InsertBefore (Token insertion, int linkIndex) {
-			MultiNode <Token> newNode = new MultiNode<Token> (insertion, insertion.branchCount);
-			MultiNode <Token> ancestor = activeNode.Ancestor;
-			newNode.Ancestor = ancestor;
+			Token ancestor = activeNode.Ancestor;
+			insertion.Ancestor = ancestor;
 			if (ancestor == null)
-				Root = newNode;
+				Root = insertion;
 			else
-				ancestor.Descendants [activeNode.Index] = newNode;
-			newNode.Index = activeNode.Index;
-			activeNode.Ancestor = newNode;
-			newNode.Descendants [linkIndex] = activeNode;
+				ancestor.Arguments [activeNode.Index] = insertion;
+			insertion.Index = activeNode.Index;
+			activeNode.Ancestor = insertion;
+			insertion.Arguments [linkIndex] = activeNode;
 			activeNode.Index = linkIndex;
-			activeNode = newNode;
+			activeNode = insertion;
 		}
 
 		public void InsertAfter (Token insertion, int newIndex, int scionIndex) {
-			MultiNode <Token> newNode = new MultiNode<Token> (insertion, insertion.branchCount);
-			MultiNode <Token> scion = activeNode.Descendants [scionIndex];
-			newNode.Ancestor = activeNode;
-			activeNode.Descendants [scionIndex] = newNode;
-			newNode.Index = scionIndex;
-			newNode.Descendants [newIndex] = scion;
+			Token scion = activeNode.Arguments [scionIndex];
+			insertion.Ancestor = activeNode;
+			activeNode.Arguments [scionIndex] = insertion;
+			insertion.Index = scionIndex;
+			insertion.Arguments [newIndex] = scion;
 			scion.Index = newIndex;
-			scion.Ancestor = newNode;
-			activeNode = newNode;
+			scion.Ancestor = insertion;
+			activeNode = insertion;
 		}
 
 		public void AddNext (Token insertion, int inputIndex) {
 			//replace currentNode.Next [inputIndex] with newNode
 			if (insertion.GetType () == typeof(Subtree)) {
-				MultiNode <Token> newNode = ((Subtree) insertion).tree.Root;
-				activeNode.Descendants [inputIndex] = newNode;
-				newNode.Index = inputIndex;
-				newNode.Ancestor = activeNode;
+				//MultiNode <Token> insertion = ((Subtree) insertion).tree.Root;
+				activeNode.Arguments [inputIndex] = insertion;
+				insertion.Index = inputIndex;
+				insertion.Ancestor = activeNode;
 			} else {
-				MultiNode <Token> newNode = new MultiNode<Token> (insertion, insertion.branchCount);
-				activeNode.Descendants [inputIndex] = newNode;
-				newNode.Index = inputIndex;
-				newNode.Ancestor = activeNode;
+				activeNode.Arguments [inputIndex] = insertion;
+				insertion.Index = inputIndex;
+				insertion.Ancestor = activeNode;
 			}
 		}
 
 		public void AddNext (Expression insertion, int inputIndex) {
-			MultiNode <Token> newNode = insertion.Root;
-			activeNode.Descendants [inputIndex] = newNode;
-			newNode.Index = inputIndex;
-			newNode.Ancestor = activeNode;
+			activeNode.Arguments [inputIndex] = insertion.Root;
+			insertion.Root.Index = inputIndex;
+			insertion.Root.Ancestor = activeNode;
 		}
 			
 		private Expression (ParsedStream stream) {
 			if (stream.IsEnd)
 				throw new Exception ("Invalid expression: no operand found");
-			Root = new MultiNode<Token> (stream.ReadOperand (), 0);
+			Root = stream.ReadOperand ();
 			activeNode = Root;
 			Token newPart;
 			while (!stream.IsEnd) {
 				newPart = stream.ReadOperator ();
-				while (activeNode != Root && activeNode.Element.Priority >= newPart.Priority) {
+				while (activeNode != Root && activeNode.Priority >= newPart.Priority) {
 					activeNode = activeNode.Ancestor;
 				}
-				if (activeNode == Root && Root.Element.Priority >= newPart.Priority) {
+				if (activeNode == Root && Root.Priority >= newPart.Priority) {
 					this.InsertBefore (newPart, 0);
 				} else {
 					this.InsertAfter (newPart, 0, 1);
@@ -136,24 +119,19 @@ namespace Calculator.Logic
 		}
 
 		public Expression Clone () {
-			Expression result = new Expression (Root.Element.Clone ());
-			for (int i = 0; i < Root.DescendantCount; i++) {
-				Expression branch = (new Expression (Root.Descendants [i])).Clone ();
+			Expression result = new Expression (Root.Clone ());
+			for (int i = 0; i < Root.branchCount; i++) {
+				Expression branch = (new Expression (Root.Arguments [i])).Clone ();
 				result.AddNext (branch, i);
 			}
 			return result;
 		}
 
 		public double Calculate () {
-			if (Root.DescendantCount == 0)
-				return ((Operand)Root.Element).Value;
-			MyStack<Operand> operandStack = new MyStack<Operand> ();
-			for (int i = 0; i < Root.DescendantCount; i++) {
-				Expression subTree = new Expression (Root.Descendants [i]);
-				operandStack.Push (new Number(subTree.Calculate ()));
-			}
-			((Operator)Root.Element).Perform (operandStack);
-			return (operandStack.Pop()).Value;
+			if (Root.branchCount == 0)
+				return ((Operand)Root).Value;
+			else
+				return ((Operator)Root).Evaluate ();
 		}
 	}
 }

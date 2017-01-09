@@ -22,7 +22,7 @@ namespace Calculator.Logic
 			SetArguments (arguments);
 		}
 
-		abstract protected double Evaluate ();
+		//abstract protected double Evaluate ();
 
 		public void SetArguments (string arguments) {
 			operands = new MyList<Operand> ();
@@ -78,7 +78,7 @@ namespace Calculator.Logic
 			return new MinBIF ();
 		}
 
-		override protected double Evaluate () {
+		override public double Evaluate () {
 			if (operands.Length > 0) {
 				value = operands [0].Value;
 				for (int i = 1; i < operands.Length; i++) {
@@ -98,7 +98,7 @@ namespace Calculator.Logic
 			return new MaxBIF ();
 		}
 
-		override protected double Evaluate () {
+		override public double Evaluate () {
 			if (operands.Length > 0) {
 				value = operands [0].Value;
 				for (int i = 1; i < operands.Length; i++) {
@@ -119,7 +119,7 @@ namespace Calculator.Logic
 			return new SqrtBIF ();
 		}
 
-		override protected double Evaluate () {
+		override public double Evaluate () {
 			if (operandCount == 1) {
 				value = System.Math.Sqrt (operands [0].Value);
 			} else 
