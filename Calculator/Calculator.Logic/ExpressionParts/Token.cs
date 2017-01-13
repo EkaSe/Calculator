@@ -14,6 +14,8 @@ namespace Calculator.Logic
 			Arguments = null;
 			Index = -1;
 			branchCount = count;
+			if (branchCount > 0)
+				Arguments = new Token[branchCount];
 		}
 
 		public Token (int count, Token root, int index) {
@@ -21,6 +23,8 @@ namespace Calculator.Logic
 			Arguments = null;
 			Index = index;
 			branchCount = count;
+			if (branchCount > 0)
+				Arguments = new Token[branchCount];
 		}
 
 		abstract public Token Clone ();

@@ -25,6 +25,7 @@ namespace Calculator.Logic
 			MyStack<Operand> operandStack = new MyStack<Operand> ();
 			for (int i = 0; i < branchCount; i++) {
 				Expression subTree = new Expression (Arguments [i]);
+				double val = subTree.Calculate ();
 				operandStack.Push (new Number(subTree.Calculate ()));
 			}
 			Perform (operandStack);
@@ -64,7 +65,7 @@ namespace Calculator.Logic
 				int currentPosition = currentOperator.Search (input, startPosition);
 				if (currentPosition >= 0 && (currentPosition < position || position < 0)) {
 					position = currentPosition;
-					nextOperator = currentOperator;
+					nextOperator = (Operator) currentOperator.Clone();
 				}
 			}
 			return position;

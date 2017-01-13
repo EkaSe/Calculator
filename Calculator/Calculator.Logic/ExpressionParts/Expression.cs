@@ -3,38 +3,16 @@ using MyLibrary;
 
 namespace Calculator.Logic
 {
-	/*
-	public class MultiNode <T> {
-		public MultiNode<T> Ancestor;
-		public MultiNode<T>[] Descendants;
-		public int DescendantCount;
-		public T Element;
-		public int Index;
-
-		public MultiNode (T input) {
-			Element = input;
-			Ancestor = null;
-			Descendants = null;
-			DescendantCount = 0;
-			Index = -1;
-		}
-
-		public MultiNode (T input, int nextCount) {
-			Element = input;
-			Ancestor = null;
-			Descendants = new MultiNode<T>[nextCount];
-			DescendantCount = nextCount;
-			Index = -1;
-		}
-	}
-*/
 	public class Expression
 	{
 		public Token Root;
 		private Token activeNode;
 
 		public Expression (Token newRoot) {
-			Root = newRoot;
+			if (newRoot.GetType () == typeof(Subtree))
+				Root = ((Subtree)newRoot).tree.Root;			
+			else 
+				Root = newRoot;
 			activeNode = Root;
 		}
 
@@ -65,16 +43,14 @@ namespace Calculator.Logic
 
 		public void AddNext (Token insertion, int inputIndex) {
 			//replace currentNode.Next [inputIndex] with newNode
-			if (insertion.GetType () == typeof(Subtree)) {
-				//MultiNode <Token> insertion = ((Subtree) insertion).tree.Root;
-				activeNode.Arguments [inputIndex] = insertion;
-				insertion.Index = inputIndex;
-				insertion.Ancestor = activeNode;
-			} else {
-				activeNode.Arguments [inputIndex] = insertion;
-				insertion.Index = inputIndex;
-				insertion.Ancestor = activeNode;
-			}
+			Token newNode;
+			if (insertion.GetType () == typeof(Subtree))
+				newNode = ((Subtree)insertion).tree.Root;
+			else
+				newNode = insertion;
+			activeNode.Arguments [inputIndex] = newNode;
+			newNode.Index = inputIndex;
+			newNode.Ancestor = activeNode;
 		}
 
 		public void AddNext (Expression insertion, int inputIndex) {
@@ -128,10 +104,7 @@ namespace Calculator.Logic
 		}
 
 		public double Calculate () {
-			if (Root.branchCount == 0)
-				return ((Operand)Root).Value;
-			else
-				return ((Operator)Root).Evaluate ();
+			return Root.Evaluate ();
 		}
 	}
 }

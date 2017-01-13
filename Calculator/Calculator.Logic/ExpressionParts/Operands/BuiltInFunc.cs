@@ -52,7 +52,7 @@ namespace Calculator.Logic
 			BIFList.Add (newBIF.name, newBIF);
 		}
 
-		static public int Run (string input, int startPosition, out Operand operand) {
+		static public int Run (string input, int startPosition, out Token operand) {
 			operand = null;
 			string alias = null;
 			int endPosition = Parser.FindName (input, startPosition, out alias);

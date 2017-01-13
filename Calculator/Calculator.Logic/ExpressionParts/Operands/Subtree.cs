@@ -8,7 +8,7 @@ namespace Calculator.Logic
 
 		public Subtree (string input): base () {
 			tree = new Expression (input);
-			branchCount = tree.Root.branchCount;
+			//branchCount = tree.Root.branchCount;
 		}
 
 		override public double Value {
@@ -16,7 +16,7 @@ namespace Calculator.Logic
 			set { }
 		}
 
-		Subtree (Expression newTree) {
+		Subtree (Expression newTree) : base () {
 			tree = newTree;
 		}
 
