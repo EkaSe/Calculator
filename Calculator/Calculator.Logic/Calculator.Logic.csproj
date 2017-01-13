@@ -50,12 +50,7 @@
     <Compile Include="ExpressionParts\Operators\Factorial.cs" />
     <Compile Include="ExpressionParts\Expression.cs" />
     <Compile Include="ExpressionParts\Operators\Operator.cs" />
-<<<<<<< HEAD
     <Compile Include="ExpressionParts\Operands\Subtree.cs" />
-    <Compile Include="ExpressionParts\Value.cs" />
-    <Compile Include="ExpressionParts\Token.cs" />
-=======
->>>>>>> parent of 08998b0... Calculator: Expression under parenthesis is treated as tree branch instead of calculating immediately [draft]
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

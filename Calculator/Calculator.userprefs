@@ -2,14 +2,14 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Calculator.Logic/ExpressionParts/Operands/Operand.cs">
     <Files>
+      <File FileName="Calculator.Logic/Interpreter.cs" Line="1" Column="1" />
+      <File FileName="Calculator.Logic/ExpressionParts/Operators/Operator.cs" Line="1" Column="1" />
+      <File FileName="Calculator.Logic/ExpressionParts/Operators/BinaryOp.cs" Line="1" Column="1" />
+      <File FileName="Calculator.Tests/TestCalculator.cs" Line="116" Column="1" />
+      <File FileName="Calculator.Logic/ExpressionParts/Operands/Variable.cs" Line="1" Column="1" />
+      <File FileName="Calculator.Logic/ExpressionParts/Expression.cs" Line="22" Column="25" />
+      <File FileName="Calculator.Logic/ExpressionParts/Operands/Variables.cs" Line="1" Column="1" />
       <File FileName="Calculator.Logic/ExpressionParts/Operands/Operand.cs" Line="20" Column="12" />
-      <File FileName="Calculator.Logic/ExpressionParts/Expression.cs" Line="98" Column="74" />
-      <File FileName="Calculator.Logic/ExpressionParts/Operands/Subtree.cs" Line="20" Column="19" />
-      <File FileName="Calculator.Logic/Interpreter.cs" Line="50" Column="1" />
-      <File FileName="Calculator.Tests/TestCalculator.cs" Line="120" Column="30" />
-      <File FileName="Calculator.Logic/ExpressionParts/Token.cs" Line="19" Column="1" />
-      <File FileName="Calculator.Logic/ExpressionParts/Operators/Operator.cs" Line="29" Column="50" />
-      <File FileName="Calculator.Logic/ParsedStream.cs" Line="23" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

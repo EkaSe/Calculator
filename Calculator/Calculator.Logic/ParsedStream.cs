@@ -40,8 +40,8 @@ namespace Calculator.Logic
 			this.endCondition = endCondition;
 		}
 
-		public Token ReadOperand () {
-			Token operand;
+		public Operand ReadOperand () {
+			Operand operand;
 			currentPosition = OperandSearch.Run (expression, currentPosition, out operand);
 			if (currentPosition == -1 || currentPosition > expression.Length)
 				isEnd = true;

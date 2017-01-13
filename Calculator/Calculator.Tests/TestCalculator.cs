@@ -46,9 +46,9 @@ namespace Calculator
 
 		static public void FindOperandTest (string input, int startPosition, int expectedPosition, double expectedResult)
 		{
-			Token operand = null;
+			Operand operand = null;
 			int foundPosition = OperandSearch.Run (input, startPosition, out operand);
-			double result = ((Operand)operand).Value;
+			double result = operand.Value;
 			if (foundPosition == expectedPosition && result == expectedResult)
 				Console.WriteLine ("Test: First operand in " + input + " with start posiion " + startPosition 
 					+ " is " + expectedResult + " passed");

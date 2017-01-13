@@ -5,7 +5,7 @@ using System.Text;
 namespace Calculator.Logic
 {
 	public class VarSearch {
-		static public int Run (string input, int startPosition, out Token operand) {
+		static public int Run (string input, int startPosition, out Operand operand) {
 			operand = null;
 			string alias;
 			int endPosition = Parser.FindName (input, startPosition, out alias);

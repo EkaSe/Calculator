@@ -6,7 +6,7 @@ namespace Calculator.Logic
 	{
 		public Number (double newDouble): base () { value = newDouble; }
 
-		public double Value {
+		override public double Value {
 			get { return this.value; }
 			set { this.value = value; }
 		}
