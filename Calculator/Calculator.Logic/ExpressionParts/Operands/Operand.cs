@@ -45,9 +45,14 @@ namespace Calculator.Logic
 			else if (currentSymbol == '(') {
 				string substring; 
 				int parenthesisEnd = Parser.FindClosingParenthesis (input, i, out substring);
+<<<<<<< HEAD
 				//Expression subtree = new Expression (substring);
 				//operand = subtree.Root;
 				operand = new Subtree (substring);
+=======
+				Expression subtree = new Expression (substring);
+				operand = new Number (subtree.Calculate ());
+>>>>>>> parent of 08998b0... Calculator: Expression under parenthesis is treated as tree branch instead of calculating immediately [draft]
 				endPosition = parenthesisEnd;
 			} else if (Parser.CharToDigit (currentSymbol) >= 0) {
 				double number = 0;

@@ -53,6 +53,25 @@ namespace Calculator.Logic
 			return result;
 		}
 		
+		/*static public string ProcessExpression (string input, Func <string, int, bool> endCondition, out string outlet)
+		{
+			Expression tree = new Expression (input, endCondition, out outlet);
+			string result = Parser.DoubleToString (tree.Calculate ());
+			return result;
+		}
+
+		static public string ProcessExpression (string input)
+		{
+			/*string outlet = null;
+			Func <string, int, bool> endCondition = (inputString, position) => {
+				return false;
+			};
+			return ProcessExpression (input, endCondition, out outlet);*//*
+			Expression tree = new Expression (input);
+			string result = Parser.DoubleToString (tree.Calculate ());
+			return result;
+		}*/
+
 		static public void Run (Func<string> getExpression, Func<string, bool> outputAction) {
 			Variables.ClearDictionaries ();
 			bool finish = false;

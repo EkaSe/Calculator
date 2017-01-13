@@ -1,12 +1,15 @@
 ﻿<Properties StartupItem="Calculator.Tests/Calculator.Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MyLibrary/MyCollections/MyLinkedList.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Calculator.Logic/ExpressionParts/Operands/Operand.cs">
     <Files>
-      <File FileName="Calculator.Logic/Calculation.cs" Line="6" Column="2" />
-      <File FileName="Calculator.Logic/Parser.cs" Line="10" Column="38" />
-      <File FileName="MyLibrary/MyCollections/MyLinkedList.cs" Line="7" Column="3" />
-      <File FileName="MyLibrary/MyCollections/MyExtendingArray.cs" Line="7" Column="1" />
-      <File FileName="MyLibrary/MyCollectionTest.cs" Line="15" Column="6" />
+      <File FileName="Calculator.Logic/ExpressionParts/Operands/Operand.cs" Line="20" Column="12" />
+      <File FileName="Calculator.Logic/ExpressionParts/Expression.cs" Line="98" Column="74" />
+      <File FileName="Calculator.Logic/ExpressionParts/Operands/Subtree.cs" Line="20" Column="19" />
+      <File FileName="Calculator.Logic/Interpreter.cs" Line="50" Column="1" />
+      <File FileName="Calculator.Tests/TestCalculator.cs" Line="120" Column="30" />
+      <File FileName="Calculator.Logic/ExpressionParts/Token.cs" Line="19" Column="1" />
+      <File FileName="Calculator.Logic/ExpressionParts/Operators/Operator.cs" Line="29" Column="50" />
+      <File FileName="Calculator.Logic/ParsedStream.cs" Line="23" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
