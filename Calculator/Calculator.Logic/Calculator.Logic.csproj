@@ -57,6 +57,7 @@
     <Compile Include="ExpressionParts\BuiltInFunctions\SqrtBIF.cs" />
     <Compile Include="ExpressionParts\BuiltInFunctions\MaxBIF.cs" />
     <Compile Include="ExpressionParts\MultiNode.cs" />
+    <Compile Include="ExpressionParts\UserFunc.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
