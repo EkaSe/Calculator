@@ -24,5 +24,9 @@ namespace Calculator.Logic
 		override public Token Clone () {
 			return new Factorial ();
 		}
+
+		override public string Draw () {
+			return "!";
+		}
 	}
 }

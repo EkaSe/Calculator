@@ -1,5 +1,0 @@
-/home/semiash/projects2/Calculator/Calculator/Calculator/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
-/home/semiash/projects2/Calculator/Calculator/Calculator/bin/Debug/Calculator.exe.mdb
-/home/semiash/projects2/Calculator/Calculator/Calculator/bin/Debug/Calculator.exe
-/home/semiash/projects2/Calculator/Calculator/Calculator/obj/x86/Debug/Calculator.exe
-/home/semiash/projects2/Calculator/Calculator/Calculator/obj/x86/Debug/Calculator.exe.mdb

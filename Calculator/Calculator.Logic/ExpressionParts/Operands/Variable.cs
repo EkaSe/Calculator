@@ -22,6 +22,10 @@ namespace Calculator.Logic
 			//actual variable cloning has no sense since initializing of variables with the same name is not allowed
 			return this;
 		}
+
+		override public string Draw () {
+			return name;
+		}
 	}
 }
 

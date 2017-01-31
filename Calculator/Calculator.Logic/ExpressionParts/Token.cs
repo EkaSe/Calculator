@@ -29,6 +29,7 @@ namespace Calculator.Logic
 
 		abstract public Token Clone ();
 		abstract public double Evaluate ();
+		abstract public string Draw ();
 		//abstract public Value Evaluate ();
 	}
 }

@@ -36,7 +36,6 @@
     <Compile Include="ParsedStream.cs" />
     <Compile Include="Interpreter.cs" />
     <Compile Include="Prerequisites.cs" />
-    <Compile Include="ExpressionParts\Operands\BuiltInFunc.cs" />
     <Compile Include="ExpressionParts\Operands\Number.cs" />
     <Compile Include="ExpressionParts\Operands\Operand.cs" />
     <Compile Include="ExpressionParts\Operands\Variable.cs" />
@@ -51,6 +50,13 @@
     <Compile Include="ExpressionParts\Expression.cs" />
     <Compile Include="ExpressionParts\Operators\Operator.cs" />
     <Compile Include="ExpressionParts\Operands\Subtree.cs" />
+    <Compile Include="ExpressionParts\Value.cs" />
+    <Compile Include="ExpressionParts\Token.cs" />
+    <Compile Include="ExpressionParts\BuiltInFunctions\BuiltInFunc.cs" />
+    <Compile Include="ExpressionParts\BuiltInFunctions\MinBIF.cs" />
+    <Compile Include="ExpressionParts\BuiltInFunctions\SqrtBIF.cs" />
+    <Compile Include="ExpressionParts\BuiltInFunctions\MaxBIF.cs" />
+    <Compile Include="ExpressionParts\MultiNode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -63,5 +69,6 @@
     <Folder Include="ExpressionParts\" />
     <Folder Include="ExpressionParts\Operators\" />
     <Folder Include="ExpressionParts\Operands\" />
+    <Folder Include="ExpressionParts\BuiltInFunctions\" />
   </ItemGroup>
 </Project>

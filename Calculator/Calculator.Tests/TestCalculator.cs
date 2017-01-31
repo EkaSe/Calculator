@@ -46,9 +46,9 @@ namespace Calculator
 
 		static public void FindOperandTest (string input, int startPosition, int expectedPosition, double expectedResult)
 		{
-			Operand operand = null;
+			Token operand = null;
 			int foundPosition = OperandSearch.Run (input, startPosition, out operand);
-			double result = operand.Value;
+			double result = ((Operand)operand).Value;
 			if (foundPosition == expectedPosition && result == expectedResult)
 				Console.WriteLine ("Test: First operand in " + input + " with start posiion " + startPosition 
 					+ " is " + expectedResult + " passed");
@@ -127,6 +127,16 @@ namespace Calculator
 			InterpreterTest ("Interpreter 6:", expressionSet, "y = 3");
 			expressionSet = new string[] {"x= - sqrt (9)","max (-x, max (1, 2))"};
 			InterpreterTest ("Interpreter 7:", expressionSet, "3");
+
+			Console.WriteLine ();
+			Expression testTree = new Expression ("2+3");
+			//Console.Write (testTree.Draw ());
+			testTree = new Expression ("1+(2+3*(4-5))");
+			//Console.Write (testTree.Draw ());
+			testTree = new Expression ("min (6!, 2)");
+			Console.Write (testTree.Draw ());
+			testTree = new Expression ("max (1+(2+3*(4-5)), 6!, sqrt (-8))");
+			Console.Write (testTree.Draw ());
 
 			MyCollectionTest.MyListTest ();
 

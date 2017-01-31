@@ -230,5 +230,89 @@ namespace Calculator.Logic
 			substring = input.Substring (startPosition + 1, j - startPosition - 1);
 			return j;
 		}
+
+		static public int[] TextPlateSize (string plate) {
+			int x = 0;
+			int y = 0;
+			if (plate.Length == 0)
+				return new int[] {0, 0};
+			if (plate [plate.Length - 1] == '\n')
+				plate = plate.Substring (0, plate.Length - 1);
+			int lineStart = -1;
+			do {
+				int lineEnd = plate.IndexOf ("\n", lineStart + 1);
+				if (lineEnd < 0)
+					lineEnd = plate.Length;
+				int lineLength = lineEnd - lineStart - 1;
+				if (lineLength > x)
+					x = lineLength;
+				y++;
+				lineStart = plate.IndexOf ("\n", lineStart + 1);
+			} while (lineStart >= 0);
+			return new int[] { x, y };
+		}
+			
+		static public string AdjustPlate (string plate, int x, int y) {
+			StringBuilder result = new StringBuilder ();
+			int oldY = 0;
+			int lineStart = -1;
+			do {
+				int lineEnd = plate.IndexOf ("\n", lineStart + 1);
+				if (lineEnd < 0)
+					lineEnd = plate.Length;
+				int lineLength = lineEnd - lineStart - 1;
+				result.Append (plate.Substring (lineStart + 1, lineLength));
+				for (int i = lineLength; i < x; i++) {
+					result.Append (" ");
+				}
+				oldY++;
+				result.AppendLine();
+				lineStart = plate.IndexOf ("\n", lineStart + 1);
+			} while (lineStart >= 0);
+			for (int i = oldY; i < y; i++) {
+				for (int j = 0; j < x; j++) {
+					result.Append (" ");
+				}
+				result.AppendLine ();
+			}
+			return result.ToString();
+		}
+
+		static public string AdjustPlate (string plate) {
+			int[] size = TextPlateSize (plate);
+			return AdjustPlate (plate, size [0], size [1]);
+		}
+
+		static public string CenterString (string title, int width) {
+			StringBuilder result = new StringBuilder ();
+			int length = title.Length;
+			for (int i = 0; i < (width - length) / 2; i++) {
+				result.Append (" ");
+			}
+			result.Append (title);
+			for (int i = result.Length; i < width; i++) {
+				result.Append (" ");
+			}
+			return result.ToString();
+		}
+
+		static public string ConcatPlates (string text1, string text2) {
+			StringBuilder result = new StringBuilder ();
+			int[] size1 = TextPlateSize (text1);
+			int[] size2 = TextPlateSize (text2);
+			int y = Math.Max (size1 [1], size2 [1]);
+			string plate1 = AdjustPlate (text1, size1 [0], y);
+			string plate2 = AdjustPlate (text2, size2 [0], y);
+			if (size1 [0] == 0)
+				return plate2;
+			if (size2 [0] == 0)
+				return plate1;
+			for (int i = 0; i < y; i++) {
+				result.Append (plate1.Substring (i * (size1[0] + 1), size1[0]));
+				result.Append (" ");
+				result.AppendLine (plate2.Substring (i * (size2[0] + 1), size2[0]));
+			}
+			return result.ToString();
+		}
 	}
 }

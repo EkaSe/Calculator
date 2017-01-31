@@ -17,6 +17,10 @@ namespace Calculator.Logic
 		override public Token Clone () {
 			return new Plus ();
 		}
+
+		override public string Draw () {
+			return "+";
+		}
 	}
 }
 

@@ -20,6 +20,17 @@ namespace Calculator.Logic
 
 		abstract public void Perform (MyStack<Operand> operandStack);
 
+		override public double Evaluate () {
+			//think of doing it better
+			MyStack<Operand> operandStack = new MyStack<Operand> ();
+			for (int i = 0; i < branchCount; i++) {
+				Expression subTree = new Expression (Arguments [i]);
+				operandStack.Push (new Number(subTree.Calculate ()));
+			}
+			Perform (operandStack);
+			return (operandStack.Pop()).Value;
+		}
+
 		abstract public int Search (string input, int startPosition);
 
 		protected int SearchBySign (string input, int startPosition, char sign) {
@@ -53,7 +64,7 @@ namespace Calculator.Logic
 				int currentPosition = currentOperator.Search (input, startPosition);
 				if (currentPosition >= 0 && (currentPosition < position || position < 0)) {
 					position = currentPosition;
-					nextOperator = currentOperator;
+					nextOperator = (Operator) currentOperator.Clone();
 				}
 			}
 			return position;

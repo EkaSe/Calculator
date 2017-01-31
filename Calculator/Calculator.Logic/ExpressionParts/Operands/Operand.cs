@@ -15,10 +15,14 @@ namespace Calculator.Logic
 			get { return this.value; }
 			set { this.value = value; }
 		}
+
+		override public double Evaluate () {
+			return Value;
+		}
 	}
 
 	public class OperandSearch {
-		static public int Run (string input, int startPosition, out Operand operand) {
+		static public int Run (string input, int startPosition, out Token operand) {
 			//returns position of the first symbol AFTER operand or -1 if not found
 			operand = null;
 			int i = startPosition;
@@ -41,8 +45,6 @@ namespace Calculator.Logic
 			else if (currentSymbol == '(') {
 				string substring; 
 				int parenthesisEnd = Parser.FindClosingParenthesis (input, i, out substring);
-				/*Expression subtree = new Expression (substring);
-				operand = new Number (subtree.Calculate ());*/
 				operand = new Subtree (substring);
 				endPosition = parenthesisEnd;
 			} else if (Parser.CharToDigit (currentSymbol) >= 0) {

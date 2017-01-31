@@ -12,6 +12,10 @@ namespace Calculator.Logic
 		}
 
 		override public Token Clone () { return new Number (value); }
+
+		override public string Draw () {
+			return Parser.DoubleToString (value);
+		}
 	}
 }
 

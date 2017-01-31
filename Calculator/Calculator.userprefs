@@ -1,6 +1,6 @@
 ﻿<Properties StartupItem="Calculator.Tests/Calculator.Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Calculator.Logic/ExpressionParts/Operands/Operand.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Calculator.Logic/ExpressionParts/Expression.cs">
     <Files>
       <File FileName="Calculator.Logic/Interpreter.cs" Line="1" Column="1" />
       <File FileName="Calculator.Logic/ExpressionParts/Operators/Operator.cs" Line="1" Column="1" />
