@@ -58,6 +58,7 @@
     <Compile Include="ExpressionParts\BuiltInFunctions\MaxBIF.cs" />
     <Compile Include="ExpressionParts\MultiNode.cs" />
     <Compile Include="ExpressionParts\UserFunc.cs" />
+    <Compile Include="ExpressionParts\ExpressionBuilder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

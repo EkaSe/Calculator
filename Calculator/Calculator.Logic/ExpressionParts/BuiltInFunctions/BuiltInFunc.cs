@@ -34,7 +34,7 @@ namespace Calculator.Logic
 			while (restOfArgs != "") {
 				if (restOfArgs [0] == ',')
 					restOfArgs = restOfArgs.Substring (1);
-				Expression tree = new Expression (restOfArgs, endCondition, out restOfArgs);
+				Expression tree = new ExpressionBuilder (restOfArgs, endCondition, out restOfArgs).ToExpression ();
 				operands.Add (tree.Root); 
 				branchCount++;
 			}
@@ -63,7 +63,7 @@ namespace Calculator.Logic
 				return -1;
 			else if (endPosition != input.Length - 1 && input [endPosition + 1] == '(') {
 				string arguments; 
-				endPosition = Parser.FindClosingParenthesis (input, endPosition + 1, out arguments);
+				endPosition = Parser.FindClosing (input, endPosition + 1, out arguments);
 				BuiltInFunc BIF = (BuiltInFunc) BIFList [alias].Clone();
 				BIF.SetArguments (arguments);
 				operand = BIF;

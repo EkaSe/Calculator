@@ -129,13 +129,13 @@ namespace Calculator
 			InterpreterTest ("Interpreter 7:", expressionSet, "3");
 
 			Console.WriteLine ();
-			Expression testTree = new Expression ("2+3");
+			Expression testTree = new ExpressionBuilder ("2+3").ToExpression ();
 			//Console.Write (testTree.Draw ());
-			testTree = new Expression ("1+(2+3*(4-5))");
+			testTree = new ExpressionBuilder ("1+(2+3*(4-5))").ToExpression ();
 			//Console.Write (testTree.Draw ());
-			testTree = new Expression ("min (6!, 2)");
+			testTree = new ExpressionBuilder ("min (6!, 2)").ToExpression ();
 			Console.Write (testTree.Draw ());
-			testTree = new Expression ("max (1+(2+3*(4-5)), 6!, sqrt (-8))");
+			testTree = new ExpressionBuilder ("max (1+(2+3*(4-5)), 6!, sqrt (-8))").ToExpression ();
 			Console.Write (testTree.Draw ());
 
 			MyCollectionTest.MyListTest ();

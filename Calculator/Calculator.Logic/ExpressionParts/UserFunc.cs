@@ -40,19 +40,27 @@ namespace Calculator.Logic
 			string alias = null;
 			int endPosition = Parser.FindName (input, startPosition, out alias);
 			alias = Parser.ToLowerCase (alias);
-			if (!UFList.Contains (alias)) {
+			if (alias == "call") {
+				string name;
+				endPosition = Parser.FindName (input, endPosition + 1, out name);
+				if (!UFList.Contains (name)) {
+					operand = UFList [name];
+					return endPosition;
+				} else
+					throw new Exception ("User function " + name + " is not defined");
+			} else	if (!UFList.Contains (alias)) {
 				if (endPosition != input.Length - 1 && input [endPosition + 1] == '{') {
 					string content; 
-					endPosition = Parser.FindClosingParenthesis (input, endPosition + 1, out content);
+					//change FindClosingParenthesis to meet other parenthesis type
+					endPosition = Parser.FindClosing (input, endPosition + 1, out content);
 					UserFunc UF = new UserFunc (alias, content);
 					RegisterUF (UF);
-					operand = UF;
+					operand = null;
 					return endPosition;
 				} else
 					return -1;
 			} else {
-				operand = UFList [alias];
-				return endPosition;
+				throw new Exception ("User function " + alias + " is already defined");
 			}
 		}
 	}

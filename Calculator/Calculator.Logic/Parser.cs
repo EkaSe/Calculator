@@ -212,7 +212,28 @@ namespace Calculator.Logic
 			return endPosition;
 		}
 
-		static public int FindClosingParenthesis (string input, int startPosition, out string substring) {
+		static public int FindClosing (string input, int startPosition, out string substring) {
+			return FindClosing (input, startPosition, out substring, '(');
+		}
+
+		static public int FindClosing (string input, int startPosition, out string substring, char open) {
+			char close;
+			switch (open) {
+			case '(':
+				close = ')';
+				break;
+			case '{':
+				close = '}';
+				break;
+			case '[':
+				close = ']';
+				break;
+			case '<':
+				close = '>';
+				break;
+			default:
+				throw new Exception ("No such parenthesis type is defined");
+			}
 			int parenthesisCount = 1;
 			int j = startPosition;
 			substring = "";
@@ -220,9 +241,9 @@ namespace Calculator.Logic
 				j++;
 				if (j == input.Length)
 					return -1;
-				if (input [j] == ')')
+				if (input [j] == close)
 					parenthesisCount--;
-				if (input [j] == '(')
+				if (input [j] == open)
 					parenthesisCount++;
 				if (parenthesisCount < 0)
 					return -1;

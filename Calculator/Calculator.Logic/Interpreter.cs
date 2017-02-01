@@ -39,14 +39,14 @@ namespace Calculator.Logic
 					throw new Exception ("Invalid expression: Assignment under assignment");
 				string assignee = statement.Substring (0, assignPosition);
 				if (Variables.CheckVariable (assignee) && (expression.IndexOf(assignee) < 0 || Variables.IsVariable (assignee))) {
-					Expression tree = new Expression (expression);
+					Expression tree = new ExpressionBuilder (expression).ToExpression ();
 					string value = Parser.DoubleToString (tree.Calculate ());
 					result = assignee + " = " + value;
 					Variables.AssignLocal (assignee, Parser.StringToDouble (value));
 				} else
 					throw new Exception ("Invalid expression: Cannot assign value to " + assignee);
 			} else {
-				Expression tree = new Expression (statement);
+				Expression tree = new ExpressionBuilder (statement).ToExpression ();
 				result = Parser.DoubleToString (tree.Calculate ());
 			}
 			Variables.MergeLocals ();

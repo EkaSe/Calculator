@@ -7,7 +7,7 @@ namespace Calculator.Logic
 		public Expression tree;
 
 		public Subtree (string input): base () {
-			tree = new Expression (input);
+			tree = new ExpressionBuilder (input).ToExpression ();
 			//branchCount = tree.Root.branchCount;
 		}
 

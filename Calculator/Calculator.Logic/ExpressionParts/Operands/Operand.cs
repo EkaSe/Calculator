@@ -44,7 +44,7 @@ namespace Calculator.Logic
 			}
 			else if (currentSymbol == '(') {
 				string substring; 
-				int parenthesisEnd = Parser.FindClosingParenthesis (input, i, out substring);
+				int parenthesisEnd = Parser.FindClosing (input, i, out substring);
 				operand = new Subtree (substring);
 				endPosition = parenthesisEnd;
 			} else if (Parser.CharToDigit (currentSymbol) >= 0) {
