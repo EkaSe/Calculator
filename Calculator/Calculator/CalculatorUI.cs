@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Calculator.Logic;
 using static Calculator.Logic.Interpreter;
 using static Calculator.Logic.Parser;
@@ -11,7 +12,13 @@ namespace Calculator.UI
 
 			Func<string> getExpression = () => {
 				Console.Write(">> ");
-				return Console.ReadLine ();
+				string result = Console.ReadLine ();
+				int blockStart = result.IndexOf ('{');
+				if (blockStart > -1) 
+					while (Parser.FindClosing (result, blockStart + 1, '{') < 0) {
+						result = result + "\n" + Console.ReadLine ();
+					}
+				return result;
 			};
 
 			Func<string, bool> outputAction = (output) => {

@@ -19,7 +19,8 @@ namespace Calculator.Logic
 			return new UserFunc (Name, Content);
 		}
 
-		override public double Evaluate (){
+		override public double Evaluate () {
+			
 			return 0;
 		}
 
@@ -51,8 +52,7 @@ namespace Calculator.Logic
 			} else	if (!UFList.Contains (alias)) {
 				if (endPosition != input.Length - 1 && input [endPosition + 1] == '{') {
 					string content; 
-					//change FindClosingParenthesis to meet other parenthesis type
-					endPosition = Parser.FindClosing (input, endPosition + 1, out content);
+					endPosition = Parser.FindClosing (input, endPosition + 1, out content, '{');
 					UserFunc UF = new UserFunc (alias, content);
 					RegisterUF (UF);
 					operand = null;

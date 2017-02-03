@@ -212,6 +212,16 @@ namespace Calculator.Logic
 			return endPosition;
 		}
 
+		static public int FindClosing (string input, int startPosition) {
+			string substring;
+			return FindClosing (input, startPosition, out substring, '(');
+		}
+
+		static public int FindClosing (string input, int startPosition, char open) {
+			string substring;
+			return FindClosing (input, startPosition, out substring, open);
+		}
+
 		static public int FindClosing (string input, int startPosition, out string substring) {
 			return FindClosing (input, startPosition, out substring, '(');
 		}
