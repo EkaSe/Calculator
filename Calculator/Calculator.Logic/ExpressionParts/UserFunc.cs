@@ -9,10 +9,10 @@ namespace Calculator.Logic
 		public string Name;
 		public string Content;
 
-		public UserFunc (string newName, string newContent): base (0) {
+		public UserFunc (string name, string сontent): base (0) {
 			Priority = 100;
-			Name = newName;
-			Content = newContent;
+			Name = name;
+			Content = сontent;
 		}
 
 		override public Token Clone () {
@@ -29,7 +29,7 @@ namespace Calculator.Logic
 		}
 	}
 
-	static public class UFSearch {
+	static public class UFSearcher {
 		static MyDictionary <string, UserFunc> UFList = new MyDictionary<string, UserFunc> ();
 
 		static public void RegisterUF (UserFunc newUF) {

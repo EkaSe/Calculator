@@ -21,25 +21,32 @@ namespace Calculator.Logic
 
 	public class Variables
 	{
-		static MyDictionary <string, double> locals;
-		static MyDictionary <string, double> variables = new MyDictionary<string, double> ();
+		static MyStack <MyDictionary <string, double>> varStack = new MyStack<MyDictionary<string, double>> ();
+		static MyDictionary <string, double> locals = new MyDictionary<string, double> ();
+		//static MyDictionary <string, double> globals = new MyDictionary<string, double> ();
 
 		static public void CreateLocals () {
-			locals = variables;
+			varStack.Push (locals);
+			locals = locals.Clone ();
 		}
 
 		static public void MergeLocals() {
-			variables = locals;
+			varStack.Pop ();
+		}
+
+		static public void ClearLocals () {
+			locals = varStack.Pop ();
 		}
 
 		static public void ClearDictionaries () {
-			variables = new MyDictionary<string, double> ();
+			varStack = new MyStack<MyDictionary<string, double>> ();
+			locals = new MyDictionary<string, double> ();
 		}
 
 		static public bool CheckVariable (string input) {
 			if (input.Length == 0)
 				return false;
-			if (variables.Contains (input))
+			if (locals.Contains (input))
 				return true;
 			if (!Parser.IsIdentifierChar (input [0], true))
 				return false;
@@ -50,23 +57,12 @@ namespace Calculator.Logic
 			return true;
 		}
 
-		static public void AssignVariable (string name, double value) {
-			variables [name] = value;
-		}
-
 		static public void AssignLocal (string name, double value) {
 			locals [name] = value;
 		}
 
 		static public double GetLocal (string name) {
 			return locals [name];
-		}
-
-		static public bool IsVariable (string name) {
-			if (variables.Contains (name))
-				return true;
-			else
-				return false;
 		}
 
 		static public bool IsLocal (string name) {
