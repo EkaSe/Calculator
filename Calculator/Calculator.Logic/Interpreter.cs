@@ -52,9 +52,14 @@ namespace Calculator.Logic
 			Variables.MergeLocals ();
 			return result;
 		}
-		
+
 		static public void Run (Func<string> getExpression, Func<string, bool> outputAction) {
-			Variables.ClearDictionaries ();
+			Run (getExpression, outputAction, true);
+		}
+
+		static public void Run (Func<string> getExpression, Func<string, bool> outputAction, bool clearRun) {
+			if (clearRun)
+				Variables.ClearDictionaries ();
 			bool finish = false;
 			while (!finish) {
 				string input = getExpression ();

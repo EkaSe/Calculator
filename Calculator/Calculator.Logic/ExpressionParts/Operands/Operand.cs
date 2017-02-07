@@ -39,8 +39,11 @@ namespace Calculator.Logic
 			if (Parser.IsLetter (currentSymbol) || currentSymbol == '_') {
 				endPosition = BIFSearch.Run (input, i, out operand);
 				if (endPosition < 0) {
+					endPosition = UFSearcher.Run (input, i, out operand);
+				}
+				if (endPosition < 0) {
 					endPosition = VarSearch.Run (input, i, out operand);
-				} 
+				}
 			}
 			else if (currentSymbol == '(') {
 				string substring; 

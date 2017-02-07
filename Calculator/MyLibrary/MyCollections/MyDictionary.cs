@@ -101,8 +101,8 @@ namespace MyLibrary
 
 		public MyDictionary <K, V> Clone () {
 			MyDictionary <K, V> clone = new MyDictionary<K, V> ();
-			for (int i = 0; i < HashTable.Length; i++) {
-				if (HashTable [i].Length > 0)
+			for (int i = 0; i < HashTable.Capacity; i++) {
+				if (HashTable [i] != null)
 					for (Node <KeyValuePair <K, V>> node = HashTable [i].FirstNode; node != null; node = node.Next) {
 						clone.Add (node.Element.Key, node.Element.Value);
 					}

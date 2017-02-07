@@ -20,8 +20,31 @@ namespace Calculator.Logic
 		}
 
 		override public double Evaluate () {
-			
-			return 0;
+			double result = 0;
+			int contentPosition = 0;
+
+			Func<string> getExpression = () => {
+				if (contentPosition < Content.Length) {
+					int start = contentPosition;
+					contentPosition = Content.IndexOf ('\n', contentPosition);
+					if (contentPosition < 0)
+						contentPosition = Content.Length;
+					return Content.Substring (start, contentPosition - start);
+				} else return "q";
+			};
+
+			Func<string, bool> outputAction = (output) => {
+				if (output != "q") {
+					result = Parser.StringToDouble (output);
+					return false;
+				} else {
+					return true;
+				}
+			};
+
+			Interpreter.Run (getExpression, outputAction, false);
+
+			return result;
 		}
 
 		override public string Draw (){
@@ -41,27 +64,22 @@ namespace Calculator.Logic
 			string alias = null;
 			int endPosition = Parser.FindName (input, startPosition, out alias);
 			alias = Parser.ToLowerCase (alias);
-			if (alias == "call") {
-				string name;
-				endPosition = Parser.FindName (input, endPosition + 1, out name);
-				if (!UFList.Contains (name)) {
-					operand = UFList [name];
-					return endPosition;
-				} else
-					throw new Exception ("User function " + name + " is not defined");
-			} else	if (!UFList.Contains (alias)) {
-				if (endPosition != input.Length - 1 && input [endPosition + 1] == '{') {
+			if (endPosition != input.Length - 1 && input [endPosition + 1] == '{') {
+				if (UFList.Contains (alias))
+					throw new Exception ("User function " + alias + " is already defined");
+				else {
 					string content; 
 					endPosition = Parser.FindClosing (input, endPosition + 1, out content, '{');
 					UserFunc UF = new UserFunc (alias, content);
 					RegisterUF (UF);
 					operand = null;
 					return endPosition;
-				} else
-					return -1;
-			} else {
-				throw new Exception ("User function " + alias + " is already defined");
-			}
+				}
+			} else if (UFList.Contains (alias)) {
+				operand = UFList [alias];
+				return endPosition;
+			} else
+				return -1;
 		}
 	}
 }

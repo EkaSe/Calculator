@@ -128,15 +128,18 @@ namespace Calculator
 			expressionSet = new string[] {"x= - sqrt (9)","max (-x, max (1, 2))"};
 			InterpreterTest ("Interpreter 7:", expressionSet, "3");
 
+			expressionSet = new string[] {"UF {x=3 \n y = mIn (x, 10)}", "UF", "y"};
+			InterpreterTest ("Interpreter 8: UF", expressionSet, "3");
+
 			Console.WriteLine ();
 			Expression testTree = new ExpressionBuilder ("2+3").ToExpression ();
 			//Console.Write (testTree.Draw ());
 			testTree = new ExpressionBuilder ("1+(2+3*(4-5))").ToExpression ();
 			//Console.Write (testTree.Draw ());
 			testTree = new ExpressionBuilder ("min (6!, 2)").ToExpression ();
-			Console.Write (testTree.Draw ());
+			//Console.Write (testTree.Draw ());
 			testTree = new ExpressionBuilder ("max (1+(2+3*(4-5)), 6!, sqrt (-8))").ToExpression ();
-			Console.Write (testTree.Draw ());
+			//Console.Write (testTree.Draw ());
 
 			MyCollectionTest.MyListTest ();
 

@@ -23,11 +23,12 @@ namespace Calculator.Logic
 	{
 		static MyStack <MyDictionary <string, double>> varStack = new MyStack<MyDictionary<string, double>> ();
 		static MyDictionary <string, double> locals = new MyDictionary<string, double> ();
-		//static MyDictionary <string, double> globals = new MyDictionary<string, double> ();
 
 		static public void CreateLocals () {
-			varStack.Push (locals);
-			locals = locals.Clone ();
+			if (locals != null) {
+				varStack.Push (locals);
+				locals = locals.Clone ();
+			}
 		}
 
 		static public void MergeLocals() {
