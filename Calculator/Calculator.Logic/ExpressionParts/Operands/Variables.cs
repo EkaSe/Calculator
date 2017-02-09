@@ -62,6 +62,10 @@ namespace Calculator.Logic
 			locals [name] = value;
 		}
 
+		static public void AssignLocal (Variable var, double value) {
+			locals [var.Name] = value;
+		}
+
 		static public double GetLocal (string name) {
 			return locals [name];
 		}

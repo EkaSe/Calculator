@@ -4,13 +4,12 @@ using MyLibrary;
 
 namespace Calculator.Logic
 {
-
 	public class UserFunc: Token {
 		public string Name;
 		public string Content;
 
 		public UserFunc (string name, string сontent): base (0) {
-			Priority = 100;
+			Priority = (int) Priorities.operand;
 			Name = name;
 			Content = сontent;
 		}
@@ -63,7 +62,6 @@ namespace Calculator.Logic
 			operand = null;
 			string alias = null;
 			int endPosition = Parser.FindName (input, startPosition, out alias);
-			alias = Parser.ToLowerCase (alias);
 			if (endPosition != input.Length - 1 && input [endPosition + 1] == '{') {
 				if (UFList.Contains (alias))
 					throw new Exception ("User function " + alias + " is already defined");

@@ -8,7 +8,7 @@ namespace Calculator.Logic
 		protected double value;
 
 		public Operand (): base(0) {
-			Priority = 100;
+			Priority = (int) Priorities.operand;
 		}
 
 		virtual public double Value {

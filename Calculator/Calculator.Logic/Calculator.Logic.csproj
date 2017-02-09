@@ -59,6 +59,7 @@
     <Compile Include="ExpressionParts\MultiNode.cs" />
     <Compile Include="ExpressionParts\UserFunc.cs" />
     <Compile Include="ExpressionParts\ExpressionBuilder.cs" />
+    <Compile Include="ExpressionParts\Operators\Assign.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -2,6 +2,15 @@
 
 namespace Calculator.Logic
 {
+	enum Priorities {
+		assign,
+		plus,
+		mult,
+		degree,
+		factorial,
+		operand
+	}
+
 	abstract public class Token {
 		public int Priority;
 		public int branchCount;

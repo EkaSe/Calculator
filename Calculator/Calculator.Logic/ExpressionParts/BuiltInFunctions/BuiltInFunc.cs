@@ -9,7 +9,7 @@ namespace Calculator.Logic
 		public string name;
 
 		public BuiltInFunc () : base(0) {
-			Priority = 100;
+			Priority = (int) Priorities.operand;
 		}
 
 		public BuiltInFunc (string newName, string arguments) : base(0) {

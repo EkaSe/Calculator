@@ -4,7 +4,7 @@ using MyLibrary;
 namespace Calculator.Logic
 {
 	public class Factorial: UnaryOp {
-		public Factorial (): base (4) {}
+		public Factorial (): base ((int) Priorities.factorial) {}
 
 		protected override Operand PerformOperation (Operand operand) {
 			int arg = (int) operand.Value;

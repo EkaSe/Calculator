@@ -32,6 +32,10 @@ namespace Calculator.Logic
 			string statement = Parser.SkipSpaces (input);
 			string result;
 			Variables.CreateLocals (); 
+			//assignment, blocks {}, line end
+
+
+
 			int assignPosition = statement.IndexOf ('=');
 			if (assignPosition > 0) {
 				string expression = statement.Substring (assignPosition + 1);
