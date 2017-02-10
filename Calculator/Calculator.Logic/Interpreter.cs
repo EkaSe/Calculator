@@ -32,10 +32,9 @@ namespace Calculator.Logic
 			string statement = Parser.SkipSpaces (input);
 			string result;
 			Variables.CreateLocals (); 
-			//assignment, blocks {}, line end
-
-
-
+			Expression tree = new ExpressionBuilder (statement).ToExpression ();
+			result = Parser.DoubleToString (tree.Calculate ());
+			/*
 			int assignPosition = statement.IndexOf ('=');
 			if (assignPosition > 0) {
 				string expression = statement.Substring (assignPosition + 1);
@@ -52,7 +51,7 @@ namespace Calculator.Logic
 			} else {
 				Expression tree = new ExpressionBuilder (statement).ToExpression ();
 				result = Parser.DoubleToString (tree.Calculate ());
-			}
+			}*/
 			Variables.MergeLocals ();
 			return result;
 		}

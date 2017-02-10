@@ -12,7 +12,9 @@ namespace Calculator.Logic
 			if (endPosition >= 0) {
 				if (Variables.IsLocal (alias))
 					operand = new Variable (alias, Variables.GetLocal (alias));
-				else
+				else if (endPosition < input.Length && input [endPosition] == '=') {
+					//creation of unassigned local?
+				} else
 					throw new Exception ("Invalid expression: " + alias + " doesn't exist yet");
 			}
 			return endPosition;
