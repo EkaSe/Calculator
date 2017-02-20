@@ -345,5 +345,17 @@ namespace Calculator.Logic
 			}
 			return result.ToString();
 		}
+
+		static public bool CheckVariableName (string input) {
+			if (input.Length == 0)
+				return false;
+			if (!Parser.IsIdentifierChar (input [0], true))
+				return false;
+			for (int i = 0; i < input.Length; i++) {
+				if (!Parser.IsIdentifierChar (input [i], false))
+					return false;
+			}
+			return true;
+		}
 	}
 }

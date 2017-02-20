@@ -50,20 +50,6 @@ namespace Calculator.Logic
 			unassigned = new MyDictionary<string, bool> ();
 		}
 
-		static public bool CheckVariable (string input) {
-			if (input.Length == 0)
-				return false;
-			if (locals.Contains (input))
-				return true;
-			if (!Parser.IsIdentifierChar (input [0], true))
-				return false;
-			for (int i = 0; i < input.Length; i++) {
-				if (!Parser.IsIdentifierChar (input [i], false))
-					return false;
-			}
-			return true;
-		}
-
 		static public void AssignLocal (string name, double value) {
 			locals [name] = value;
 			if (unassigned [name])

@@ -6,7 +6,7 @@ namespace Calculator.Logic
 {
 	public class Interpreter
 	{
-
+		/*
 		static double Calculate (MyLinkedList<Operator> operators, MyLinkedList<Operand> operands) {
 			double result = operands.FirstNode.Element.Value;
 			Node<Operand> currentOperand = operands.FirstNode;
@@ -26,7 +26,7 @@ namespace Calculator.Logic
 			}
 			result = operandStack.Pop().Value;
 			return result;
-		}
+		}*/
 
 		static public string ProcessStatement (string input) {
 			string statement = Parser.SkipSpaces (input);

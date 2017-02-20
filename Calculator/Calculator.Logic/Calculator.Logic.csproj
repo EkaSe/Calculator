@@ -39,7 +39,6 @@
     <Compile Include="ExpressionParts\Operands\Number.cs" />
     <Compile Include="ExpressionParts\Operands\Operand.cs" />
     <Compile Include="ExpressionParts\Operands\Variable.cs" />
-    <Compile Include="ExpressionParts\Operands\Variables.cs" />
     <Compile Include="ExpressionParts\Operators\Plus.cs" />
     <Compile Include="ExpressionParts\Operators\Minus.cs" />
     <Compile Include="ExpressionParts\Operators\Multiply.cs" />
@@ -60,6 +59,10 @@
     <Compile Include="ExpressionParts\UserFunc.cs" />
     <Compile Include="ExpressionParts\ExpressionBuilder.cs" />
     <Compile Include="ExpressionParts\Operators\Assign.cs" />
+    <Compile Include="Statements\Statement.cs" />
+    <Compile Include="Statements\StatementSearcher.cs" />
+    <Compile Include="ExpressionParts\Operands\Variables.cs" />
+    <Compile Include="ExpressionParts\Operands\VarSet.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -73,5 +76,6 @@
     <Folder Include="ExpressionParts\Operators\" />
     <Folder Include="ExpressionParts\Operands\" />
     <Folder Include="ExpressionParts\BuiltInFunctions\" />
+    <Folder Include="Statements\" />
   </ItemGroup>
 </Project>
