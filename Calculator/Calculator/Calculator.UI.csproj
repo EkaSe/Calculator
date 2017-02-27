@@ -43,5 +43,9 @@
       <Project>{3583129D-AB54-4122-ADEC-90908733CB54}</Project>
       <Name>Calculator.Logic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MyLibrary\MyLibrary.csproj">
+      <Project>{764A4ABC-C59C-4117-89F4-5D39F1B9432E}</Project>
+      <Name>MyLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

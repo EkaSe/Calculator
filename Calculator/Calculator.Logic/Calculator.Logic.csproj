@@ -63,19 +63,20 @@
     <Compile Include="Statements\StatementSearcher.cs" />
     <Compile Include="ExpressionParts\Operands\Variables.cs" />
     <Compile Include="ExpressionParts\Operands\VarSet.cs" />
+    <Compile Include="Statements\Assignment.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\MyLibrary\MyLibrary.csproj">
-      <Project>{764A4ABC-C59C-4117-89F4-5D39F1B9432E}</Project>
-      <Name>MyLibrary</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <Folder Include="ExpressionParts\" />
     <Folder Include="ExpressionParts\Operators\" />
     <Folder Include="ExpressionParts\Operands\" />
     <Folder Include="ExpressionParts\BuiltInFunctions\" />
     <Folder Include="Statements\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyLibrary\MyLibrary.csproj">
+      <Project>{764A4ABC-C59C-4117-89F4-5D39F1B9432E}</Project>
+      <Name>MyLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

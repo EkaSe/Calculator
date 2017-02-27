@@ -8,6 +8,7 @@ namespace Calculator.UI
 		{
 			Calculator.Logic.Prerequisites.RegisterOperators ();
 			Calculator.Logic.Prerequisites.RegisterBIFs ();
+			Calculator.Logic.Prerequisites.RegisterStatements ();
 			CalculatorUI.ConsoleCalculator ();
 		}
 	}

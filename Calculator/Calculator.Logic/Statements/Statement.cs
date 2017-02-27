@@ -4,13 +4,16 @@ namespace Calculator.Logic
 {
 	abstract public class Statement
 	{
-		VarSet lokals;
+		protected VarSet locals = new VarSet (Interpreter.Globals);
 
-		public Statement () {
+		public string Process () {
+			locals = new VarSet (Interpreter.Globals);
+			string result = Execute ();
+			Interpreter.Globals.Merge (locals);
+			return result;
 		}
 
-		public string Execute () {
-		}
+		abstract public string Execute ();
 	}
 }
 

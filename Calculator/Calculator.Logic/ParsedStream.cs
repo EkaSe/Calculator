@@ -64,5 +64,37 @@ namespace Calculator.Logic
 		public string GetRest () {
 			return expression.Substring (currentPosition);
 		}
+
+		public string Get (int count) {
+			string result = expression.Substring (currentPosition, count);
+			currentPosition += count;
+			return result;
+		}
+
+		public string Get () {
+			return Get (1);
+		}
+
+		public string GetEntity () {
+			//alias - variable or key word
+			//number?
+			//!alias => Get();
+			//{}, ()
+			//line end?
+			//sign!
+			string result;
+			char start = expression [currentPosition];
+			if (start == '(' || start == '{')
+				currentPosition = Parser.FindClosing (expression, currentPosition + 1, out result, start);
+			else if ((int)start >= (int)'0' && (int)start <= (int)'9') {
+				double number;
+				currentPosition = Parser.FindNumber (expression, currentPosition, out number);
+				result = Parser.DoubleToString (number);
+			} else if (Parser.IsIdentifierChar (start, true))
+				currentPosition = Parser.FindName (expression, currentPosition, out result);
+			else
+				result = Get ();
+			return result;
+		}
 	}
 }

@@ -17,6 +17,10 @@ namespace Calculator.Logic
 			BIFSearch.RegisterBIF (new MinBIF ());
 			BIFSearch.RegisterBIF (new SqrtBIF ());
 		}
+
+		static public void RegisterStatements () {
+			StatementSearcher.Register (new AssignmentParser ());
+		}
 	}
 }
 

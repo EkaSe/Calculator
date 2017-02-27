@@ -185,6 +185,12 @@ namespace Calculator.Logic
 			return endPosition;
 		}
 
+		static public string FindName (string input, int startPosition) {
+			string name = null;
+			FindName (input, startPosition, out name);
+			return name;
+		}
+
 		static public int FindName (string input, int startPosition, out string name) {
 			//reads alias from start position, else returns -1
 			int endPosition = -1;

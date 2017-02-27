@@ -4,7 +4,7 @@ using MyLibrary;
 
 namespace Calculator.Logic
 {
-	public class Expression
+	public class Expression: Statement
 	{
 		public Token Root;
 
@@ -51,6 +51,10 @@ namespace Calculator.Logic
 
 		public double Calculate () {
 			return Root.Evaluate ();
+		}
+
+		public override string Execute () {
+			return Parser.DoubleToString (Root.Evaluate ());
 		}
 	}
 }

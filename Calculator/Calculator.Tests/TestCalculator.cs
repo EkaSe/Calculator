@@ -87,11 +87,6 @@ namespace Calculator
 
 		static public void RunTests ()
 		{
-			DoubleToStringTest (-5.1540, "-5.154");
-			DoubleToStringTest (-125, "-125");
-			DoubleToStringTest (1234567890.123456, "1234567890.123456");
-
-			Console.WriteLine ();
 			CalculatorTest ("12", "12");
 			CalculatorTest ("-12", "-12");
 			CalculatorTest ("+12.34", "12.34");

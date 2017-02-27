@@ -6,70 +6,35 @@ namespace Calculator.Logic
 {
 	public class Interpreter
 	{
-		/*
-		static double Calculate (MyLinkedList<Operator> operators, MyLinkedList<Operand> operands) {
-			double result = operands.FirstNode.Element.Value;
-			Node<Operand> currentOperand = operands.FirstNode;
-			MyStack <Operator> operatorStack = new MyStack<Operator> ();
-			MyStack <Operand> operandStack = new MyStack<Operand> ();
-			operandStack.Push (currentOperand.Element);
-			currentOperand = currentOperand.Next;
-			for (Node<Operator> currentOperator = operators.FirstNode; currentOperator != null; currentOperator = currentOperator.Next) {
-				operatorStack.Push (currentOperator.Element);
-				currentOperator.Element.PushOperands (operandStack, ref currentOperand);
-				if (currentOperator.Next == null || currentOperator.Element.Priority >= currentOperator.Next.Element.Priority) {
-					while (operatorStack.Length > 0) {
-						Operator performedOperator = operatorStack.Pop ();
-						performedOperator.Perform (operandStack);
-					}
-				}
-			}
-			result = operandStack.Pop().Value;
-			return result;
-		}*/
+		static public VarSet Globals = new VarSet ();
 
-		static public string ProcessStatement (string input) {
+		/*static public string ProcessStatement (string input) {
 			string statement = Parser.SkipSpaces (input);
 			string result;
 			Variables.CreateLocals (); 
 			Expression tree = new ExpressionBuilder (statement).ToExpression ();
 			result = Parser.DoubleToString (tree.Calculate ());
-			/*
-			int assignPosition = statement.IndexOf ('=');
-			if (assignPosition > 0) {
-				string expression = statement.Substring (assignPosition + 1);
-				if (expression.IndexOf ('=') >= 0)
-					throw new Exception ("Invalid expression: Assignment under assignment");
-				string assignee = statement.Substring (0, assignPosition);
-				if (Variables.CheckVariable (assignee) && (expression.IndexOf(assignee) < 0 || Variables.IsLocal (assignee))) {
-					Expression tree = new ExpressionBuilder (expression).ToExpression ();
-					string value = Parser.DoubleToString (tree.Calculate ());
-					result = assignee + " = " + value;
-					Variables.AssignLocal (assignee, Parser.StringToDouble (value));
-				} else
-					throw new Exception ("Invalid expression: Cannot assign value to " + assignee);
-			} else {
-				Expression tree = new ExpressionBuilder (statement).ToExpression ();
-				result = Parser.DoubleToString (tree.Calculate ());
-			}*/
 			Variables.MergeLocals ();
 			return result;
+		}*/
+
+		static public void Run (Func<string> getInput, Func<string, bool> outputAction) {
+			Run (getInput, outputAction, true);
 		}
 
-		static public void Run (Func<string> getExpression, Func<string, bool> outputAction) {
-			Run (getExpression, outputAction, true);
-		}
-
-		static public void Run (Func<string> getExpression, Func<string, bool> outputAction, bool clearRun) {
+		static public void Run (Func<string> getInput, Func<string, bool> outputAction, bool clearRun) {
 			if (clearRun)
-				Variables.ClearDictionaries ();
+				//Variables.ClearDictionaries ();
+				Globals = new VarSet ();
 			bool finish = false;
 			while (!finish) {
-				string input = getExpression ();
+				string input = getInput ();
 				string output;
 				if (Parser.ToLowerCase (input) != "q") {
 					try {
-						output = ProcessStatement (input);
+						//output = ProcessStatement (input);
+						Statement result = StatementSearcher.Run (input);
+						output = result.Process ();
 					} catch (Exception e) {
 						output = e.Message;
 					}
