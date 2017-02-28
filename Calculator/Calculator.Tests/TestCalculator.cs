@@ -3,6 +3,7 @@ using Calculator.Logic;
 using MyLibrary;
 using static Calculator.Logic.Interpreter;
 using static Calculator.Logic.Parser;
+using Calculator.Tests;
 
 namespace Calculator
 {
@@ -110,47 +111,12 @@ namespace Calculator
 			Console.WriteLine ();
 			string[] expressionSet;
 
-			expressionSet = new string[] {""};
-			InterpreterTest ("Statement 0.0", expressionSet, "");
-			expressionSet = new string[] {"1+2"};
-			InterpreterTest ("Statement 0.1", expressionSet, "3");
-			expressionSet = new string[] {"1+2;"};
-			InterpreterTest ("Statement 0.2", expressionSet, "");
-			/*?*/expressionSet = new string[] {"-12; 0.1*10"};
-			InterpreterTest ("Statement 0.3", expressionSet, "1");
-			/*?*/expressionSet = new string[] {"+12.34 \n  0-3!"};
-			InterpreterTest ("Statement 0.4", expressionSet, "-6");
-			/*?*/expressionSet = new string[] {"1+(1+2*(3-2)); \n (5.5+2.15) / 0.5 "};
-			InterpreterTest ("Statement 0.5", expressionSet, "15.3");
-			/*?*/expressionSet = new string[] {"15-0.2 \n "};
-			InterpreterTest ("Statement 0.6", expressionSet, "");
-			/*?*/expressionSet = new string[] {"15-0.2; \n 000"};
-			InterpreterTest ("Statement 0.7", expressionSet, "0");
-
-			expressionSet = new string[] {"var=1+2"};
-			InterpreterTest ("Statement 1.0: Assignment", expressionSet, "var = 3");
-			expressionSet = new string[] {"x=3","x-1"};
-			InterpreterTest ("Statement 1.1: Assignment", expressionSet, "2");
-			expressionSet = new string[] {"x=3; x=x-1"};
-			InterpreterTest ("Statement 1.2: Assignment", expressionSet, "x = 2");
-
-			expressionSet = new string[] {"{x = 1; y = 2; z = x + y }"};
-			InterpreterTest ("Statement 2.0: Block", expressionSet, "x = 1, y = 2, z = 3");
-			/*?*/expressionSet = new string[] {"{x = 1 \n y = 2; z = x + y; }"};
-			InterpreterTest ("Statement 2.1: Block", expressionSet, "x = 1, y = 2, z = 3,");
-
-			expressionSet = new string[] {"UF () => x=1+2"};
-			InterpreterTest ("Statement 3.0: Lambda", expressionSet, "User function UF is defined");
-			expressionSet = new string[] {"UF () => {x=1+2; x = x-1}"};
-			InterpreterTest ("Statement 3.1: Lambda", expressionSet, "User function UF is defined");
-
-			expressionSet = new string[] {""};
-			InterpreterTest ("Statement 4.0: Incorrect input", expressionSet, "");
-
-			expressionSet = new string[] {"{{x=3}; {y = mIn (x, 10) \n}}"};
-			InterpreterTest ("Statement 5.0: Nested", expressionSet, "x = 3");
-
-
+			StatementExpressionTest.Run ();
+			StatementAssignmentTest.Run ();
+			StatementBlockTest.Run ();
+			StatementLambdaTest.Run ();
+			StatementEmbeddedTest.Run ();
+			StatementInvalidTest.Run ();
 
 
 			expressionSet = new string[] {"x=3","x-1"};
