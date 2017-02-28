@@ -50,4 +50,7 @@
       <Name>MyLibrary</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="InterpreterTests\" />
+  </ItemGroup>
 </Project>
