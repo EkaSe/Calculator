@@ -11,7 +11,7 @@ namespace Calculator.Tests
 
 		static public void TestLambda (string name, string[] input, string expectedOutput) {
 			string testName = "Statement_Lambda " + name;
-			TestCalculator.InterpreterTest (testName, input, expectedOutput);
+			InterpreterTest.Run (testName, input, expectedOutput);
 		}
 
 		static public void Run () {

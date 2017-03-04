@@ -11,11 +11,11 @@ namespace Calculator.Tests
 
 		static public void TestEmbedded (string name, string[] input, string expectedOutput) {
 			string testName = "Statement_Embedded " + name;
-			TestCalculator.InterpreterTest (testName, input, expectedOutput);
+			InterpreterTest.Run (testName, input, expectedOutput);
 		}
 
 		static public void Run () {
-			TestEmbedded ("0", "{{x=3}; {y = mIn (x, 10) \n}}", "x = 3");
+			TestEmbedded ("0", "{{x=3}; {y = mIn (x, 10) \n}}", "x = 3, y = 3");
 
 		}
 	}

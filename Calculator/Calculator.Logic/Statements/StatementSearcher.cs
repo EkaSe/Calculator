@@ -37,11 +37,11 @@ namespace Calculator.Logic
 			ParsedStream stream = new ParsedStream (input);
 			string inputStart = "";
 			ParsingResult[] results = new ParsingResult [StatementList.Length];
-			while (!stream.IsEnd && !isFound) {
+			/*while (!stream.IsEnd && !isFound) {
 				inputStart = inputStart + stream.GetEntity ();
 
 
-			}
+			}*/
 			for (int i = 0; i < StatementList.Length; i++) {
 				StatementParser current = StatementList [i];
 				/*int currentPosition = current.Search (input, startPosition);
