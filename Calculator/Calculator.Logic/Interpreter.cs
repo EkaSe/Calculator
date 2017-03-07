@@ -20,6 +20,8 @@ namespace Calculator.Logic
 			bool finish = false;
 			while (!finish) {
 				string input = getInput ();
+				while (input == "")
+					input = getInput ();
 				string output;
 				if (Parser.ToLowerCase (input) != "q") {
 					try {

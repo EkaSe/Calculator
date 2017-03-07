@@ -15,7 +15,7 @@ namespace Calculator.Tests
 		}
 
 		static public void Run () {
-			TestEmbedded ("0", "{{x=3}; {y = mIn (x, 10) \n}}", "x = 3, y = 3");
+			TestEmbedded ("0: Block in Block", "{{x=3}; {y = mIn (x, 10) \n}}", "x = 3, y = 3");
 
 		}
 	}

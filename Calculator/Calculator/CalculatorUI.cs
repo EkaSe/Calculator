@@ -16,7 +16,11 @@ namespace Calculator.UI
 				int blockStart = result.IndexOf ('{');
 				if (blockStart > -1) 
 					while (Parser.FindClosing (result, blockStart + 1, '{') < 0) {
-						result = result + "\n" + Console.ReadLine ();
+						string nextLine = Console.ReadLine ();
+						if (Parser.ToLowerCase (nextLine) != "q")
+							result = result + "\n" + Console.ReadLine ();
+						else 
+							result = "q";
 					}
 				return result;
 			};

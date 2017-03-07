@@ -15,8 +15,10 @@ namespace Calculator.Tests
 		}
 
 		static public void Run () {
-			TestLambda ("0", "UF () => x=1+2", "User function UF is defined");
-			TestLambda ("1", "UF () => {x=1+2; x = x-1}", "User function UF is defined");
+			TestLambda ("0: define", "UF () => x=1+2", "User function UF is defined");
+			TestLambda ("1: define as block", "UF () => {x=1+2; x = x-1}", "User function UF is defined");
+			TestLambda ("2: call", "UF () => x=1+2; UF ()", "x = 3"); 
+			TestLambda ("3: call twice", "x=1; UF () => x=x+2; UF (); UF ()", "x = 5"); 
 
 
 		}

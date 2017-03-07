@@ -13,13 +13,21 @@ namespace Calculator.Tests
 		static public void RunTests ()
 		{
 			CalculatorTest.Run ();
+			Console.WriteLine ();
 			StatementSearcherTest.Run ();
+			Console.WriteLine ();
 			StatementExpressionTest.Run ();
+			Console.WriteLine ();
 			StatementAssignmentTest.Run ();
+			Console.WriteLine ();
 			StatementBlockTest.Run ();
+			Console.WriteLine ();
 			StatementLambdaTest.Run ();
+			Console.WriteLine ();
 			StatementEmbeddedTest.Run ();
+			Console.WriteLine ();
 			StatementInvalidTest.Run ();
+			Console.WriteLine ();
 
 			Console.WriteLine ("\r\n" + FailedTestsCount + " tests failed");
 		}

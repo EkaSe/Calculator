@@ -19,6 +19,8 @@ namespace Calculator.Tests
 			TestAssignment ("1", new string[] {"x=3","x-1"}, "2");
 			TestAssignment ("2", "x=3; x=x-1", "x = 2");
 
+			TestAssignment ("3", "x = x = 1", "Invalid statement");
+
 		}
 	}
 }

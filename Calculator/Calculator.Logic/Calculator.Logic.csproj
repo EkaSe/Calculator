@@ -64,6 +64,8 @@
     <Compile Include="ExpressionParts\Operands\Variables.cs" />
     <Compile Include="ExpressionParts\Operands\VarSet.cs" />
     <Compile Include="Statements\Assignment.cs" />
+    <Compile Include="Statements\Block.cs" />
+    <Compile Include="Statements\Lambda.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

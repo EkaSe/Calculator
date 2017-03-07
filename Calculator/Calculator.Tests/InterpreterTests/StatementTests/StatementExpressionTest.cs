@@ -15,7 +15,7 @@ namespace Calculator.Tests
 		}
 
 		static public void Run () {
-			TestExpression ("0", "", "");
+			TestExpression ("0", "", "q");
 			TestExpression ("1", "1+2", "3");
 			TestExpression ("2", "0.1*10;", "");
 			TestExpression ("3", "+12.34 \n  0-3!", "-6");

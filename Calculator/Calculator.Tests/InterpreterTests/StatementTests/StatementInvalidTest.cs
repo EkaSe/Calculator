@@ -15,8 +15,9 @@ namespace Calculator.Tests
 		}
 
 		static public void Run () {
-			TestInvalidInput ("0", "", "");
-
+			TestInvalidInput ("0", "=>1", "Invalid statement");
+			TestInvalidInput ("1", "x=", "Invalid statement");
+			TestInvalidInput ("2", "x={1,2}", "Invalid statement");
 		}
 	}
 }

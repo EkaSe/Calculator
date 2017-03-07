@@ -50,6 +50,8 @@ namespace Calculator.Logic
 					result = (Statement) current.Clone();
 				}*/
 			}
+			if (!isFound)
+				result = new ExpressionBuilder (input).ToExpression ();
 			return result;
 		}
 	}

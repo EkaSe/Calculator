@@ -26,7 +26,7 @@ namespace Calculator.Tests
 			SingleTest ("1 * 3 * 4", "12");
 			SingleTest ("10/7*14", "20");
 			SingleTest ("5!", "120");
-			/*?*/SingleTest ("0.5!", "");
+			SingleTest ("0.5!", "Invalid expression: Factorial is defined only for non-negative integers");
 			SingleTest ("-7+3", "-4");
 			SingleTest ("5.5+2.15", "7.65");
 			//CalculatorTest ("4^(1/2)", "2");

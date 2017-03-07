@@ -27,12 +27,12 @@ namespace Calculator.Tests
 		}
 
 		static public void Run () {
-			SingleTest ("", "Expression");
-			SingleTest ("1+2", "Expression");
-			SingleTest ("x=1", "Assignment");
-			SingleTest ("x=x", "Assignment");
-			SingleTest ("{1+2,2/3,x=0}", "Block");
-			SingleTest ("UF()=>x=1", "Lambda");
+			SingleTest ("", typeof (Expression).ToString ());
+			SingleTest ("1+2", typeof (Expression).ToString ());
+			SingleTest ("x=1", typeof (Assignment).ToString ());
+			SingleTest ("x=x", typeof (Assignment).ToString ());
+			SingleTest ("{1+2,2/3,x=0}", typeof (Block).ToString ());
+			SingleTest ("UF()=>x=1", typeof (Lambda).ToString ());
 			SingleTest ("x=unknown", "Invalid statement");
 		}
 	}

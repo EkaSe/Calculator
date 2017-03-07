@@ -12,7 +12,9 @@ namespace Calculator.Tests
 			string result = null;
 
 			Func<string> getExpression = () => {
-				return input [expressionIndex++];
+				if (expressionIndex < input.Length)
+					return input [expressionIndex++];
+				else return "q";
 			};
 
 			Func<string, bool> outputAction = (output) => {

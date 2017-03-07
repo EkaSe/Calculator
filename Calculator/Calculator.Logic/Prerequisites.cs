@@ -20,6 +20,8 @@ namespace Calculator.Logic
 
 		static public void RegisterStatements () {
 			StatementSearcher.Register (new AssignmentParser ());
+			StatementSearcher.Register (new BlockParser ());
+			StatementSearcher.Register (new LambdaParser ());
 		}
 	}
 }
