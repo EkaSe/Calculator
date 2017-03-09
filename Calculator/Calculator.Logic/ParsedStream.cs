@@ -96,5 +96,29 @@ namespace Calculator.Logic
 				result = Get ();
 			return result;
 		}
+
+		public string GetStatement () {
+			StringBuilder result = new StringBuilder ();
+			bool statementEnd = IsEnd;
+			while (!statementEnd) {
+				switch (expression [currentPosition]) {
+				case '{':
+				case '(':
+					string block;
+					Parser.FindClosing (expression, currentPosition + 1, out block, expression [currentPosition]);
+					result.Append (block);
+					break;
+				case ';':
+				case '\n':
+					statementEnd = true;
+					break;
+				default:
+					result.Append (Get ());
+					break;
+				}
+				statementEnd = IsEnd || statementEnd;
+			}
+			return result.ToString ();
+		}
 	}
 }

@@ -22,6 +22,10 @@ namespace Calculator.Logic
 				string input = getInput ();
 				while (input == "")
 					input = getInput ();
+				ParsedStream stream = new ParsedStream (input);
+				//use stream.GetStatement() to get next line
+				//call Run() recursively
+				//check if line is ended with ; (supress output)
 				string output;
 				if (Parser.ToLowerCase (input) != "q") {
 					try {

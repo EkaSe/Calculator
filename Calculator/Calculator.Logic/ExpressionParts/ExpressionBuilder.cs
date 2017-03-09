@@ -89,7 +89,7 @@ namespace Calculator.Logic
 		public ExpressionBuilder (string input, Func <string, int, bool> endCondition, out string outlet): 
 		this (new ParsedStream (input, endCondition)){
 			ParsedStream stream = new ParsedStream (input, endCondition);
-			Expression temp = (new ExpressionBuilder (stream)).ToExpression ();
+			new ExpressionBuilder (stream).ToExpression ();
 			outlet = stream.GetRest();
 		}
 

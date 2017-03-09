@@ -27,7 +27,7 @@ namespace Calculator.Tests
 		}
 
 		static public void Run () {
-			SingleTest ("", typeof (Expression).ToString ());
+			//SingleTest ("", typeof (Expression).ToString ());
 			SingleTest ("1+2", typeof (Expression).ToString ());
 			SingleTest ("x=1", typeof (Assignment).ToString ());
 			SingleTest ("x=x", typeof (Assignment).ToString ());
