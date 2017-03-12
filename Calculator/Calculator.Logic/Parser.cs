@@ -251,10 +251,9 @@ namespace Calculator.Logic
 				throw new Exception ("No such parenthesis type is defined");
 			}
 			int parenthesisCount = 1;
-			int j = startPosition;
+			int j = startPosition + 1;
 			substring = "";
 			do {
-				j++;
 				if (j == input.Length)
 					return -1;
 				if (input [j] == close)
@@ -263,9 +262,10 @@ namespace Calculator.Logic
 					parenthesisCount++;
 				if (parenthesisCount < 0)
 					return -1;
+				j++;
 			} while (parenthesisCount != 0);
-			substring = input.Substring (startPosition + 1, j - startPosition - 1);
-			return j;
+			substring = input.Substring (startPosition + 1, j - startPosition - 2);
+			return j - 1;
 		}
 
 		static public int[] TextPlateSize (string plate) {

@@ -20,7 +20,7 @@ namespace Calculator.Tests
 			TestExpression ("2", "0.1*10;", "");
 			TestExpression ("3", "+12.34 \n  0-3!", "-6");
 			TestExpression ("4", "1+(1+2*(3-2)); \n (5.5+2.15) / 0.5 ", "15.3");
-			TestExpression ("5", "15-0.2 \n ", "");
+			TestExpression ("5", "15-0.2 \n ", "14.8");
 			TestExpression ("6", "15-0.2; \n 000", "0");
 		}
 	}

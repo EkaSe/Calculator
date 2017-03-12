@@ -20,21 +20,27 @@ namespace Calculator.Logic
 			bool finish = false;
 			while (!finish) {
 				string input = getInput ();
+				bool isSupressed = false;
 				while (input == "")
 					input = getInput ();
 				ParsedStream stream = new ParsedStream (input);
-				//use stream.GetStatement() to get next line
-				//call Run() recursively
-				//check if line is ended with ; (supress output)
-				string output;
-				if (Parser.ToLowerCase (input) != "q") {
-					try {
-						Statement result = StatementSearcher.Run (input);
-						output = result.Process ();
-					} catch (Exception e) {
-						output = e.Message;
-					}
-				} else output = "q";
+				string output = "";
+				while (!stream.IsEnd) {
+					
+					string inputLine = stream.GetStatement (out isSupressed);
+					//call Run() recursively
+					//check if line is ended with ; (supress output)
+					if (Parser.ToLowerCase (inputLine) != "q") {
+						try {
+							Statement result = StatementSearcher.Run (inputLine);
+							output = result.Process ();
+							if (isSupressed)
+								output = "";
+						} catch (Exception e) {
+							output = e.Message;
+						}
+					} else output = "q";
+				}
 				finish = outputAction (output);
 			}
 		}

@@ -98,18 +98,29 @@ namespace Calculator.Logic
 		}
 
 		public string GetStatement () {
+			bool isSupressed = false;
+			return GetStatement (out isSupressed);
+		}
+
+		public string GetStatement (out bool isSupressed) {
+			isSupressed = false;
 			StringBuilder result = new StringBuilder ();
 			bool statementEnd = IsEnd;
 			while (!statementEnd) {
 				switch (expression [currentPosition]) {
 				case '{':
-				case '(':
 					string block;
-					Parser.FindClosing (expression, currentPosition + 1, out block, expression [currentPosition]);
+					currentPosition = Parser.FindClosing (expression, currentPosition + 1, 
+						out block, expression [currentPosition]);
 					result.Append (block);
 					break;
 				case ';':
+					currentPosition++;
+					statementEnd = true;
+					isSupressed = true;
+					break;
 				case '\n':
+					currentPosition++;
 					statementEnd = true;
 					break;
 				default:
@@ -120,5 +131,7 @@ namespace Calculator.Logic
 			}
 			return result.ToString ();
 		}
+
+
 	}
 }
