@@ -11,7 +11,16 @@ namespace Calculator.Logic
 			get { return statements.Length; }
 		}
 
+		public Block (string input) {
+			SetSeparateLines (input);
+		}
+
 		public Block (VarSet globals, string input) {
+			locals = new VarSet (globals);
+			SetSeparateLines (input);
+		}
+
+		private void SetSeparateLines (string input) {
 			StringBuilder statement = new StringBuilder ();
 			for (int i = 0; i < input.Length; i++) {
 				if (input [i] == ';' || input [i] == '\n') {
@@ -57,9 +66,20 @@ namespace Calculator.Logic
 
 	public class BlockParser : StatementParser {
 		override public ParsingResult Run (string input) {
-			throw new Exception ("Not implemented");
-			Block result;
-			return new ParsingResult (result);
+			Block result = null;
+			bool isMatch = false;
+			bool isComplete = false;
+			string content = "";
+			if (input [0] == '{') {
+				int position = Parser.FindClosing (input, 0, out content, '{');
+				if (position >= 0) {
+					result = new Block (content);
+					isMatch = true;
+					isComplete = true;
+				} else
+					isMatch = true;
+			}
+			return new ParsingResult (result, isMatch, isComplete);
 		}
 	}
 }

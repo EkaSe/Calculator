@@ -22,9 +22,8 @@ namespace Calculator.Logic
 
 	public class LambdaParser : StatementParser {
 		override public ParsingResult Run (string input) {
-			throw new Exception ("Not implemented");
 			Lambda result;
-			return new ParsingResult (result);
+			return new ParsingResult (null, false, false);
 		}
 	}
 }

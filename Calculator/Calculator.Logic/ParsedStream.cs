@@ -84,16 +84,20 @@ namespace Calculator.Logic
 			//sign!
 			string result;
 			char start = expression [currentPosition];
-			if (start == '(' || start == '{')
-				currentPosition = Parser.FindClosing (expression, currentPosition + 1, out result, start);
+			if (start == '{') {
+				currentPosition = Parser.FindClosing (expression, currentPosition, out result, start) + 1;
+				result = "{" + result + "}";
+			} else if (start == '(') 
+				currentPosition = Parser.FindClosing (expression, currentPosition, out result, start) + 1;
 			else if ((int)start >= (int)'0' && (int)start <= (int)'9') {
 				double number;
-				currentPosition = Parser.FindNumber (expression, currentPosition, out number);
+				currentPosition = Parser.FindNumber (expression, currentPosition, out number) + 1;
 				result = Parser.DoubleToString (number);
 			} else if (Parser.IsIdentifierChar (start, true))
 				currentPosition = Parser.FindName (expression, currentPosition, out result);
 			else
-				result = Get ();
+				return Get ();
+			currentPosition++;
 			return result;
 		}
 
@@ -110,9 +114,9 @@ namespace Calculator.Logic
 				switch (expression [currentPosition]) {
 				case '{':
 					string block;
-					currentPosition = Parser.FindClosing (expression, currentPosition + 1, 
+					currentPosition = Parser.FindClosing (expression, currentPosition, 
 						out block, expression [currentPosition]);
-					result.Append (block);
+					result.Append ("{" + block + "}");
 					break;
 				case ';':
 					currentPosition++;

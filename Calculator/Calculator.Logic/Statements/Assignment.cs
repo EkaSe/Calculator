@@ -15,6 +15,12 @@ namespace Calculator.Logic
 			content = new ExpressionBuilder (assigned).ToExpression ();
 		}
 
+		public Assignment (string alias, string assigned) {
+			locals = new VarSet (Interpreter.Globals);
+			this.alias = alias;
+			content = new ExpressionBuilder (assigned).ToExpression ();
+		}
+
 		public override string Execute () {
 			throw new Exception ("Not implemented");
 			return alias + "=" + Parser.DoubleToString (content.Calculate ());
@@ -23,9 +29,30 @@ namespace Calculator.Logic
 
 	public class AssignmentParser : StatementParser {
 		override public ParsingResult Run (string input) {
-			throw new Exception ("Not implemented");
-			Assignment result;
-			return new ParsingResult (result);
+			Assignment result = null;
+			bool isMatch = false;
+			bool isComplete = false;
+			string name = "";
+			if (Parser.IsIdentifierChar (input [0], true)) {
+				int position = Parser.FindName (input, 0, out name) + 1;
+				if (position >= input.Length)
+					isMatch = true;
+				else if (input [position] == '=') {
+					position++;
+					if (position >= input.Length)
+						isMatch = true;
+					else {
+						try {
+							result = new Assignment (name, input.Substring (position));
+							isMatch = true;
+							isComplete = true;
+						} catch {
+							isMatch = true;
+						}
+					}
+				}
+			}
+			return new ParsingResult (result, isMatch, isComplete);
 		}
 	}
 }
