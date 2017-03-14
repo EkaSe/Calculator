@@ -1,7 +1,0 @@
-/home/semiash/projects2/Calculator/Calculator/Calculator.Logic/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
-/home/semiash/projects2/Calculator/Calculator/Calculator.Logic/bin/Debug/Calculator.Logic.dll.mdb
-/home/semiash/projects2/Calculator/Calculator/Calculator.Logic/bin/Debug/Calculator.Logic.dll
-/home/semiash/projects2/Calculator/Calculator/Calculator.Logic/obj/Debug/Calculator.Logic.dll
-/home/semiash/projects2/Calculator/Calculator/Calculator.Logic/obj/Debug/Calculator.Logic.dll.mdb
-/home/semiash/projects2/Calculator/Calculator/Calculator.Logic/bin/Debug/MyLibrary.dll
-/home/semiash/projects2/Calculator/Calculator/Calculator.Logic/bin/Debug/MyLibrary.dll.mdb

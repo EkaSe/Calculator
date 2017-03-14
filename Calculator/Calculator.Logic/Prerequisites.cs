@@ -10,7 +10,6 @@ namespace Calculator.Logic
 			OperatorSearch.RegisterOperator (new Multiply ());
 			OperatorSearch.RegisterOperator (new Divide ());
 			OperatorSearch.RegisterOperator (new Factorial ());
-			OperatorSearch.RegisterOperator (new Assign ());
 		}
 		static public void RegisterBIFs () {
 			BIFSearch.RegisterBIF (new MaxBIF ());
