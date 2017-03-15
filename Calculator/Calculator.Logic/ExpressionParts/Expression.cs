@@ -53,7 +53,7 @@ namespace Calculator.Logic
 			return Root.Evaluate ();
 		}
 
-		public override string Execute () {
+		protected override string Execute () {
 			return Parser.DoubleToString (Root.Evaluate ());
 		}
 	}

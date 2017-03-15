@@ -43,6 +43,7 @@ namespace Calculator.Logic
 			ParsedStream stream = new ParsedStream (input);
 			string inputStart = "";
 			ParsingResult[] results = new ParsingResult [StatementList.Length];
+			int statementType = -1;
 			while (!stream.IsEnd && !isFound) {
 				inputStart = inputStart + stream.GetEntity ();
 				for (int i = 0; i < StatementList.Length; i++) {
@@ -53,18 +54,21 @@ namespace Calculator.Logic
 						if (!isFound) {
 							isFound = true;
 							result = results [i].result;
+							statementType = i;
 						} else
 							throw new Exception ("Statement type could not be determined");
 					}
-						
-					/*int currentPosition = current.Search (input, startPosition);
-				if (currentPosition >= 0 && (currentPosition < position || position < 0)) {
-					position = currentPosition;
-					result = (Statement) current.Clone();
-				}*/
 				}
 			}
-			if (!isFound)
+			if (isFound) {
+				ParsingResult temp = results [statementType];
+				while (!stream.IsEnd && temp.isMatch) {
+					inputStart = inputStart + stream.GetEntity ();
+					temp = StatementList [statementType].Run (inputStart);
+					if (temp.isComplete)
+						result = temp.result;
+				}
+			} else
 				result = new ExpressionBuilder (input).ToExpression ();
 			return result;
 		}

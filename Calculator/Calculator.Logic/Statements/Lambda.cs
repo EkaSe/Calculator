@@ -13,9 +13,9 @@ namespace Calculator.Logic
 			content = StatementSearcher.Run (body);
 		}
 
-		public override string Execute () {
+		protected override string Execute () {
 			throw new Exception ("Not implemented");
-			string result = content.Execute ();
+			string result = content.Process ();
 			return result;
 		}
 	}

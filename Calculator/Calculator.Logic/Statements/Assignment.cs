@@ -6,7 +6,7 @@ namespace Calculator.Logic
 	public class Assignment: Statement
 	{
 		string alias; //(un)assigned Variable?
-		Variable assignee;
+		//Variable assignee;
 		Expression content;
 
 		public Assignment (VarSet globals, string alias, string assigned) {
@@ -21,9 +21,10 @@ namespace Calculator.Logic
 			content = new ExpressionBuilder (assigned).ToExpression ();
 		}
 
-		public override string Execute () {
-			throw new Exception ("Not implemented");
-			return alias + "=" + Parser.DoubleToString (content.Calculate ());
+		protected override string Execute () {
+			string value = content.Process ();
+			locals.Assign (alias, Parser.StringToDouble (value));
+			return alias + " = " + value;
 		}
 	}
 

@@ -13,7 +13,7 @@ namespace Calculator.Logic
 			return result;
 		}
 
-		abstract public string Execute ();
+		abstract protected string Execute ();
 	}
 }
 

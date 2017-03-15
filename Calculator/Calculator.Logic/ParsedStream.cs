@@ -91,7 +91,7 @@ namespace Calculator.Logic
 				currentPosition = Parser.FindClosing (expression, currentPosition, out result, start) + 1;
 			else if ((int)start >= (int)'0' && (int)start <= (int)'9') {
 				double number;
-				currentPosition = Parser.FindNumber (expression, currentPosition, out number) + 1;
+				currentPosition = Parser.FindNumber (expression, currentPosition, out number);
 				result = Parser.DoubleToString (number);
 			} else if (Parser.IsIdentifierChar (start, true))
 				currentPosition = Parser.FindName (expression, currentPosition, out result);

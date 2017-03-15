@@ -34,7 +34,7 @@ namespace Calculator.Logic
 				statements.Add (statement.ToString ());
 		}
 
-		public override string Execute () {
+		protected override string Execute () {
 			throw new Exception ("Not implemented");
 			/*double result = 0;
 			int contentPosition = 0;
