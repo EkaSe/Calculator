@@ -15,7 +15,7 @@ namespace Calculator.Tests
 		}
 
 		static public void Run () {
-			TestBlock ("0", "{x = 1; y = 2; z = x + y }", "x = 1, y = 2, z = 3");
+			TestBlock ("0", "{1; 1 + 2; -5*(0.5/0.1) }", "1, 3, -25");
 			TestBlock ("1", "{x = 1 \n y = 2; z = x + y }", "x = 1, y = 2, z = 3");
 			TestBlock ("2", "{x = 1 \n ;; x = x-1}", "x = 1, x = 0");
 			TestBlock ("3", "{x = 1 \n x = x-1};", "");

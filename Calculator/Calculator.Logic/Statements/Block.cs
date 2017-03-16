@@ -35,32 +35,15 @@ namespace Calculator.Logic
 		}
 
 		protected override string Execute () {
-			throw new Exception ("Not implemented");
-			/*double result = 0;
-			int contentPosition = 0;
-
-			Func<string> getExpression = () => {
-				if (contentPosition < Content.Length) {
-					int start = contentPosition;
-					contentPosition = Content.IndexOf ('\n', contentPosition);
-					if (contentPosition < 0)
-						contentPosition = Content.Length;
-					return Content.Substring (start, contentPosition - start);
-				} else return "q";
-			};
-
-			Func<string, bool> outputAction = (output) => {
-				if (output != "q") {
-					result = Parser.StringToDouble (output);
-					return false;
-				} else {
-					return true;
-				}
-			};
-
-			Interpreter.Run (getExpression, outputAction, false);
-
-			return result;*/
+			string output = "";
+			for (int i = 0; i < Count; i++) {
+				Statement result = StatementSearcher.Run (statements [i]);
+				if (i == 0) 
+					output = result.Process ();
+				else
+					output = output + ", " + result.Process ();
+			}
+			return output;
 		}
 	}
 

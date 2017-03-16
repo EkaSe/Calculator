@@ -20,8 +20,8 @@ namespace Calculator.Tests
 			Console.WriteLine ();
 			StatementAssignmentTest.Run ();
 			Console.WriteLine ();
-			//StatementBlockTest.Run ();
-			//Console.WriteLine ();
+			StatementBlockTest.Run ();
+			Console.WriteLine ();
 			//StatementLambdaTest.Run ();
 			//Console.WriteLine ();
 			//StatementEmbeddedTest.Run ();
