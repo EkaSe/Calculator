@@ -4,10 +4,10 @@ namespace Calculator.Logic
 {
 	abstract public class Statement
 	{
-		protected VarSet locals = new VarSet (Interpreter.Globals);
+		protected Scope locals = new Scope (Interpreter.Globals);
 
 		public string Process () {
-			locals = new VarSet (Interpreter.Globals);
+			locals = new Scope (Interpreter.Globals);
 			string result = Execute ();
 			Interpreter.Globals.Merge (locals);
 			return result;

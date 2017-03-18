@@ -58,14 +58,13 @@
     <Compile Include="ExpressionParts\MultiNode.cs" />
     <Compile Include="ExpressionParts\UserFunc.cs" />
     <Compile Include="ExpressionParts\ExpressionBuilder.cs" />
-    <Compile Include="ExpressionParts\Operators\Assign.cs" />
     <Compile Include="Statements\Statement.cs" />
     <Compile Include="Statements\StatementSearcher.cs" />
     <Compile Include="ExpressionParts\Operands\Variables.cs" />
-    <Compile Include="ExpressionParts\Operands\VarSet.cs" />
     <Compile Include="Statements\Assignment.cs" />
     <Compile Include="Statements\Block.cs" />
     <Compile Include="Statements\Lambda.cs" />
+    <Compile Include="ExpressionParts\Operands\Scope.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

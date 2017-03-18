@@ -15,12 +15,27 @@ namespace Calculator.Tests
 		}
 
 		static public void Run () {
-			TestLambda ("0: define", "UF () => x=1+2", "User function UF is defined");
-			TestLambda ("1: define as block", "UF () => {x=1+2; x = x-1}", "User function UF is defined");
-			TestLambda ("2: call", "UF () => x=1+2; UF ()", "x = 3"); 
-			TestLambda ("3: call twice", "x=1; UF () => x=x+2; UF (); UF ()", "x = 5"); 
-
-
+			TestLambda ("0.0: ", 
+				"var f = function (arg1, arg2) { return 0; }",
+				"User function f is defined");
+			TestLambda ("0.1: ", 
+				"var f = function (x) { x = x*2; return x; }", 
+				"User function f is defined");
+			TestLambda ("1.0: ", 
+				"var f = function (x) { var y = x*2; return y; }\n f(3)", 
+				"6");
+			TestLambda ("1.2: ", 
+				"var f = function (x) { x = x*2; return x; }\n var y = f(3); y = f(y)", 
+				"y = 12");
+			TestLambda ("1.3: ", 
+				"var f = function (x) { return sqrt(x); }\n var y = f(4)", 
+				"y = 2");
+			TestLambda ("2.0: ", 
+				"function f (x) { return x; }", 
+				"User function f is defined");
+			TestLambda ("2.1: ", 
+				"function f (x) { return x; }; f(-52)", 
+				"-52");
 		}
 	}
 }

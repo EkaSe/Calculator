@@ -6,7 +6,7 @@ namespace Calculator.Logic
 {
 	public class Interpreter
 	{
-		static public VarSet Globals = new VarSet ();
+		static public Scope Globals = new Scope ();
 
 		static public void Run (Func<string> getInput, Func<string, bool> outputAction) {
 			Run (getInput, outputAction, true);
@@ -15,7 +15,7 @@ namespace Calculator.Logic
 		static public void Run (Func<string> getInput, Func<string, bool> outputAction, bool clearRun) {
 			if (clearRun) {
 				//clear UF list
-				Globals = new VarSet ();
+				Globals = new Scope ();
 			}
 			bool finish = false;
 			while (!finish) {

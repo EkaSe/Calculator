@@ -125,7 +125,10 @@ namespace Calculator.Logic
 		static public string SkipSpaces (string input) {
 			StringBuilder result = new StringBuilder ();
 			for (int i = 0; i < input.Length; i++) {
-				if (input [i] != ' ')
+				bool isBetweenWords = i != 0 && i < input.Length - 1
+				                      && Parser.IsIdentifierChar (input [i - 1], false)
+				                      && Parser.IsIdentifierChar (input [i + 1], true);
+				if (input [i] != ' ' || isBetweenWords) 
 					result.Append (input [i]);
 			}
 			return result.ToString ();

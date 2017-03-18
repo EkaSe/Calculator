@@ -9,14 +9,14 @@ namespace Calculator.Logic
 		//Variable assignee;
 		Expression content;
 
-		public Assignment (VarSet globals, string alias, string assigned) {
-			locals = new VarSet (globals);
+		public Assignment (Scope globals, string alias, string assigned) {
+			locals = new Scope (globals);
 			this.alias = alias;
 			content = new ExpressionBuilder (assigned).ToExpression ();
 		}
 
 		public Assignment (string alias, string assigned) {
-			locals = new VarSet (Interpreter.Globals);
+			locals = new Scope (Interpreter.Globals);
 			this.alias = alias;
 			content = new ExpressionBuilder (assigned).ToExpression ();
 		}

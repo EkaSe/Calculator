@@ -15,8 +15,8 @@ namespace Calculator.Logic
 			SetSeparateLines (input);
 		}
 
-		public Block (VarSet globals, string input) {
-			locals = new VarSet (globals);
+		public Block (Scope globals, string input) {
+			locals = new Scope (globals);
 			SetSeparateLines (input);
 		}
 
