@@ -32,10 +32,12 @@ namespace Calculator.Tests
 			SingleTest ("xy12_x=1", typeof (Assignment).ToString ());
 			SingleTest ("x=1+sqrt(4)", typeof (Assignment).ToString ());
 			SingleTest ("x=1+x", typeof (Assignment).ToString ());
+			SingleTest ("var x", typeof (Assignment).ToString ());
+			SingleTest ("var x=1", typeof (Assignment).ToString ());
 			SingleTest ("{1+2;2/3;0}", typeof (Block).ToString ());
 			SingleTest ("{1+2;2/3;x = 0;}", typeof (Block).ToString ());
-			SingleTest ("UF()=>x=1", typeof (Lambda).ToString ());
-			SingleTest ("x=unknown", "Invalid statement");
+			SingleTest ("var f = function () { return 0; }", typeof (Lambda).ToString ());
+			SingleTest ("function f (arg) { return arg+1; }", typeof (Lambda).ToString ());
 		}
 	}
 }
