@@ -45,7 +45,10 @@ namespace Calculator.Logic
 			ParsingResult[] results = new ParsingResult [StatementList.Length];
 			int statementType = -1;
 			while (!stream.IsEnd && !isFound) {
-				inputStart = inputStart + stream.GetEntity ();
+				string nextEntity = stream.GetEntity ();
+				if (nextEntity == " ")
+					nextEntity = nextEntity + stream.GetEntity ();
+				inputStart = inputStart + nextEntity;
 				for (int i = 0; i < StatementList.Length; i++) {
 					StatementParser current = StatementList [i];
 					if (results [i] == null || results [i].isMatch)
@@ -65,14 +68,17 @@ namespace Calculator.Logic
 			if (isFound) {
 				ParsingResult temp = results [statementType];
 				while (!stream.IsEnd && temp.isMatch) {
-					inputStart = inputStart + stream.GetEntity ();
+					string nextEntity = stream.GetEntity ();
+					if (nextEntity == " ")
+						nextEntity = nextEntity + stream.GetEntity ();
+					inputStart = inputStart + nextEntity;
 					temp = StatementList [statementType].Run (inputStart);
 					if (temp.isComplete)
 						result = temp.result;
 				}
 			} else try {
 				result = new ExpressionBuilder (input).ToExpression ();
-			} catch (Exception e) {
+			} catch {
 				throw new Exception ("Statement type could not be determined");
 			}
 			return result;
