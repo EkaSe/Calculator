@@ -55,8 +55,10 @@ namespace Calculator.Logic
 							isFound = true;
 							result = results [i].result;
 							statementType = i;
-						} else
-							throw new Exception ("Statement type could not be determined");
+						} else {
+							isFound = false;
+							i = StatementList.Length;
+						}
 					}
 				}
 			}
@@ -68,8 +70,11 @@ namespace Calculator.Logic
 					if (temp.isComplete)
 						result = temp.result;
 				}
-			} else
+			} else try {
 				result = new ExpressionBuilder (input).ToExpression ();
+			} catch (Exception e) {
+				throw new Exception ("Statement type could not be determined");
+			}
 			return result;
 		}
 	}
