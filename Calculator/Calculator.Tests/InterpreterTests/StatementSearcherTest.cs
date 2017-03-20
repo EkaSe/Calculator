@@ -32,7 +32,7 @@ namespace Calculator.Tests
 			SingleTest ("xy12_x=1", typeof (Assignment).ToString ());
 			SingleTest ("x=1+sqrt(4)", typeof (Assignment).ToString ());
 			SingleTest ("x=1+x", typeof (Assignment).ToString ());
-			SingleTest ("var x", typeof (Assignment).ToString ());
+			SingleTest ("var x", typeof (Declaration).ToString ());
 			SingleTest ("var x=1", typeof (Assignment).ToString ());
 			SingleTest ("{1+2;2/3;0}", typeof (Block).ToString ());
 			SingleTest ("{1+2;2/3;x = 0;}", typeof (Block).ToString ());

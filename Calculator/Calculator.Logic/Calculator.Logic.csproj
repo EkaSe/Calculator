@@ -65,6 +65,7 @@
     <Compile Include="Statements\Block.cs" />
     <Compile Include="Statements\Lambda.cs" />
     <Compile Include="Scope.cs" />
+    <Compile Include="Statements\Declaration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
