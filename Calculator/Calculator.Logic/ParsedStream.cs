@@ -107,33 +107,49 @@ namespace Calculator.Logic
 		}
 
 		public string GetStatement (out bool isSupressed) {
-			isSupressed = false;
-			StringBuilder result = new StringBuilder ();
-			bool statementEnd = IsEnd;
-			while (!statementEnd) {
-				switch (expression [currentPosition]) {
-				case '{':
-					string block;
-					currentPosition = Parser.FindClosing (expression, currentPosition, 
-						out block, expression [currentPosition]);
-					result.Append ("{" + block + "}");
-					break;
-				case ';':
-					currentPosition++;
-					statementEnd = true;
-					isSupressed = true;
-					break;
-				case '\n':
-					currentPosition++;
-					statementEnd = true;
-					break;
-				default:
-					result.Append (Get ());
-					break;
+			int declarationEnd = DeclarationParser.FindDeclaration (expression, currentPosition);
+			if (declarationEnd < 0) {
+				isSupressed = false;
+				StringBuilder result = new StringBuilder ();
+				bool statementEnd = IsEnd;
+				while (!statementEnd) {
+					switch (expression [currentPosition]) {
+					case '{':
+						string block;
+						currentPosition = Parser.FindClosing (expression, currentPosition, 
+							out block, expression [currentPosition]);
+						result.Append ("{" + block + "}");
+						break;
+					case ';':
+						currentPosition++;
+						statementEnd = true;
+						isSupressed = true;
+						break;
+					case '\n':
+						currentPosition++;
+						statementEnd = true;
+						break;
+					default:
+						result.Append (Get ());
+						break;
+					}
+					statementEnd = IsEnd || statementEnd;
 				}
-				statementEnd = IsEnd || statementEnd;
+				return result.ToString ();
+			} else {
+				string result = expression.Substring (currentPosition, declarationEnd) + ";";
+				isSupressed = true;
+				if (currentPosition + declarationEnd <= expression.Length
+					&& expression [currentPosition + declarationEnd] == '=')
+					currentPosition += Declaration.Keyword.Length + 1;
+				else {
+					currentPosition += declarationEnd;
+					if (currentPosition <= expression.Length 
+						&& expression [currentPosition] != ';')
+						isSupressed = false;
+				}
+				return result;
 			}
-			return result.ToString ();
 		}
 
 

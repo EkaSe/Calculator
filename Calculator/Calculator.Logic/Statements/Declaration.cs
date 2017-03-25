@@ -6,6 +6,7 @@ namespace Calculator.Logic
 	public class Declaration: Statement
 	{
 		public string alias;
+		public static readonly string Keyword = "var";
 
 		public Declaration (Scope globals, string alias) {
 			locals = new Scope (globals);
@@ -25,7 +26,7 @@ namespace Calculator.Logic
 
 
 	public class DeclarationParser : StatementParser {
-		static private string keyword = "var";
+		static private string keyword = Declaration.Keyword;
 
 		override public ParsingResult Run (string input) {
 			ParsingResult result = null;
@@ -33,6 +34,12 @@ namespace Calculator.Logic
 			if (position < input.Length)
 				result.isMatch = false;
 			return result;
+		}
+
+		public static int FindDeclaration (string input, int startPosition) {
+			ParsingResult declaration = null;
+			string substring = input.Substring (startPosition);
+			return FindDeclaration (substring, out declaration);
 		}
 
 		public static int FindDeclaration (string input, out ParsingResult declaration) {
