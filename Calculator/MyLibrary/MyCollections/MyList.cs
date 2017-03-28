@@ -2,7 +2,7 @@
 
 namespace MyLibrary
 {
-	public class MyList<T>
+	public class MyList<T>: IMyEnumerable <T>
 	{
 		public T[] Elements;
 		public int Length;
@@ -96,6 +96,45 @@ namespace MyLibrary
 			//returns the very first element of the source collection, for which predicate returns True, 
 			//if any, otherwise returns default value of type T
 			return Where (predicate).FirstOrDefault ();
+		}
+
+		IMyEnumerator<T> IMyEnumerable<T>.Enumerator {
+			get { return (IMyEnumerator<T>) Enumerator; }
+		}
+
+		private MyListEnumerator<T> Enumerator {
+			get { return new MyListEnumerator<T> (ToArray()); }
+		}
+	}
+
+	public class MyListEnumerator<T> : IMyEnumerator<T> {
+		T[] collection;
+		int position;
+
+		public MyListEnumerator (T[] list) {
+			collection = list;
+			position = -1;
+		}
+
+		public T Current {
+			get { return collection [position]; }
+		}
+
+		public bool HasNext {
+			get { 
+				if (position < collection.Length)
+					return true;
+				else
+					return false;
+			}
+		}
+
+		public void Next() {
+			position++;
+		}
+
+		public void Reset() {
+			position = -1;
 		}
 	}
 }
