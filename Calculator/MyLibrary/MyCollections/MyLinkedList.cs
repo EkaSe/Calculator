@@ -26,7 +26,7 @@ namespace MyLibrary
 		}
 	}
 
-	public class MyLinkedList <T>
+	public class MyLinkedList <T> : IMyEnumerable <T>
 	{
 		public Node<T> FirstNode;
 		public Node<T> LastNode;
@@ -165,6 +165,14 @@ namespace MyLibrary
 				}
 			}
 			return currentNode;
+		}
+
+		IMyEnumerator<T> IMyEnumerable<T>.Enumerator {
+			get { return (IMyEnumerator<T>) Enumerator; }
+		}
+
+		private MyListEnumerator<T> Enumerator {
+			get { return new MyListEnumerator<T> (ToArray()); }
 		}
 	}
 }

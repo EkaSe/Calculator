@@ -2,7 +2,7 @@
 
 namespace MyLibrary
 {
-	public class MyStack <T>
+	public class MyStack <T> : IMyEnumerable <T>
 	{
 		private MyList <T> list;
 		private T top;
@@ -35,6 +35,14 @@ namespace MyLibrary
 			if (Length != 0)
 				top = list.Elements [Length - 1];
 			return result;
+		}
+
+		IMyEnumerator<T> IMyEnumerable<T>.Enumerator {
+			get { return (IMyEnumerator<T>) Enumerator; }
+		}
+
+		private MyListEnumerator<T> Enumerator {
+			get { return new MyListEnumerator<T> (list.ToArray()); }
 		}
 	}
 }
