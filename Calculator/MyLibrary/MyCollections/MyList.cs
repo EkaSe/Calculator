@@ -69,11 +69,15 @@ namespace MyLibrary
 			return result;
 		}
 
-		/*
-		public MyList<T2> Select(Func<T, T2> selector) {
-		//returns new MyList collection, containing all new elements of type T2, 
+		public MyList<T2> Select <T2> (Func<T, T2> selector) {
+			//returns new MyList collection, containing all new elements of type T2, 
 			//created by applying selector for each element in the source collection
-		} */
+			MyList <T2> result = new MyList<T2> ();
+			for (int i = 0; i < Length; i++) {
+				result.Add (selector (this [i]));
+			}
+			return result;
+		}
 
 		public T[] ToArray() {
 			//returns new array of elements of type T, copied from the collection
