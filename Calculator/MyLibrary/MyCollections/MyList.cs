@@ -103,15 +103,15 @@ namespace MyLibrary
 		}
 
 		private MyListEnumerator<T> Enumerator {
-			get { return new MyListEnumerator<T> (ToArray()); }
+			get { return new MyListEnumerator<T> (this); }
 		}
 	}
 
 	public class MyListEnumerator<T> : IMyEnumerator<T> {
-		T[] collection;
+		MyList <T> collection;
 		int position;
 
-		public MyListEnumerator (T[] list) {
+		public MyListEnumerator (MyList <T> list) {
 			collection = list;
 			position = -1;
 		}
@@ -122,7 +122,7 @@ namespace MyLibrary
 
 		public bool HasNext {
 			get { 
-				if (position < collection.Length)
+				if (collection.Length > 0 && position < collection.Length)
 					return true;
 				else
 					return false;

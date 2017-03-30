@@ -42,7 +42,7 @@ namespace MyLibrary
 		}
 
 		private MyListEnumerator<T> Enumerator {
-			get { return new MyListEnumerator<T> (list.ToArray()); }
+			get { return new MyListEnumerator<T> (list); }
 		}
 	}
 }
