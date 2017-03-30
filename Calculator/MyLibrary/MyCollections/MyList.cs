@@ -15,6 +15,12 @@ namespace MyLibrary
 			Elements = new T[Capacity];
 		}
 
+		public MyList (int length) {
+			Length = length;
+			Capacity = length;
+			Elements = new T[Capacity];
+		}
+
 		public T this [int key] {
 			get { return Elements [key]; }
 			set { Elements [key] = value; }
@@ -61,7 +67,7 @@ namespace MyLibrary
 
 		public MyList<T> Where(Func<T, bool> predicate) {
 		//returns new MyList collection, containing only those elements, for which predicate gives True
-			MyList <T> result = new MyList<T> ();
+			MyList <T> result = new MyList<T> (Length);
 			for (int i = 0; i < Length; i++) {
 				if (predicate (Elements [i]))
 					result.Add (Elements [i]);
