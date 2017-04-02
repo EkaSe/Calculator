@@ -190,12 +190,7 @@ namespace MyLibrary
 		}
 
 		public bool HasNext {
-			get { 
-				if (collection.Length > 0 && currentNode.Next != null)
-					return true;
-				else
-					return false;
-			}
+			get { return collection.Length > 0 && currentNode.Next != null; }
 		}
 
 		public void Next() {
