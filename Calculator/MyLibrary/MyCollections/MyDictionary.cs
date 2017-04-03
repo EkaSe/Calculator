@@ -16,7 +16,7 @@ namespace MyLibrary
 		}
 	}
 
-	public class MyDictionary <K, V>
+	public class MyDictionary <K, V> : IMyEnumerable <KeyValuePair <K, V>>
 	{
 		MyList <MyLinkedList <KeyValuePair <K, V>>> HashTable = new MyList<MyLinkedList<KeyValuePair<K, V>>> ();
 
@@ -108,6 +108,25 @@ namespace MyLibrary
 					}
 			}
 			return clone;
+		}
+
+		IMyEnumerator<KeyValuePair <K, V> > IMyEnumerable<KeyValuePair <K, V>>.Enumerator {
+			get { return (IMyEnumerator<KeyValuePair <K, V>>) Enumerator; }
+		}
+
+		private MyListEnumerator<KeyValuePair <K, V>> Enumerator {
+			get { 
+				MyList <KeyValuePair <K, V>> result = new MyList<KeyValuePair<K, V>> ();
+				for (int i = 0; i < HashTable.Length; i++) {
+					if (HashTable.Elements [i] != null) {
+						MyLinkedList <KeyValuePair <K, V>> cell = HashTable.Elements [i];
+						for (Node<KeyValuePair <K, V>> currentPair = cell.FirstNode; currentPair != null; currentPair = currentPair.Next) {
+							result.Add (currentPair.Element);
+						}
+					}
+				}
+				return new MyListEnumerator<KeyValuePair <K, V>> (result); 
+			}
 		}
 	}
 }
