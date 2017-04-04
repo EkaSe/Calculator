@@ -90,9 +90,11 @@ namespace MyLibrary
 		/// otherwise returns default value of type T
 		/// </summary>
 		public static T FirstOrDefault <T> (IMyEnumerable< T> collection) {
-			if (Length > 0)
-				return Elements [0];
-			else
+			var enumerator = collection.Enumerator;
+			if (enumerator.HasNext) {
+				enumerator.Next ();
+				return enumerator.Current;
+			} else
 				return default (T);
 		}
 
@@ -101,7 +103,17 @@ namespace MyLibrary
 		/// if any, otherwise returns default value of type T
 		/// </summary>
 		public static T FirstOrDefault<T> (IMyEnumerable< T> collection, Func<T, bool> predicate) {
-			return Where (predicate).FirstOrDefault ();
+			var enumerator = collection.Enumerator;
+			bool isFound = false;
+			while (enumerator.HasNext && !isFound) {
+				enumerator.Next ();
+				if (predicate (enumerator.Current))
+					isFound = true;
+			}
+			if (isFound)
+				return enumerator.Current;
+			else 
+				return default (T);
 		}
 	}
 }
