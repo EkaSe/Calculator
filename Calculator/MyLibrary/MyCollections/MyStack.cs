@@ -37,12 +37,32 @@ namespace MyLibrary
 			return result;
 		}
 
-		IMyEnumerator<T> IMyEnumerable<T>.Enumerator {
-			get { return (IMyEnumerator<T>) Enumerator; }
+		IMyEnumerator<T> IMyEnumerable<T>.Enumerator => (IMyEnumerator<T>) Enumerator; 
+
+		private MyStackEnumerator<T> Enumerator => new MyStackEnumerator<T> (list);
+	}
+
+	public class MyStackEnumerator<T> : IMyEnumerator<T> {
+		MyList <T> collection;
+		int position;
+
+		public MyStackEnumerator (MyList <T> list) {
+			collection = list;
+			position = list.Length;
 		}
 
-		private MyListEnumerator<T> Enumerator {
-			get { return new MyListEnumerator<T> (list); }
+		public T Current {
+			get { return collection [position]; }
+		}
+
+		public bool HasNext => collection.Length > 0 && position >= 0;
+
+		public void Next() {
+			position--;
+		}
+
+		public void Reset() {
+			position = collection.Length;
 		}
 	}
 }
