@@ -19,6 +19,7 @@ namespace MyLibrary
 	public class MyDictionary <K, V> : IMyEnumerable <KeyValuePair <K, V>>
 	{
 		MyList <MyLinkedList <KeyValuePair <K, V>>> HashTable = new MyList<MyLinkedList<KeyValuePair<K, V>>> ();
+		private int length = 0;
 
 		public V this [K key] {
 			get { return Get (key);    }
@@ -62,6 +63,7 @@ namespace MyLibrary
 				cell = new MyLinkedList<KeyValuePair<K, V>> ();
 			cell.Add (pair);
 			HashTable.Elements [hash] = cell;
+			length++;
 			return true;
 		}
 
@@ -69,6 +71,7 @@ namespace MyLibrary
 			Node<KeyValuePair <K, V>> target = SearchNode (targetKey);
 			MyLinkedList <KeyValuePair <K, V>> cell = HashTable.Elements [HashCode (targetKey)];
 			cell.Remove (target);
+			length--;
 		}
 
 		public Node<KeyValuePair <K, V>> SearchNode (K targetKey) {
@@ -114,19 +117,46 @@ namespace MyLibrary
 			get { return (IMyEnumerator<KeyValuePair <K, V>>) Enumerator; }
 		}
 
-		private MyListEnumerator<KeyValuePair <K, V>> Enumerator {
-			get { 
-				MyList <KeyValuePair <K, V>> result = new MyList<KeyValuePair<K, V>> ();
-				for (int i = 0; i < HashTable.Length; i++) {
-					if (HashTable.Elements [i] != null) {
-						MyLinkedList <KeyValuePair <K, V>> cell = HashTable.Elements [i];
-						for (Node<KeyValuePair <K, V>> currentPair = cell.FirstNode; currentPair != null; currentPair = currentPair.Next) {
-							result.Add (currentPair.Element);
-						}
-					}
+		private MyDictionaryEnumerator<K, V
+		> Enumerator => new MyDictionaryEnumerator <K, V> (HashTable, length);
+	}
+
+	public class MyDictionaryEnumerator<K, V> : IMyEnumerator<KeyValuePair <K, V>> {
+		MyList <MyLinkedList <KeyValuePair <K, V>>> hashTable;
+		Node <KeyValuePair <K, V>> currentNode;
+		int length;
+		int position;
+		int count;
+
+		public MyDictionaryEnumerator (MyList <MyLinkedList <KeyValuePair <K, V>>> hashTable, int length) {
+			this.hashTable = hashTable;
+			this.length = length;
+			Reset ();
+		}
+
+		public KeyValuePair <K, V> Current {
+			get { return currentNode.Element; }
+		}
+
+		public bool HasNext {
+			get { return (count < length); }
+		}
+
+		public void Next() {
+			if (currentNode == null || currentNode.Next == null) {
+				while (position < 0 || hashTable.Elements [position] == null) {
+					position++;
 				}
-				return new MyListEnumerator<KeyValuePair <K, V>> (result); 
-			}
+				currentNode = hashTable.Elements [position].FirstNode;
+			} else
+				currentNode = currentNode.Next;
+			count++;
+		}
+
+		public void Reset() {
+			position = -1;
+			count = 0;
+			currentNode = null;
 		}
 	}
 }
