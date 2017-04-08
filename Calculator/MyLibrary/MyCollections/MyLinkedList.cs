@@ -167,13 +167,7 @@ namespace MyLibrary
 			return currentNode;
 		}
 
-		IMyEnumerator<T> IMyEnumerable<T>.Enumerator {
-			get { return (IMyEnumerator<T>) Enumerator; }
-		}
-
-		private MyLinkedListEnumerator<T> Enumerator {
-			get { return new MyLinkedListEnumerator<T> (this); }
-		}
+		public IMyEnumerator<T> Enumerator => (IMyEnumerator<T>) new MyLinkedListEnumerator<T> (this);
 
 		public class MyLinkedListEnumerator<T> : IMyEnumerator<T> {
 			MyLinkedList <T> collection;

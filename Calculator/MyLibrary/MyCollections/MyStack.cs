@@ -37,9 +37,7 @@ namespace MyLibrary
 			return result;
 		}
 
-		IMyEnumerator<T> IMyEnumerable<T>.Enumerator => (IMyEnumerator<T>) Enumerator; 
-
-		private MyStackEnumerator<T> Enumerator => new MyStackEnumerator<T> (this);
+		public IMyEnumerator<T> Enumerator => (IMyEnumerator<T>) new MyStackEnumerator<T> (this);
 
 		public class MyStackEnumerator<T> : IMyEnumerator<T> {
 			MyList <T> collection;
@@ -54,7 +52,7 @@ namespace MyLibrary
 				get { return collection [position]; }
 			}
 
-			public bool HasNext => collection.Length > 0 && position >= 0;
+			public bool HasNext => collection.Length > 0 && position > 0;
 
 			public void Next() {
 				position--;

@@ -30,6 +30,8 @@ namespace Calculator.Tests
 			//Console.WriteLine ();
 
 			Console.WriteLine ("\r\n" + FailedTestsCount + " tests failed");
+
+			MyCollectionTest.Run ();
 		}
 	}
 }

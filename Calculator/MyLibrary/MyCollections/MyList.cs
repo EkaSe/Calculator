@@ -98,13 +98,7 @@ namespace MyLibrary
 			return Where (predicate).FirstOrDefault ();
 		}
 
-		IMyEnumerator<T> IMyEnumerable<T>.Enumerator {
-			get { return (IMyEnumerator<T>) Enumerator; }
-		}
-
-		private MyListEnumerator<T> Enumerator {
-			get { return new MyListEnumerator<T> (this); }
-		}
+		public IMyEnumerator<T> Enumerator => (IMyEnumerator<T>) new MyListEnumerator<T> (this);
 
 		public class MyListEnumerator<T> : IMyEnumerator<T> {
 			MyList <T> collection;
