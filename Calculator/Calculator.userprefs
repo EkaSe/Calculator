@@ -1,8 +1,16 @@
 ﻿<Properties StartupItem="Calculator.Tests/Calculator.Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Calculator.Logic/Interpreter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MyLibrary/MyCollections/MyStack.cs">
     <Files>
       <File FileName="Calculator.Logic/Interpreter.cs" Line="1" Column="1" />
+      <File FileName="Calculator.Tests/InterpreterTests/StatementSearcherTest.cs" Line="1" Column="1" />
+      <File FileName="Calculator.Logic/Scope.cs" Line="1" Column="1" />
+      <File FileName="Calculator.Logic/Statements/Assignment.cs" Line="55" Column="7" />
+      <File FileName="MyLibrary/MyCollections/MyList.cs" Line="139" Column="3" />
+      <File FileName="MyLibrary/MyCollections/MyLinkedList.cs" Line="1" Column="1" />
+      <File FileName="MyLibrary/MyCollections/MyStack.cs" Line="40" Column="31" />
+      <File FileName="MyLibrary/MyCollections/MyDictionary.cs" Line="103" Column="4" />
+      <File FileName="MyLibrary/IMyEnumerator.cs" Line="1" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

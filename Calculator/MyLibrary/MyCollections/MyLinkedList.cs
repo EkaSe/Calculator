@@ -174,31 +174,31 @@ namespace MyLibrary
 		private MyLinkedListEnumerator<T> Enumerator {
 			get { return new MyLinkedListEnumerator<T> (this); }
 		}
-	}
 
-	public class MyLinkedListEnumerator<T> : IMyEnumerator<T> {
-		MyLinkedList <T> collection;
-		Node <T> currentNode;
+		public class MyLinkedListEnumerator<T> : IMyEnumerator<T> {
+			MyLinkedList <T> collection;
+			Node <T> currentNode;
 
-		public MyLinkedListEnumerator (MyLinkedList <T> list) {
-			collection = list;
-			currentNode = new Node<T> (nextNode: list.FirstNode);
-		}
+			public MyLinkedListEnumerator (MyLinkedList <T> list) {
+				collection = list;
+				currentNode = new Node<T> (nextNode: list.FirstNode);
+			}
 
-		public T Current {
-			get { return currentNode.Element; }
-		}
+			public T Current {
+				get { return currentNode.Element; }
+			}
 
-		public bool HasNext {
-			get { return collection.Length > 0 && currentNode.Next != null; }
-		}
+			public bool HasNext {
+				get { return collection.Length > 0 && currentNode.Next != null; }
+			}
 
-		public void Next() {
-			currentNode = currentNode.Next;
-		}
+			public void Next() {
+				currentNode = currentNode.Next;
+			}
 
-		public void Reset() {
-			currentNode = new Node<T> (nextNode: collection.FirstNode);
+			public void Reset() {
+				currentNode = new Node<T> (nextNode: collection.FirstNode);
+			}
 		}
 	}
 }

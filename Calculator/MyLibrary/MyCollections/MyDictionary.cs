@@ -113,50 +113,49 @@ namespace MyLibrary
 			return clone;
 		}
 
-		IMyEnumerator<KeyValuePair <K, V> > IMyEnumerable<KeyValuePair <K, V>>.Enumerator {
+		IMyEnumerator<KeyValuePair <K, V>> IMyEnumerable<KeyValuePair <K, V>>.Enumerator {
 			get { return (IMyEnumerator<KeyValuePair <K, V>>) Enumerator; }
 		}
 
-		private MyDictionaryEnumerator<K, V
-		> Enumerator => new MyDictionaryEnumerator <K, V> (HashTable, length);
-	}
+		private MyDictionaryEnumerator<K, V> Enumerator => new MyDictionaryEnumerator <K, V> (this);
 
-	public class MyDictionaryEnumerator<K, V> : IMyEnumerator<KeyValuePair <K, V>> {
-		MyList <MyLinkedList <KeyValuePair <K, V>>> hashTable;
-		Node <KeyValuePair <K, V>> currentNode;
-		int length;
-		int position;
-		int count;
+		public class MyDictionaryEnumerator<K, V> : IMyEnumerator<KeyValuePair <K, V>> {
+			MyList <MyLinkedList <KeyValuePair <K, V>>> hashTable;
+			Node <KeyValuePair <K, V>> currentNode;
+			int length;
+			int position;
+			int count;
 
-		public MyDictionaryEnumerator (MyList <MyLinkedList <KeyValuePair <K, V>>> hashTable, int length) {
-			this.hashTable = hashTable;
-			this.length = length;
-			Reset ();
-		}
+			public MyDictionaryEnumerator (MyDictionary <K, V> parent) {
+				hashTable = parent.HashTable;
+				this.length = parent.length;
+				Reset ();
+			}
 
-		public KeyValuePair <K, V> Current {
-			get { return currentNode.Element; }
-		}
+			public KeyValuePair <K, V> Current {
+				get { return currentNode.Element; }
+			}
 
-		public bool HasNext {
-			get { return (count < length); }
-		}
+			public bool HasNext {
+				get { return (count < length); }
+			}
 
-		public void Next() {
-			if (currentNode == null || currentNode.Next == null) {
-				while (position < 0 || hashTable.Elements [position] == null) {
-					position++;
-				}
-				currentNode = hashTable.Elements [position].FirstNode;
-			} else
-				currentNode = currentNode.Next;
-			count++;
-		}
+			public void Next() {
+				if (currentNode == null || currentNode.Next == null) {
+					while (position < 0 || hashTable.Elements [position] == null) {
+						position++;
+					}
+					currentNode = hashTable.Elements [position].FirstNode;
+				} else
+					currentNode = currentNode.Next;
+				count++;
+			}
 
-		public void Reset() {
-			position = -1;
-			count = 0;
-			currentNode = null;
+			public void Reset() {
+				position = -1;
+				count = 0;
+				currentNode = null;
+			}
 		}
 	}
 }

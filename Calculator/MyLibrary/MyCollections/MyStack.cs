@@ -39,30 +39,30 @@ namespace MyLibrary
 
 		IMyEnumerator<T> IMyEnumerable<T>.Enumerator => (IMyEnumerator<T>) Enumerator; 
 
-		private MyStackEnumerator<T> Enumerator => new MyStackEnumerator<T> (list);
-	}
+		private MyStackEnumerator<T> Enumerator => new MyStackEnumerator<T> (this);
 
-	public class MyStackEnumerator<T> : IMyEnumerator<T> {
-		MyList <T> collection;
-		int position;
+		public class MyStackEnumerator<T> : IMyEnumerator<T> {
+			MyList <T> collection;
+			int position;
 
-		public MyStackEnumerator (MyList <T> list) {
-			collection = list;
-			position = list.Length;
-		}
+			public MyStackEnumerator (MyStack <T> parent) {
+				collection = parent.list;
+				position = collection.Length;
+			}
 
-		public T Current {
-			get { return collection [position]; }
-		}
+			public T Current {
+				get { return collection [position]; }
+			}
 
-		public bool HasNext => collection.Length > 0 && position >= 0;
+			public bool HasNext => collection.Length > 0 && position >= 0;
 
-		public void Next() {
-			position--;
-		}
+			public void Next() {
+				position--;
+			}
 
-		public void Reset() {
-			position = collection.Length;
+			public void Reset() {
+				position = collection.Length;
+			}
 		}
 	}
 }

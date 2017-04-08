@@ -105,36 +105,36 @@ namespace MyLibrary
 		private MyListEnumerator<T> Enumerator {
 			get { return new MyListEnumerator<T> (this); }
 		}
-	}
 
-	public class MyListEnumerator<T> : IMyEnumerator<T> {
-		MyList <T> collection;
-		int position;
+		public class MyListEnumerator<T> : IMyEnumerator<T> {
+			MyList <T> collection;
+			int position;
 
-		public MyListEnumerator (MyList <T> list) {
-			collection = list;
-			position = -1;
-		}
-
-		public T Current {
-			get { return collection [position]; }
-		}
-
-		public bool HasNext {
-			get { 
-				if (collection.Length > 0 && position < collection.Length)
-					return true;
-				else
-					return false;
+			public MyListEnumerator (MyList <T> list) {
+				collection = list;
+				position = -1;
 			}
-		}
 
-		public void Next() {
-			position++;
-		}
+			public T Current {
+				get { return collection [position]; }
+			}
 
-		public void Reset() {
-			position = -1;
+			public bool HasNext {
+				get { 
+					if (collection.Length > 0 && position < collection.Length)
+						return true;
+					else
+						return false;
+				}
+			}
+
+			public void Next() {
+				position++;
+			}
+
+			public void Reset() {
+				position = -1;
+			}
 		}
 	}
 }
