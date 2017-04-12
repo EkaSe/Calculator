@@ -16,9 +16,10 @@ namespace MyLibrary
 		}
 	}
 
-	public class MyDictionary <K, V>
+	public class MyDictionary <K, V> : IMyEnumerable <KeyValuePair <K, V>>
 	{
 		MyList <MyLinkedList <KeyValuePair <K, V>>> HashTable = new MyList<MyLinkedList<KeyValuePair<K, V>>> ();
+		private int length = 0;
 
 		public V this [K key] {
 			get { return Get (key);    }
@@ -62,6 +63,7 @@ namespace MyLibrary
 				cell = new MyLinkedList<KeyValuePair<K, V>> ();
 			cell.Add (pair);
 			HashTable.Elements [hash] = cell;
+			length++;
 			return true;
 		}
 
@@ -69,6 +71,7 @@ namespace MyLibrary
 			Node<KeyValuePair <K, V>> target = SearchNode (targetKey);
 			MyLinkedList <KeyValuePair <K, V>> cell = HashTable.Elements [HashCode (targetKey)];
 			cell.Remove (target);
+			length--;
 		}
 
 		public Node<KeyValuePair <K, V>> SearchNode (K targetKey) {
@@ -108,6 +111,50 @@ namespace MyLibrary
 					}
 			}
 			return clone;
+		}
+
+		public IMyEnumerator<KeyValuePair <K, V>> Enumerator => 
+		(IMyEnumerator<KeyValuePair <K, V>>) new MyDictionaryEnumerator <K, V> (this);
+
+		public class MyDictionaryEnumerator<K, V> : IMyEnumerator<KeyValuePair <K, V>> {
+			MyList <MyLinkedList <KeyValuePair <K, V>>> hashTable;
+			Node <KeyValuePair <K, V>> currentNode;
+			int length;
+			int position;
+			int count;
+
+			public MyDictionaryEnumerator (MyDictionary <K, V> parent) {
+				hashTable = parent.HashTable;
+				this.length = parent.length;
+				Reset ();
+			}
+
+			public KeyValuePair <K, V> Current {
+				get { return currentNode.Element; }
+			}
+
+			public bool HasNext {
+				get { return (count < length); }
+			}
+
+			public void Next() {
+				if (currentNode == null || currentNode.Next == null) {
+					if (currentNode != null)
+						position++;
+					while (position < 0 || hashTable.Elements [position] == null) {
+						position++;
+					}
+					currentNode = hashTable.Elements [position].FirstNode;
+				} else
+					currentNode = currentNode.Next;
+				count++;
+			}
+
+			public void Reset() {
+				position = -1;
+				count = 0;
+				currentNode = null;
+			}
 		}
 	}
 }

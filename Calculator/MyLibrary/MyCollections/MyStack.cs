@@ -2,7 +2,7 @@
 
 namespace MyLibrary
 {
-	public class MyStack <T>
+	public class MyStack <T> : IMyEnumerable <T>
 	{
 		private MyList <T> list;
 		private T top;
@@ -35,6 +35,32 @@ namespace MyLibrary
 			if (Length != 0)
 				top = list.Elements [Length - 1];
 			return result;
+		}
+
+		public IMyEnumerator<T> Enumerator => (IMyEnumerator<T>) new MyStackEnumerator<T> (this);
+
+		public class MyStackEnumerator<T> : IMyEnumerator<T> {
+			MyList <T> collection;
+			int position;
+
+			public MyStackEnumerator (MyStack <T> parent) {
+				collection = parent.list;
+				position = collection.Length;
+			}
+
+			public T Current {
+				get { return collection [position]; }
+			}
+
+			public bool HasNext => collection.Length > 0 && position > 0;
+
+			public void Next() {
+				position--;
+			}
+
+			public void Reset() {
+				position = collection.Length;
+			}
 		}
 	}
 }
