@@ -9,6 +9,7 @@ namespace MyLibrary
 			MyLinkedListTest ();
 			MyStackTest ();
 			MyDictionaryTest ();
+			MyEnumerableExtensionTest ();
 		}
 
 		static public void MyListTest () {
@@ -95,32 +96,20 @@ namespace MyLibrary
 				Console.WriteLine ("My dictionary test failed: " + resultValues);
 		}
 
-
-		/*
-		static public void MyEnumeratorTest (Type collectionType, double[] testArray) {
-			var myList = Activator.CreateInstance (collectionType);
-			for (int i = 0; i < testArray.Length; i++) {
-				myList.
+		static void MyEnumerableExtensionTest () {
+			var collection = new MyList<double> ();
+			for (int i = 1; i <= 100; i++) {
+				collection.Add (i);
 			}
+			Func<double, bool> isEven = (double arg) => arg % 2 == 0;
 
-			myList.Add(1);
-			myList.Add(3);
-			myList.Add(5);
+			var result = MyEnumerableExtension.ToArray<double> (MyEnumerableExtension.Where<double> (collection, isEven));
 
-			var resultValues = new MyLinkedList<double> ();
-			IMyEnumerator<double> enumerator = myList.Enumerator;
-			enumerator.Reset();
-			while (enumerator.HasNext) {
-				enumerator.Next();
-				var value = enumerator.Current;
-				resultValues.Add(value);
-			}
-
-			if (resultValues[0] == 1 && resultValues[1] == 3 && resultValues[2] == 5)
-				Console.WriteLine ("My list test passed");
+			if (result[0] == 2 && result[1] == 4 && result[2] == 6)
+				Console.WriteLine ("My Enumerable Extension test passed");
 			else
-				Console.WriteLine ("My list test failed: " + resultValues);
-		}*/
+				Console.WriteLine ("My Enumerable Extension test failed: " + result);
+		}
 	}
 }
 
