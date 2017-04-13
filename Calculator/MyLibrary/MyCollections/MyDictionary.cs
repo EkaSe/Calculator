@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace MyLibrary
 {
@@ -16,7 +18,7 @@ namespace MyLibrary
 		}
 	}
 
-	public class MyDictionary <K, V> : IMyEnumerable <KeyValuePair <K, V>>
+	public class MyDictionary <K, V> : IMyEnumerable <KeyValuePair <K, V>>, IEnumerable <KeyValuePair <K, V>>
 	{
 		MyList <MyLinkedList <KeyValuePair <K, V>>> HashTable = new MyList<MyLinkedList<KeyValuePair<K, V>>> ();
 		private int length = 0;
@@ -116,7 +118,16 @@ namespace MyLibrary
 		public IMyEnumerator<KeyValuePair <K, V>> Enumerator => 
 		(IMyEnumerator<KeyValuePair <K, V>>) new MyDictionaryEnumerator <K, V> (this);
 
-		public class MyDictionaryEnumerator<K, V> : IMyEnumerator<KeyValuePair <K, V>> {
+		public IEnumerator<KeyValuePair <K, V>> GetEnumerator() {
+			return (IEnumerator <KeyValuePair <K, V>>) Enumerator;
+		}
+
+		IEnumerator IEnumerable.GetEnumerator () {
+			return GetEnumerator ();
+		}
+
+		public class MyDictionaryEnumerator<K, V> : IMyEnumerator<KeyValuePair <K, V>>, IEnumerator <KeyValuePair <K, V>> 
+		{
 			MyList <MyLinkedList <KeyValuePair <K, V>>> hashTable;
 			Node <KeyValuePair <K, V>> currentNode;
 			int length;
@@ -154,6 +165,18 @@ namespace MyLibrary
 				position = -1;
 				count = 0;
 				currentNode = null;
+			}
+
+			object IEnumerator.Current {
+				get { return Current; }
+			}
+
+			public void Dispose() {}
+
+			public bool MoveNext() { 
+				if (HasNext)
+					Next (); 
+				return HasNext;
 			}
 		}
 	}
