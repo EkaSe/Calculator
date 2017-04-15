@@ -12,10 +12,7 @@ namespace MyLibrary
 		}
 
 		static public void MyListTest () {
-			var myList = new MyList<double> ();
-			myList.Add (1);
-			myList.Add (3);
-			myList.Add (5);
+			var myList = new MyList<double> () { 1, 3, 5 };
 
 			var resultValues = new MyList<double> ();
 			IMyEnumerator<double> enumerator = myList.Enumerator;
@@ -25,18 +22,24 @@ namespace MyLibrary
 				var value = enumerator.Current;
 				resultValues.Add(value);
 			}
+			enumerator.Reset ();
+			bool testPassed = true;
+			int i = 0;
+			foreach (var element in myList) {
+				if (resultValues [i++] != element) {
+					testPassed = false;
+					break;
+				}
+			}
 
-			if (resultValues[0] == 1 && resultValues[1] == 3 && resultValues[2] == 5)
+			if (testPassed)
 				Console.WriteLine ("My list test passed");
 			else
 				Console.WriteLine ("My list test failed: " + resultValues);
 		}
 
 		static public void MyLinkedListTest () {
-			var myList = new MyLinkedList<double> ();
-			myList.Add (1);
-			myList.Add (3);
-			myList.Add (5);
+			var myList = new MyLinkedList<double> () { 1, 3, 5 };
 
 			var resultValues = new MyList<double> ();
 			IMyEnumerator<double> enumerator = myList.Enumerator;
@@ -54,10 +57,7 @@ namespace MyLibrary
 		}
 
 		static public void MyStackTest () {
-			var myList = new MyStack<double> ();
-			myList.Push (1);
-			myList.Push (3);
-			myList.Push (5);
+			var myList = new MyStack<double> () { 1, 3, 5 };
 
 			var resultValues = new MyList<double> ();
 			IMyEnumerator<double> enumerator = myList.Enumerator;
@@ -75,10 +75,10 @@ namespace MyLibrary
 		}
 
 		static public void MyDictionaryTest () {
-			var myList = new MyDictionary<string, double> ();
-			myList.Add ("one", 1);
-			myList.Add ("three", 3);
-			myList.Add ("five", 5);
+			var myList = new MyDictionary<string, double> () {{"one", 1}, {"three", 3}, {"five", 5}};
+			//myList.Add ("one", 1);
+			//myList.Add ("three", 3);
+			//myList.Add ("five", 5);
 
 			var resultValues = new MyList<double> ();
 			var enumerator = myList.Enumerator;
@@ -94,33 +94,6 @@ namespace MyLibrary
 			else
 				Console.WriteLine ("My dictionary test failed: " + resultValues);
 		}
-
-
-		/*
-		static public void MyEnumeratorTest (Type collectionType, double[] testArray) {
-			var myList = Activator.CreateInstance (collectionType);
-			for (int i = 0; i < testArray.Length; i++) {
-				myList.
-			}
-
-			myList.Add(1);
-			myList.Add(3);
-			myList.Add(5);
-
-			var resultValues = new MyLinkedList<double> ();
-			IMyEnumerator<double> enumerator = myList.Enumerator;
-			enumerator.Reset();
-			while (enumerator.HasNext) {
-				enumerator.Next();
-				var value = enumerator.Current;
-				resultValues.Add(value);
-			}
-
-			if (resultValues[0] == 1 && resultValues[1] == 3 && resultValues[2] == 5)
-				Console.WriteLine ("My list test passed");
-			else
-				Console.WriteLine ("My list test failed: " + resultValues);
-		}*/
 	}
 }
 

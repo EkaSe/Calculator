@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MyLibrary
 {
-	public class MyList<T>: IMyEnumerable <T>, IEnumerable <T>
+	public class MyList<T>: IMyEnumerable <T>
 	{
 		public T[] Elements;
 		public int Length;
@@ -110,7 +110,7 @@ namespace MyLibrary
 			return GetEnumerator ();
 		}
 
-		public class MyListEnumerator<T> : IMyEnumerator<T>, IEnumerator<T> {
+		public class MyListEnumerator<T> : IMyEnumerator<T> {
 			MyList <T> collection;
 			int position;
 
@@ -147,9 +147,11 @@ namespace MyLibrary
 			public void Dispose() {}
 
 			public bool MoveNext() { 
-				if (HasNext)
-					position++; 
-				return HasNext;
+				if (HasNext) {
+					Next ();
+					return true;
+				} else
+					return false;
 			}
 		}
 	}

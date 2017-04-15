@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MyLibrary
 {
-	public class MyStack <T> : IMyEnumerable <T>, IEnumerable <T>
+	public class MyStack <T> : IMyEnumerable <T>
 	{
 		private MyList <T> list;
 		private T top;
@@ -29,6 +29,8 @@ namespace MyLibrary
 			top = element;
 		}
 
+		public void Add (T element) { Push (element); }
+
 		public T Pop () {
 			if (Length == 0) 
 				throw new Exception ("Attempt to pop empty stack");
@@ -49,7 +51,7 @@ namespace MyLibrary
 			return GetEnumerator ();
 		}
 
-		public class MyStackEnumerator<T> : IMyEnumerator<T>, IEnumerator <T> {
+		public class MyStackEnumerator<T> : IMyEnumerator<T> {
 			MyList <T> collection;
 			int position;
 
@@ -79,9 +81,11 @@ namespace MyLibrary
 			public void Dispose() {}
 
 			public bool MoveNext() { 
-				if (HasNext)
-					Next (); 
-				return HasNext;
+				if (HasNext) {
+					Next ();
+					return true;
+				} else
+					return false;
 			}
 		}
 	}

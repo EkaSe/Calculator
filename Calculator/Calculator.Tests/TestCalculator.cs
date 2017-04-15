@@ -29,7 +29,7 @@ namespace Calculator.Tests
 			//StatementInvalidTest.Run ();
 			//Console.WriteLine ();
 
-			Console.WriteLine ("\r\n" + FailedTestsCount + " tests failed");
+			Console.WriteLine ("\r\n" + FailedTestsCount + " tests failed\n");
 
 			MyCollectionTest.Run ();
 		}

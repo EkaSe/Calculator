@@ -18,7 +18,7 @@ namespace MyLibrary
 		}
 	}
 
-	public class MyDictionary <K, V> : IMyEnumerable <KeyValuePair <K, V>>, IEnumerable <KeyValuePair <K, V>>
+	public class MyDictionary <K, V> : IMyEnumerable <KeyValuePair <K, V>>
 	{
 		MyList <MyLinkedList <KeyValuePair <K, V>>> HashTable = new MyList<MyLinkedList<KeyValuePair<K, V>>> ();
 		private int length = 0;
@@ -126,7 +126,7 @@ namespace MyLibrary
 			return GetEnumerator ();
 		}
 
-		public class MyDictionaryEnumerator<K, V> : IMyEnumerator<KeyValuePair <K, V>>, IEnumerator <KeyValuePair <K, V>> 
+		public class MyDictionaryEnumerator<K, V> : IMyEnumerator<KeyValuePair <K, V>> 
 		{
 			MyList <MyLinkedList <KeyValuePair <K, V>>> hashTable;
 			Node <KeyValuePair <K, V>> currentNode;
@@ -174,9 +174,11 @@ namespace MyLibrary
 			public void Dispose() {}
 
 			public bool MoveNext() { 
-				if (HasNext)
-					Next (); 
-				return HasNext;
+				if (HasNext) {
+					Next ();
+					return true;
+				} else
+					return false;
 			}
 		}
 	}

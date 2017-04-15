@@ -27,7 +27,7 @@ namespace MyLibrary
 		}
 	}
 
-	public class MyLinkedList <T> : IMyEnumerable <T>, IEnumerable <T>
+	public class MyLinkedList <T> : IMyEnumerable <T>
 	{
 		public Node<T> FirstNode;
 		public Node<T> LastNode;
@@ -178,7 +178,7 @@ namespace MyLibrary
 			return GetEnumerator ();
 		}
 
-		public class MyLinkedListEnumerator<T> : IMyEnumerator<T>, IEnumerator <T> {
+		public class MyLinkedListEnumerator<T> : IMyEnumerator<T> {
 			MyLinkedList <T> collection;
 			Node <T> currentNode;
 
@@ -210,9 +210,11 @@ namespace MyLibrary
 			public void Dispose() {}
 
 			public bool MoveNext() { 
-				if (HasNext)
-					Next (); 
-				return HasNext;
+				if (HasNext) {
+					Next ();
+					return true;
+				} else
+					return false;
 			}
 		}
 	}
