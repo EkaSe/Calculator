@@ -13,14 +13,24 @@ namespace MyLibrary
 		/// for which predicate gives True
 		/// </summary>
 		public static IMyEnumerable<T> Where<T> (IMyEnumerable<T> collection, Func<T, bool> predicate) {
+			Type collectionType = collection.GetType ();
+			var result = Activator.CreateInstance (collectionType);
 			var enumerator = collection.Enumerator;
+			while (enumerator.HasNext) {
+				enumerator.Next ();
+				if (predicate (enumerator.Current))
+					((IMyEnumerable<T>) result).Add (enumerator.Current);
+			}
+			return (IMyEnumerable<T>) result;
+
+			/*var enumerator = collection.Enumerator;
 			MyList <T> result = new MyList<T> ();
 			while (enumerator.HasNext) {
 				enumerator.Next ();
 				if (predicate (enumerator.Current))
 					result.Add (enumerator.Current);
 			}
-			return (IMyEnumerable <T>) result;
+			return (IMyEnumerable <T>) result;*/
 		}
 
 		/// <summary>

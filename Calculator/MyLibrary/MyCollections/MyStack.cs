@@ -27,6 +27,8 @@ namespace MyLibrary
 			top = element;
 		}
 
+		public void Add (T element) { Push (element); }
+
 		public T Pop () {
 			if (Length == 0) 
 				throw new Exception ("Attempt to pop empty stack");

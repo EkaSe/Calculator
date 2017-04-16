@@ -23,7 +23,10 @@ namespace MyLibrary
 
 		public T this [int key] {
 			get { return Elements [key]; }
-			set { Elements [key] = value; }
+			set { 
+				Elements [key] = value;
+
+			}
 		}
 
 		public MyList (T[] inputList)

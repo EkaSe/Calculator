@@ -9,7 +9,7 @@ namespace MyLibrary
 			MyLinkedListTest ();
 			MyStackTest ();
 			MyDictionaryTest ();
-			MyEnumerableExtensionTest ();
+			MyEnumerableExtensionTest.Run ();
 		}
 
 		static public void MyListTest () {
@@ -94,24 +94,6 @@ namespace MyLibrary
 				Console.WriteLine ("My dictionary test passed");
 			else
 				Console.WriteLine ("My dictionary test failed: " + resultValues);
-		}
-
-		static void MyEnumerableExtensionTest () {
-			var collection = new MyList<double> ();
-			for (int i = 1; i <= 100; i++) {
-				collection.Add (i);
-			}
-			Func<double, bool> isEven = (double arg) => arg % 2 == 0;
-			Func<double, double> divideByTwo = (double arg) => arg / 2;
-
-			var result = MyEnumerableExtension.Where<double> (collection, isEven);
-			result = MyEnumerableExtension.Select<double, double> (result, divideByTwo);
-			var resultArray = MyEnumerableExtension.ToArray<double> (result);
-
-			if (resultArray[0] == 1 && resultArray[1] == 2 && resultArray[2] == 3)
-				Console.WriteLine ("My Enumerable Extension test passed");
-			else
-				Console.WriteLine ("My Enumerable Extension test failed: " + result);
 		}
 	}
 }

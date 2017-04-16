@@ -5,6 +5,7 @@ namespace MyLibrary
 	public interface IMyEnumerable<T>
 	{
 		IMyEnumerator<T> Enumerator {get;}
+		void Add (T element);
 	}
 }
 
