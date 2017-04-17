@@ -39,6 +39,8 @@
     <Compile Include="MyCollections\MyList.cs" />
     <Compile Include="MyCollections\MyStack.cs" />
     <Compile Include="MyCollections\MyDictionary.cs" />
+    <Compile Include="IMyEnumerator.cs" />
+    <Compile Include="IMyEnumerable.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

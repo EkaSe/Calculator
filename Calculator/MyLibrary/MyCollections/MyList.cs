@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace MyLibrary
 {
-	public class MyList<T>
+	public class MyList<T>: IMyEnumerable <T>
 	{
 		public T[] Elements;
 		public int Length;
@@ -117,6 +119,61 @@ namespace MyLibrary
 		/// </summary>
 		public T FirstOrDefault(Func<T, bool> predicate) {
 			return Where (predicate).FirstOrDefault ();
+		}
+
+		public IMyEnumerator<T> Enumerator => (IMyEnumerator<T>) new MyListEnumerator<T> (this);
+
+		public IEnumerator<T> GetEnumerator() {
+			return (IEnumerator <T>) Enumerator;
+		}
+
+		IEnumerator IEnumerable.GetEnumerator () {
+			return GetEnumerator ();
+		}
+
+		public class MyListEnumerator<T> : IMyEnumerator<T> {
+			MyList <T> collection;
+			int position;
+
+			public MyListEnumerator (MyList <T> list) {
+				collection = list;
+				position = -1;
+			}
+
+			public T Current {
+				get { return collection [position]; }
+			}
+
+			object IEnumerator.Current {
+				get { return Current; }
+			}
+
+			public bool HasNext {
+				get { 
+					if (collection.Length > 0 && position < collection.Length)
+						return true;
+					else
+						return false;
+				}
+			}
+
+			public void Next() {
+				position++;
+			}
+
+			public void Reset() {
+				position = -1;
+			}
+
+			public void Dispose() {}
+
+			public bool MoveNext() { 
+				if (HasNext) {
+					Next ();
+					return true;
+				} else
+					return false;
+			}
 		}
 	}
 }

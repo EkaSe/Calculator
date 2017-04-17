@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace MyLibrary
@@ -8,7 +9,7 @@ namespace MyLibrary
 		public Node<T> Next;
 		public T Element;
 
-		public Node (T input, Node<T> previousNode, Node<T> nextNode) {
+		public Node (T input = default (T), Node<T> previousNode = null, Node<T> nextNode = null) {
 			Element = input;
 			Previous = previousNode;
 			Next = nextNode;
@@ -26,7 +27,7 @@ namespace MyLibrary
 		}
 	}
 
-	public class MyLinkedList <T>
+	public class MyLinkedList <T> : IMyEnumerable <T>
 	{
 		public Node<T> FirstNode;
 		public Node<T> LastNode;
@@ -165,6 +166,56 @@ namespace MyLibrary
 				}
 			}
 			return currentNode;
+		}
+
+		public IMyEnumerator<T> Enumerator => (IMyEnumerator<T>) new MyLinkedListEnumerator<T> (this);
+
+		public IEnumerator<T> GetEnumerator() {
+			return (IEnumerator <T>) Enumerator;
+		}
+
+		IEnumerator IEnumerable.GetEnumerator () {
+			return GetEnumerator ();
+		}
+
+		public class MyLinkedListEnumerator<T> : IMyEnumerator<T> {
+			MyLinkedList <T> collection;
+			Node <T> currentNode;
+
+			public MyLinkedListEnumerator (MyLinkedList <T> list) {
+				collection = list;
+				currentNode = new Node<T> (nextNode: list.FirstNode);
+			}
+
+			public T Current {
+				get { return currentNode.Element; }
+			}
+
+			public bool HasNext {
+				get { return collection.Length > 0 && currentNode.Next != null; }
+			}
+
+			public void Next() {
+				currentNode = currentNode.Next;
+			}
+
+			public void Reset() {
+				currentNode = new Node<T> (nextNode: collection.FirstNode);
+			}
+
+			object IEnumerator.Current {
+				get { return Current; }
+			}
+
+			public void Dispose() {}
+
+			public bool MoveNext() { 
+				if (HasNext) {
+					Next ();
+					return true;
+				} else
+					return false;
+			}
 		}
 	}
 }
