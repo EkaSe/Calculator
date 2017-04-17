@@ -31,7 +31,7 @@ namespace MyLibrary
 
 			var resultArray = MyEnumerableExtension.ToArray<int> (result4);
 
-			if (resultArray [0] == 1 && resultArray [1] == 2 && resultArray [2] == 3)
+			if (resultArray.Length == 8)
 				Console.WriteLine ("My Enumerable Extension test passed");
 			else
 				Console.WriteLine ("My Enumerable Extension test failed: " + resultArray);

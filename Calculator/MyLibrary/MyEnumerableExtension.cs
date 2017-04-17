@@ -2,12 +2,8 @@
 
 namespace MyLibrary
 {
-	public class MyEnumerableExtension
+	public static class MyEnumerableExtension
 	{
-		public MyEnumerableExtension  ()
-		{
-		}
-
 		/// <summary>
 		/// returns new MyList collection, containing only those elements, 
 		/// for which predicate gives True

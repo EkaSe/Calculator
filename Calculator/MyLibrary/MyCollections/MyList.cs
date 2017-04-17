@@ -85,7 +85,7 @@ namespace MyLibrary
 
 			public bool HasNext {
 				get { 
-					if (collection.Length > 0 && position < collection.Length)
+					if (collection.Length > 0 && position < collection.Length - 1)
 						return true;
 					else
 						return false;
