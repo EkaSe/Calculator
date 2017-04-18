@@ -10,6 +10,7 @@ namespace MyLibrary
 			MyStackTest ();
 			MyDictionaryTest ();
 			MyEnumerableExtensionTest.Run ();
+			MyEnumerableExtensionTest.FluentRun ();
 		}
 
 		static public void MyListTest () {

@@ -8,7 +8,7 @@ namespace MyLibrary
 		/// returns new MyList collection, containing only those elements, 
 		/// for which predicate gives True
 		/// </summary>
-		public static IMyEnumerable<T> Where<T> (IMyEnumerable<T> collection, Func<T, bool> predicate) {
+		public static IMyEnumerable<T> Where<T> (this IMyEnumerable<T> collection, Func<T, bool> predicate) {
 			Type collectionType = collection.GetType ();
 			var result = Activator.CreateInstance (collectionType);
 			var enumerator = collection.Enumerator;
@@ -33,7 +33,7 @@ namespace MyLibrary
 		/// returns new MyList collection, containing all new elements of type T2, 
 		/// created by applying selector for each element in the source collection
 		/// </summary>
-		public static IMyEnumerable<T2> Select<T1, T2> (IMyEnumerable<T1> collection, Func<T1, T2> selector) {
+		public static IMyEnumerable<T2> Select<T1, T2> (this IMyEnumerable<T1> collection, Func<T1, T2> selector) {
 			MyList <T2> result = new MyList<T2> ();
 			var enumerator = collection.Enumerator;
 			while (enumerator.HasNext) {
@@ -46,7 +46,7 @@ namespace MyLibrary
 		/// <summary>
 		/// returns new array of elements of type T, copied from the collection
 		/// </summary>
-		public static T[] ToArray<T> (IMyEnumerable<T> collection) {
+		public static T[] ToArray<T> (this IMyEnumerable<T> collection) {
 			var enumerator = collection.Enumerator;
 			int length = 0;
 			while (enumerator.HasNext) {
@@ -65,7 +65,7 @@ namespace MyLibrary
 		/// <summary>
 		/// returns elements of the collection as MyList
 		/// </summary>
-		public static MyList<T> ToList<T> (IMyEnumerable<T> collection) {
+		public static MyList<T> ToList<T> (this IMyEnumerable<T> collection) {
 			MyList <T> result = new MyList<T> ();
 			var enumerator = collection.Enumerator;
 			while (enumerator.HasNext) {
@@ -79,7 +79,7 @@ namespace MyLibrary
 		/// creates from given T item a pair of key and value, getting them by applying 
 		/// corresponding selectors to the given item, and then populating adding them to a new MyDictionary instance.
 		/// </summary>
-		public static MyDictionary <K, V> ToDictionary<T, K, V>(IMyEnumerable<T> collection, 
+		public static MyDictionary <K, V> ToDictionary<T, K, V>(this IMyEnumerable<T> collection, 
 			Func<T, K> keySelector, Func<T, V> valueSelector) {
 
 			MyDictionary <K, V> result = new MyDictionary<K, V> ();
@@ -95,7 +95,7 @@ namespace MyLibrary
 		/// returns the very first element of source collection, if it contains any, 
 		/// otherwise returns default value of type T
 		/// </summary>
-		public static T FirstOrDefault <T> (IMyEnumerable< T> collection) {
+		public static T FirstOrDefault <T> (this IMyEnumerable< T> collection) {
 			var enumerator = collection.Enumerator;
 			if (enumerator.HasNext) {
 				enumerator.Next ();
@@ -108,7 +108,7 @@ namespace MyLibrary
 		/// returns the very first element of the source collection, for which predicate returns True, 
 		/// if any, otherwise returns default value of type T
 		/// </summary>
-		public static T FirstOrDefault<T> (IMyEnumerable< T> collection, Func<T, bool> predicate) {
+		public static T FirstOrDefault<T> (this IMyEnumerable< T> collection, Func<T, bool> predicate) {
 			var enumerator = collection.Enumerator;
 			bool isFound = false;
 			while (enumerator.HasNext && !isFound) {

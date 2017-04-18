@@ -36,6 +36,37 @@ namespace MyLibrary
 			else
 				Console.WriteLine ("My Enumerable Extension test failed: " + resultArray);
 		}
+
+		public static void FluentRun () {
+			var collection = new MyList<int> ();
+			for (int i = 1; i <= 100; i++) {
+				collection.Add (i);
+			}
+
+			Func<int, bool> containsDigitSix = (int arg) => arg.ToString ().Contains ("6");
+			Func<int, string> toBinAsString = (int arg) => Convert.ToString (arg, toBase: 2);
+			Func<KeyValuePair <int, string>, KeyValuePair <int, int>> countOnesInValues = (KeyValuePair <int, string> arg) => {
+				int count = 0;
+				for (int i = 0; i < arg.Value.Length; i++) {
+					if (arg.Value [i] == '1')
+						count++;
+				}
+				return new KeyValuePair<int, int> (arg.Key, count);
+			};
+
+			var result = collection.ToDictionary <int, int, string> (arg => arg, toBinAsString)
+				.Select (countOnesInValues)
+				.Where <KeyValuePair <int, int>> (arg => arg.Value < 3)
+				.Select <KeyValuePair <int, int>, int> (arg => arg.Key)
+				.Where (containsDigitSix);
+
+			var resultArray = MyEnumerableExtension.ToArray<int> (result);
+
+			if (resultArray.Length == 8)
+				Console.WriteLine ("My Enumerable Extension test passed");
+			else
+				Console.WriteLine ("My Enumerable Extension test failed: " + resultArray);
+		}
 	}
 }
 
