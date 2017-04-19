@@ -58,14 +58,13 @@ namespace MyLibrary
 				.Select (countOnesInValues)
 				.Where <KeyValuePair <int, int>> (arg => arg.Value < 3)
 				.Select <KeyValuePair <int, int>, int> (arg => arg.Key)
-				.Where (containsDigitSix);
+				.Where (containsDigitSix)
+				.ToArray<int> ();
 
-			var resultArray = MyEnumerableExtension.ToArray<int> (result);
-
-			if (resultArray.Length == 8)
+			if (result.Length == 8)
 				Console.WriteLine ("My Enumerable Extension test passed");
 			else
-				Console.WriteLine ("My Enumerable Extension test failed: " + resultArray);
+				Console.WriteLine ("My Enumerable Extension test failed: " + result);
 		}
 	}
 }
