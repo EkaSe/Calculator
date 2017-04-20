@@ -29,6 +29,16 @@ namespace MyLibrary
 			return (IMyEnumerable <T>) result;*/
 		}
 
+		public static IMyEnumerable <char> Where (this string line, Func <char, bool> predicate) {
+			//There MUST be some less horrible way to operate with string
+			MyList <char> result = new MyList<char> ();
+			for (int i = 0; i < line.Length; i++) {
+				if (predicate (line [i]))
+					result.Add (line [i]);
+			}
+			return (IMyEnumerable<char>) result;
+		}
+
 		/// <summary>
 		/// returns new MyList collection, containing all new elements of type T2, 
 		/// created by applying selector for each element in the source collection
@@ -108,7 +118,7 @@ namespace MyLibrary
 		/// returns the very first element of the source collection, for which predicate returns True, 
 		/// if any, otherwise returns default value of type T
 		/// </summary>
-		public static T FirstOrDefault<T> (this IMyEnumerable< T> collection, Func<T, bool> predicate) {
+		public static T FirstOrDefault<T> (this IMyEnumerable <T> collection, Func<T, bool> predicate) {
 			var enumerator = collection.Enumerator;
 			bool isFound = false;
 			while (enumerator.HasNext && !isFound) {
@@ -120,6 +130,28 @@ namespace MyLibrary
 				return enumerator.Current;
 			else 
 				return default (T);
+		}
+
+		public static TAccumulate Aggregate <T, TAccumulate>( this IMyEnumerable<T> collection,
+			TAccumulate startValue, Func<TAccumulate, T, TAccumulate> accumulate) {
+			var enumerator = collection.Enumerator;
+			var accumulator = startValue;
+			while (enumerator.HasNext) {
+				enumerator.Next ();
+				accumulator = accumulate (accumulator, enumerator.Current);
+			}
+			return accumulator;
+		}
+
+		public static int Count<T>(this IMyEnumerable<T> collection, Func <T, bool> predicate) {
+			var enumerator = collection.Enumerator;
+			int count = 0;
+			while (enumerator.HasNext) {
+				enumerator.Next ();
+				if (predicate (enumerator.Current))
+					count++;
+			}
+			return count;
 		}
 	}
 }

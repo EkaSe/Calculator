@@ -46,12 +46,9 @@ namespace MyLibrary
 			Func<int, bool> containsDigitSix = (int arg) => arg.ToString ().Contains ("6");
 			Func<int, string> toBinAsString = (int arg) => Convert.ToString (arg, toBase: 2);
 			Func<KeyValuePair <int, string>, KeyValuePair <int, int>> countOnesInValues = (KeyValuePair <int, string> arg) => {
-				int count = 0;
-				for (int i = 0; i < arg.Value.Length; i++) {
-					if (arg.Value [i] == '1')
-						count++;
-				}
-				return new KeyValuePair<int, int> (arg.Key, count);
+				return new KeyValuePair<int, int> (arg.Key, arg.Value
+					.Where (ch => ch == '1')
+					.Aggregate(0, (accumulator, item) => ++accumulator));
 			};
 
 			var result = collection.ToDictionary <int, int, string> (arg => arg, toBinAsString)
