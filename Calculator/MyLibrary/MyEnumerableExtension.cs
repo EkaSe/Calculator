@@ -29,12 +29,10 @@ namespace MyLibrary
 			return (IMyEnumerable <T>) result;*/
 		}
 
-		public static IMyEnumerable <char> Where (this string line, Func <char, bool> predicate) {
-			//There MUST be some less horrible way to operate with string
+		public static IMyEnumerable <char> AsEnumerable (this string line) {
 			MyList <char> result = new MyList<char> ();
 			for (int i = 0; i < line.Length; i++) {
-				if (predicate (line [i]))
-					result.Add (line [i]);
+				result.Add (line [i]);
 			}
 			return (IMyEnumerable<char>) result;
 		}

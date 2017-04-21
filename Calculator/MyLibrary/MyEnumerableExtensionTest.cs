@@ -46,7 +46,7 @@ namespace MyLibrary
 			Func<int, bool> containsDigitSix = (int arg) => arg.ToString ().Contains ("6");
 			Func<int, string> toBinAsString = (int arg) => Convert.ToString (arg, toBase: 2);
 			Func<KeyValuePair <int, string>, KeyValuePair <int, int>> countOnesInValues = (KeyValuePair <int, string> arg) => {
-				return new KeyValuePair<int, int> (arg.Key, arg.Value
+				return new KeyValuePair<int, int> (arg.Key, arg.Value.AsEnumerable ()
 					.Where (ch => ch == '1')
 					.Aggregate(0, (accumulator, item) => ++accumulator));
 			};
