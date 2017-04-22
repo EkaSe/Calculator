@@ -88,13 +88,45 @@ namespace MyLibrary
 		/// created by applying selector for each element in the source collection
 		/// </summary>
 		public static IMyEnumerable<T2> Select<T1, T2> (this IMyEnumerable<T1> collection, Func<T1, T2> selector) {
-			MyList <T2> result = new MyList<T2> ();
-			var enumerator = collection.Enumerator;
-			while (enumerator.HasNext) {
-				enumerator.Next ();
-				result.Add (selector (enumerator.Current));
+			return new SelectEnumerableWrapper<T1, T2> (collection, selector);
+		}
+
+		public class SelectEnumerableWrapper <T1, T2> : IMyEnumerable <T2>
+		{
+			IMyEnumerable <T1> collection;
+			Func<T1, T2> selector;
+
+			public SelectEnumerableWrapper (IMyEnumerable <T1> collection, Func<T1, T2> selector) {
+				this.collection = collection;
+				this.selector = selector;
 			}
-			return (IMyEnumerable <T2>) result;
+
+			public void Add (T2 element) {
+				throw new Exception ("Adding to SelectEnumerableWrapper collection");
+			}
+
+			public IMyEnumerator<T2> Enumerator => (IMyEnumerator<T2>) new SelectEnumerator<T2> (this);
+
+			public class SelectEnumerator<T2> : IMyEnumerator<T2> {
+				IMyEnumerator <T1> enumerator;
+				Func<T1, T2> selector;
+
+				public SelectEnumerator (SelectEnumerableWrapper <T1, T2> wrapper) {
+					enumerator = wrapper.collection.Enumerator;
+					this.selector = wrapper.selector;
+				}
+
+				public T2 Current => selector (enumerator.Current);
+				public bool HasNext => enumerator.HasNext;
+
+				public void Next() {
+					enumerator.Next ();
+				}
+
+				public void Reset() {
+					enumerator.Reset ();
+				}
+			}
 		}
 
 		/// <summary>
