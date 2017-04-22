@@ -9,24 +9,70 @@ namespace MyLibrary
 		/// for which predicate gives True
 		/// </summary>
 		public static IMyEnumerable<T> Where<T> (this IMyEnumerable<T> collection, Func<T, bool> predicate) {
-			Type collectionType = collection.GetType ();
-			var result = Activator.CreateInstance (collectionType);
-			var enumerator = collection.Enumerator;
-			while (enumerator.HasNext) {
-				enumerator.Next ();
-				if (predicate (enumerator.Current))
-					((IMyEnumerable<T>) result).Add (enumerator.Current);
-			}
-			return (IMyEnumerable<T>) result;
+			return new WhereEnumerableWrapper<T> (collection, predicate);
+		}
 
-			/*var enumerator = collection.Enumerator;
-			MyList <T> result = new MyList<T> ();
-			while (enumerator.HasNext) {
-				enumerator.Next ();
-				if (predicate (enumerator.Current))
-					result.Add (enumerator.Current);
+		public class WhereEnumerableWrapper <T> : IMyEnumerable <T>
+		{
+			IMyEnumerable <T> collection;
+			Func<T, bool> predicate;
+
+			public WhereEnumerableWrapper (IMyEnumerable <T> collection, Func<T, bool> predicate) {
+				this.collection = collection;
+				this.predicate = predicate;
 			}
-			return (IMyEnumerable <T>) result;*/
+
+			public void Add (T element) {
+				collection.Add (element);
+			}
+
+			public IMyEnumerator<T> Enumerator => (IMyEnumerator<T>) new WhereEnumerator<T> (this);
+
+			public class WhereEnumerator<T> : IMyEnumerator<T> {
+				IMyEnumerator <T> enumerator;
+				Func<T, bool> predicate;
+				T next;
+
+				public WhereEnumerator (WhereEnumerableWrapper <T> wrapper) {
+					enumerator = wrapper.collection.Enumerator;
+					this.predicate = wrapper.predicate;
+					isCheckedForNext = false;
+					CheckNext ();
+				}
+
+				public T Current { get; private set;}
+				public bool HasNext { get; private set;}
+
+				public void Next() {
+					CheckNext ();
+					Current = next;
+					isCheckedForNext = false;
+					CheckNext ();
+				}
+
+				public void Reset() {
+					enumerator.Reset ();
+					Current = default (T);
+					isCheckedForNext = false;
+					CheckNext ();
+				}
+
+				bool isCheckedForNext = false;
+				void CheckNext () {
+					if (!isCheckedForNext) {
+						HasNext = false;
+						next = default (T);
+						while (enumerator.HasNext && !HasNext) {
+							enumerator.Next ();
+							if (predicate (enumerator.Current)) {
+								next = enumerator.Current;
+								HasNext = true;
+							}
+						}
+					}
+					isCheckedForNext = true;
+				}
+			}
 		}
 
 		public static IMyEnumerable <char> AsEnumerable (this string line) {
