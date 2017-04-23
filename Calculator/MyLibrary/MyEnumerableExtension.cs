@@ -59,15 +59,15 @@ namespace MyLibrary
 
 				bool isCheckedForNext = false;
 				void CheckNext () {
-					if (!isCheckedForNext) {
-						HasNext = false;
-						next = default (T);
-						while (enumerator.HasNext && !HasNext) {
-							enumerator.Next ();
-							if (predicate (enumerator.Current)) {
-								next = enumerator.Current;
-								HasNext = true;
-							}
+					if (isCheckedForNext)
+						return;
+					HasNext = false;
+					next = default (T);
+					while (enumerator.HasNext && !HasNext) {
+						enumerator.Next ();
+						if (predicate (enumerator.Current)) {
+							next = enumerator.Current;
+							HasNext = true;
 						}
 					}
 					isCheckedForNext = true;
