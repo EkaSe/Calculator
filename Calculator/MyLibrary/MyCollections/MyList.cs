@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace MyLibrary
 {
-	public class MyList<T>: IMyEnumerable <T>
+	public class MyList<T>: IEnumerable <T>
 	{
 		public T[] Elements;
 		public int Length;
@@ -68,9 +70,15 @@ namespace MyLibrary
 			}
 		}
 
-		public IMyEnumerator<T> Enumerator => (IMyEnumerator<T>) new MyListEnumerator<T> (this);
+		public IEnumerator<T> GetEnumerator() {
+			return (IEnumerator<T>) new MyListEnumerator<T> (this);
+		}
 
-		public class MyListEnumerator<T> : IMyEnumerator<T> {
+		IEnumerator IEnumerable.GetEnumerator () {
+			return GetEnumerator ();
+		}
+
+		public class MyListEnumerator<T> : IEnumerator<T> {
 			MyList <T> collection;
 			int position;
 
@@ -98,6 +106,20 @@ namespace MyLibrary
 
 			public void Reset() {
 				position = -1;
+			}
+
+			object IEnumerator.Current {
+				get { return Current; }
+			}
+
+			public void Dispose() {}
+
+			public bool MoveNext() { 
+				if (HasNext) {
+					Next ();
+					return true;
+				} else
+					return false;
 			}
 		}
 	}

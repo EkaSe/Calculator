@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace MyLibrary
 {
-	public class MyStack <T> : IMyEnumerable <T>
+	public class MyStack <T> : IEnumerable <T>
 	{
 		private MyList <T> list;
 		private T top;
@@ -39,9 +41,15 @@ namespace MyLibrary
 			return result;
 		}
 
-		public IMyEnumerator<T> Enumerator => (IMyEnumerator<T>) new MyStackEnumerator<T> (this);
+		public IEnumerator<T> GetEnumerator() {
+			return (IEnumerator <T>) new MyStackEnumerator<T> (this);
+		}
 
-		public class MyStackEnumerator<T> : IMyEnumerator<T> {
+		IEnumerator IEnumerable.GetEnumerator () {
+			return GetEnumerator ();
+		}
+
+		public class MyStackEnumerator<T> : IEnumerator<T> {
 			MyList <T> collection;
 			int position;
 
@@ -62,6 +70,20 @@ namespace MyLibrary
 
 			public void Reset() {
 				position = collection.Length;
+			}
+
+			object IEnumerator.Current {
+				get { return Current; }
+			}
+
+			public void Dispose() {}
+
+			public bool MoveNext() { 
+				if (HasNext) {
+					Next ();
+					return true;
+				} else
+					return false;
 			}
 		}
 	}

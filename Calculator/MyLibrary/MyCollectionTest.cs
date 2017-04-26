@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MyLibrary
 {
@@ -20,10 +21,9 @@ namespace MyLibrary
 			myList.Add (5);
 
 			var resultValues = new MyList<double> ();
-			IMyEnumerator<double> enumerator = myList.Enumerator;
+			var enumerator = myList.GetEnumerator ();
 			enumerator.Reset();
-			while (enumerator.HasNext) {
-				enumerator.Next();
+			while (enumerator.MoveNext ()) {
 				var value = enumerator.Current;
 				resultValues.Add(value);
 			}
@@ -41,10 +41,9 @@ namespace MyLibrary
 			myList.Add (5);
 
 			var resultValues = new MyList<double> ();
-			IMyEnumerator<double> enumerator = myList.Enumerator;
+			var enumerator = myList.GetEnumerator ();
 			enumerator.Reset();
-			while (enumerator.HasNext) {
-				enumerator.Next();
+			while (enumerator.MoveNext ()) {
 				var value = enumerator.Current;
 				resultValues.Add(value);
 			}
@@ -62,10 +61,9 @@ namespace MyLibrary
 			myList.Push (5);
 
 			var resultValues = new MyList<double> ();
-			IMyEnumerator<double> enumerator = myList.Enumerator;
+			var enumerator = myList.GetEnumerator ();
 			enumerator.Reset();
-			while (enumerator.HasNext) {
-				enumerator.Next();
+			while (enumerator.MoveNext ()) {
 				var value = enumerator.Current;
 				resultValues.Add(value);
 			}
@@ -83,10 +81,9 @@ namespace MyLibrary
 			myList.Add ("five", 5);
 
 			var resultValues = new MyList<double> ();
-			var enumerator = myList.Enumerator;
+			var enumerator = myList.GetEnumerator ();
 			enumerator.Reset();
-			while (enumerator.HasNext) {
-				enumerator.Next();
+			while (enumerator.MoveNext ()) {
 				var value = enumerator.Current.Value;
 				resultValues.Add(value);
 			}

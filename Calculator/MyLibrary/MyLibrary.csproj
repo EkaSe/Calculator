@@ -40,8 +40,6 @@
     <Compile Include="MyCollections\MyStack.cs" />
     <Compile Include="MyCollections\MyDictionary.cs" />
     <Compile Include="MyEnumerableExtension.cs" />
-    <Compile Include="IMyEnumerable.cs" />
-    <Compile Include="IMyEnumerator.cs" />
     <Compile Include="MyEnumerableExtensionTest.cs" />
     <Compile Include="MyCollections\MyHashTable.cs" />
   </ItemGroup>
