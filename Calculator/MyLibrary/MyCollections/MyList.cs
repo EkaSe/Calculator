@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MyLibrary
 {
-	public class MyList<T>: IMyEnumerable <T>
+	public class MyList<T>: IEnumerable <T>
 	{
 		public T[] Elements;
 		public int Length;
@@ -25,7 +25,10 @@ namespace MyLibrary
 
 		public T this [int key] {
 			get { return Elements [key]; }
-			set { Elements [key] = value; }
+			set { 
+				Elements [key] = value;
+
+			}
 		}
 
 		public MyList (T[] inputList)
@@ -67,71 +70,15 @@ namespace MyLibrary
 			}
 		}
 
-		/// <summary>
-		/// returns new MyList collection, containing only those elements, 
-		/// for which predicate gives True
-		/// </summary>
-		public MyList<T> Where(Func<T, bool> predicate) {
-			MyList <T> result = new MyList<T> (Length);
-			for (int i = 0; i < Length; i++) {
-				if (predicate (Elements [i]))
-					result.Add (Elements [i]);
-			}
-			return result;
-		}
-
-		/// <summary>
-		/// returns new MyList collection, containing all new elements of type T2, 
-		/// created by applying selector for each element in the source collection
-		/// </summary>
-		public MyList<T2> Select <T2> (Func<T, T2> selector) {
-			MyList <T2> result = new MyList<T2> ();
-			for (int i = 0; i < Length; i++) {
-				result.Add (selector (this [i]));
-			}
-			return result;
-		}
-
-		/// <summary>
-		/// returns new array of elements of type T, copied from the collection
-		/// </summary>
-		public T[] ToArray() {
-			T[] result = new T[Length];
-			for (int i = 0; i < Length; i++)
-				result [i] = Elements [i];
-			return result;
-		}
-
-		/// <summary>
-		/// returns the very first element of source collection, if it contains any, 
-		/// otherwise returns default value of type T
-		/// </summary>
-		public T FirstOrDefault() {
-			if (Length > 0)
-				return Elements [0];
-			else
-				return default (T);
-		}
-
-		/// <summary>
-		/// returns the very first element of the source collection, for which predicate returns True, 
-		/// if any, otherwise returns default value of type T
-		/// </summary>
-		public T FirstOrDefault(Func<T, bool> predicate) {
-			return Where (predicate).FirstOrDefault ();
-		}
-
-		public IMyEnumerator<T> Enumerator => (IMyEnumerator<T>) new MyListEnumerator<T> (this);
-
 		public IEnumerator<T> GetEnumerator() {
-			return (IEnumerator <T>) Enumerator;
+			return (IEnumerator<T>) new MyListEnumerator<T> (this);
 		}
 
 		IEnumerator IEnumerable.GetEnumerator () {
 			return GetEnumerator ();
 		}
 
-		public class MyListEnumerator<T> : IMyEnumerator<T> {
+		public class MyListEnumerator<T> : IEnumerator<T> {
 			MyList <T> collection;
 			int position;
 
@@ -150,7 +97,7 @@ namespace MyLibrary
 
 			public bool HasNext {
 				get { 
-					if (collection.Length > 0 && position < collection.Length)
+					if (collection.Length > 0 && position < collection.Length - 1)
 						return true;
 					else
 						return false;

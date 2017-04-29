@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MyLibrary
 {
@@ -9,16 +10,17 @@ namespace MyLibrary
 			MyLinkedListTest ();
 			MyStackTest ();
 			MyDictionaryTest ();
+			MyEnumerableExtensionTest.Run ();
+			MyEnumerableExtensionTest.FluentRun ();
 		}
 
 		static public void MyListTest () {
 			var myList = new MyList<double> () { 1, 3, 5 };
 
 			var resultValues = new MyList<double> ();
-			IMyEnumerator<double> enumerator = myList.Enumerator;
+			var enumerator = myList.GetEnumerator ();
 			enumerator.Reset();
-			while (enumerator.HasNext) {
-				enumerator.Next();
+			while (enumerator.MoveNext ()) {
 				var value = enumerator.Current;
 				resultValues.Add(value);
 			}
@@ -42,10 +44,9 @@ namespace MyLibrary
 			var myList = new MyLinkedList<double> () { 1, 3, 5 };
 
 			var resultValues = new MyList<double> ();
-			IMyEnumerator<double> enumerator = myList.Enumerator;
+			var enumerator = myList.GetEnumerator ();
 			enumerator.Reset();
-			while (enumerator.HasNext) {
-				enumerator.Next();
+			while (enumerator.MoveNext ()) {
 				var value = enumerator.Current;
 				resultValues.Add(value);
 			}
@@ -60,10 +61,9 @@ namespace MyLibrary
 			var myList = new MyStack<double> () { 1, 3, 5 };
 
 			var resultValues = new MyList<double> ();
-			IMyEnumerator<double> enumerator = myList.Enumerator;
+			var enumerator = myList.GetEnumerator ();
 			enumerator.Reset();
-			while (enumerator.HasNext) {
-				enumerator.Next();
+			while (enumerator.MoveNext ()) {
 				var value = enumerator.Current;
 				resultValues.Add(value);
 			}
@@ -81,10 +81,9 @@ namespace MyLibrary
 			//myList.Add ("five", 5);
 
 			var resultValues = new MyList<double> ();
-			var enumerator = myList.Enumerator;
+			var enumerator = myList.GetEnumerator ();
 			enumerator.Reset();
-			while (enumerator.HasNext) {
-				enumerator.Next();
+			while (enumerator.MoveNext ()) {
 				var value = enumerator.Current.Value;
 				resultValues.Add(value);
 			}

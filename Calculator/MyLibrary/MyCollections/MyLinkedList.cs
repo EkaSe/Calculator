@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -27,7 +27,7 @@ namespace MyLibrary
 		}
 	}
 
-	public class MyLinkedList <T> : IMyEnumerable <T>
+	public class MyLinkedList <T> : IEnumerable <T>
 	{
 		public Node<T> FirstNode;
 		public Node<T> LastNode;
@@ -168,17 +168,16 @@ namespace MyLibrary
 			return currentNode;
 		}
 
-		public IMyEnumerator<T> Enumerator => (IMyEnumerator<T>) new MyLinkedListEnumerator<T> (this);
-
 		public IEnumerator<T> GetEnumerator() {
-			return (IEnumerator <T>) Enumerator;
+			return (IEnumerator <T>) new MyLinkedListEnumerator<T> (this);
 		}
 
 		IEnumerator IEnumerable.GetEnumerator () {
 			return GetEnumerator ();
 		}
 
-		public class MyLinkedListEnumerator<T> : IMyEnumerator<T> {
+		public class MyLinkedListEnumerator<T> : IEnumerator<T> {
+
 			MyLinkedList <T> collection;
 			Node <T> currentNode;
 
