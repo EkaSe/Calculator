@@ -18,9 +18,8 @@ namespace MyLibrary
 		public static IEnumerable <char> AsEnumerable (this string line) {
 			MyList <char> result = new MyList<char> ();
 			for (int i = 0; i < line.Length; i++) {
-				result.Add (line [i]);
+				yield return line [i];
 			}
-			return (IEnumerable<char>) result;
 		}
 
 		/// <summary>
@@ -41,6 +40,7 @@ namespace MyLibrary
 		/// returns new array of elements of type T, copied from the collection
 		/// </summary>
 		public static T[] ToArray<T> (this IEnumerable<T> collection) {
+
 			var list = collection.ToList ();
 			T[] result = new T[list.Length];
 			for (int i = 0; i < list.Length; i++) {
