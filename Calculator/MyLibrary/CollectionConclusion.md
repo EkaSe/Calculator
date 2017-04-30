@@ -1,25 +1,21 @@
-# Title
-## Header
-* Item1
-* Item2
-
-[Link](https://guides.github.com/features/mastering-markdown/)
-
 ### Collections
  
 * **Array** is an ordered set of objects of one predefined type. Quantity of elements is constant since array initialization. Elements can be accessed by index.
 * **List** is an array of variable length.
-* **Stack** - variable size array. Elements can be accessed in reverse order to adding to collection.
+* **Stack** is variable size array. Elements can be accessed in reverse order to adding to collection.
 * **Dictionary** is a collection that stores pairs of strictly typed elements, one element of pair called key, another called value. Key element is used for accessing the value. Hash table. unique keys
 
-IEnumerator
-T Current {get;} - returns the current element of enumerating collection
-bool HasNext {get;} - returns True, if there are remain some other elements in enumerating collection, that can be enumerated
-void Next() - change ** Current** value to the next not enumerated yet element of collection
-void Reset() - reset **Current
- 
-IEnumerable
-IMyEnumerator Enumerator {get;} - returns the enumerator for this collection
+### Interfaces IEnumerable and IEnumerator
+Interfaces `IEnumerator<T>` and `IEnumerable<T>` of System.Collections.Generic namespace allow simple iteration over collection.
+#### IEnumerable
+The only method GetEnumerator() returns the enumerator for this collection.
+#### IEnumerator
+| Method | Description |
+| --- | --- |
+| T Current {get;} | returns current element of enumerated collection |
+| bool MoveNext () | returns True, if there are remain some other elements in enumerated collection and advances enumerator to this next element |
+| void Reset() | sets the enumerator to its initial position which is **before** the first element of the collection |
+| void Dispose() | performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources |
  
 foreach statement can enumerate object of any class, which implements IEnumerable
 Collection initialization can initialize object of any class, which implements IEnumerable and contains method Add(item)
