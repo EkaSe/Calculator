@@ -46,7 +46,7 @@ The only method GetEnumerator() returns the enumerator for this collection.
 ##### IEnumerable Extension Methods 
 
 ###### Where
-
+Returns new MyList collection, containing only those elements, for which predicate gives True. This method is implemented by using deferred execution. The immediate return value is an object that stores all the information that is required to perform the action. The query represented by this method is not executed until the object is enumerated either by calling its GetEnumerator method directly or by using foreach
 ```c#
 IEnumerable<TSource> Where<TSource>(
 	   this IEnumerable<TSource> source,
@@ -55,7 +55,7 @@ IEnumerable<TSource> Where<TSource>(
 ```
 
 ###### Select
-Returns new IEnumerable collection, containing all new elements created by applying selector to each element in the source collection
+Returns new IEnumerable collection, containing all new elements created by applying selector to each element in the source collection. This method is implemented by using deferred execution.
 ```c#
 IEnumerable<TResult> Select<TSource, TResult>(
     this IEnumerable<TSource> source,
@@ -93,11 +93,6 @@ TSource FirstOrDefault<TSource>(
 	this IEnumerable<TSource> source
 )
 ```
-
-Use this modifier in all public methods of MyEnumerableExtension class.
- fluent-style call
- 
- Enumerating-on-demand instead of storing results
 
 ##### References:
 [IEnumerable](https://msdn.microsoft.com/ru-ru/library/9eekhta0(v=vs.110).aspx)
