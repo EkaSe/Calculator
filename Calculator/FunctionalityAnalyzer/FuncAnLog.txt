@@ -1,0 +1,648 @@
+Parser
+  Fields:
+  Methods:
+	Int32 CharToDigit(Char)
+	System.String DoubleToString(Double)
+	Char ToLowerCase(Char)
+	System.String ToLowerCase(System.String)
+	Double StringToDouble(System.String, Int32 ByRef)
+	Double StringToDouble(System.String)
+	System.String SkipSpaces(System.String)
+	Boolean IsLetter(Char)
+	Boolean IsIdentifierChar(Char, Boolean)
+	Int32 FindNumber(System.String, Int32, Double ByRef)
+	System.String FindName(System.String, Int32)
+	Int32 FindName(System.String, Int32, System.String ByRef)
+	Int32 FindClosing(System.String, Int32)
+	Int32 FindClosing(System.String, Int32, Char)
+	Int32 FindClosing(System.String, Int32, System.String ByRef)
+	Int32 FindClosing(System.String, Int32, System.String ByRef, Char)
+	Int32[] TextPlateSize(System.String)
+	System.String AdjustPlate(System.String, Int32, Int32)
+	System.String AdjustPlate(System.String)
+	System.String CenterString(System.String, Int32)
+	System.String ConcatPlates(System.String, System.String)
+	Boolean CheckVariableName(System.String)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+ParsedStream
+  Fields:
+  Methods:
+	Boolean get_IsEnd()
+	Calculator.Logic.Token ReadOperand()
+	Void ReadOperator(Calculator.Logic.Operator ByRef)
+	Calculator.Logic.Operator ReadOperator()
+	System.String GetRest()
+	System.String Get(Int32)
+	System.String Get()
+	System.String GetEntity()
+	System.String GetStatement()
+	System.String GetStatement(Boolean ByRef)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Interpreter
+  Fields:
+	Calculator.Logic.Scope Globals
+  Methods:
+	Void Run(System.Func`1[System.String], System.Func`2[System.String,System.Boolean])
+	Void Run(System.Func`1[System.String], System.Func`2[System.String,System.Boolean], Boolean)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Prerequisites
+  Fields:
+  Methods:
+	Void RegisterOperators()
+	Void RegisterBIFs()
+	Void RegisterStatements()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Number
+  Fields:
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Double get_Value()
+	Void set_Value(Double)
+	Calculator.Logic.Token Clone()
+	System.String Draw()
+	Double Evaluate()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Operand
+  Fields:
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Double get_Value()
+	Void set_Value(Double)
+	Double Evaluate()
+	Calculator.Logic.Token Clone()
+	System.String Draw()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+OperandSearch
+  Fields:
+  Methods:
+	Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Variable
+  Fields:
+	System.String Name
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Double get_Value()
+	Void set_Value(Double)
+	Calculator.Logic.Token Clone()
+	System.String Draw()
+	Double Evaluate()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Plus
+  Fields:
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Int32 Search(System.String, Int32)
+	Calculator.Logic.Token Clone()
+	System.String Draw()
+	Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand])
+	Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)
+	Int32 get_OperandCount()
+	Double Evaluate()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Minus
+  Fields:
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Int32 Search(System.String, Int32)
+	Calculator.Logic.Token Clone()
+	System.String Draw()
+	Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand])
+	Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)
+	Int32 get_OperandCount()
+	Double Evaluate()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Multiply
+  Fields:
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Int32 Search(System.String, Int32)
+	Calculator.Logic.Token Clone()
+	System.String Draw()
+	Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand])
+	Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)
+	Int32 get_OperandCount()
+	Double Evaluate()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Divide
+  Fields:
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Int32 Search(System.String, Int32)
+	Calculator.Logic.Token Clone()
+	System.String Draw()
+	Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand])
+	Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)
+	Int32 get_OperandCount()
+	Double Evaluate()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+UnaryOp
+  Fields:
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand])
+	Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)
+	Int32 get_OperandCount()
+	Double Evaluate()
+	Int32 Search(System.String, Int32)
+	Calculator.Logic.Token Clone()
+	System.String Draw()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+BinaryOp
+  Fields:
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand])
+	Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)
+	Int32 get_OperandCount()
+	Double Evaluate()
+	Int32 Search(System.String, Int32)
+	Calculator.Logic.Token Clone()
+	System.String Draw()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Factorial
+  Fields:
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Int32 Search(System.String, Int32)
+	Calculator.Logic.Token Clone()
+	System.String Draw()
+	Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand])
+	Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)
+	Int32 get_OperandCount()
+	Double Evaluate()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Expression
+  Fields:
+	Calculator.Logic.Token Root
+  Methods:
+	System.String Draw()
+	Calculator.Logic.Expression Clone()
+	Double Calculate()
+	System.String Process()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Operator
+  Fields:
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Int32 get_OperandCount()
+	Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)
+	Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand])
+	Double Evaluate()
+	Int32 Search(System.String, Int32)
+	Calculator.Logic.Token Clone()
+	System.String Draw()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+OperatorSearch
+  Fields:
+  Methods:
+	Void RegisterOperator(Calculator.Logic.Operator)
+	Int32 Run(System.String, Int32, Calculator.Logic.Operator ByRef)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Subtree
+  Fields:
+	Calculator.Logic.Expression tree
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Double get_Value()
+	Void set_Value(Double)
+	Calculator.Logic.Token Clone()
+	System.String Draw()
+	Double Evaluate()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Value
+  Fields:
+	System.Double RawValue
+	System.Type Type
+  Methods:
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Priorities
+  Fields:
+	System.Int32 value__
+	Calculator.Logic.Priorities assign
+	Calculator.Logic.Priorities plus
+	Calculator.Logic.Priorities mult
+	Calculator.Logic.Priorities degree
+	Calculator.Logic.Priorities factorial
+	Calculator.Logic.Priorities operand
+  Methods:
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.String ToString()
+	System.String ToString(System.String, System.IFormatProvider)
+	Int32 CompareTo(System.Object)
+	System.String ToString(System.String)
+	System.String ToString(System.IFormatProvider)
+	Boolean HasFlag(System.Enum)
+	System.TypeCode GetTypeCode()
+	System.Type GetType()
+Token
+  Fields:
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Calculator.Logic.Token Clone()
+	Double Evaluate()
+	System.String Draw()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+BuiltInFunc
+  Fields:
+	System.String name
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Void SetArguments(System.String)
+	Calculator.Logic.Token Clone()
+	Double Evaluate()
+	System.String Draw()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+BIFSearch
+  Fields:
+  Methods:
+	Void RegisterBIF(Calculator.Logic.BuiltInFunc)
+	Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+MinBIF
+  Fields:
+	System.String name
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Calculator.Logic.Token Clone()
+	Double Evaluate()
+	System.String Draw()
+	Void SetArguments(System.String)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+SqrtBIF
+  Fields:
+	System.String name
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Calculator.Logic.Token Clone()
+	Double Evaluate()
+	System.String Draw()
+	Void SetArguments(System.String)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+MaxBIF
+  Fields:
+	System.String name
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Calculator.Logic.Token Clone()
+	Double Evaluate()
+	System.String Draw()
+	Void SetArguments(System.String)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+MultiNode`1
+  Fields:
+	Calculator.Logic.MultiNode`1[T] Ancestor
+	Calculator.Logic.MultiNode`1[T][] Descendants
+	System.Int32 DescendantCount
+	T Element
+	System.Int32 Index
+  Methods:
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+UserFunc
+  Fields:
+	System.String Name
+	System.String Content
+	System.Int32 Priority
+	System.Int32 branchCount
+	Calculator.Logic.Token Ancestor
+	Calculator.Logic.Token[] Arguments
+	System.Int32 Index
+  Methods:
+	Calculator.Logic.Token Clone()
+	Double Evaluate()
+	System.String Draw()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+UFSearcher
+  Fields:
+  Methods:
+	Void RegisterUF(Calculator.Logic.UserFunc)
+	Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+ExpressionBuilder
+  Fields:
+  Methods:
+	Void InsertBefore(Calculator.Logic.Token, Int32)
+	Void InsertAfter(Calculator.Logic.Token, Int32, Int32)
+	Void AddNext(Calculator.Logic.Token, Int32)
+	Void AddNext(Calculator.Logic.Expression, Int32)
+	Calculator.Logic.Expression ToExpression()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+ExpressionParser
+  Fields:
+  Methods:
+	Calculator.Logic.ParsingResult Run(System.String)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Statement
+  Fields:
+  Methods:
+	System.String Process()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+ParsingResult
+  Fields:
+	Calculator.Logic.Statement result
+	System.Boolean isMatch
+	System.Boolean isComplete
+  Methods:
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+StatementParser
+  Fields:
+  Methods:
+	Calculator.Logic.ParsingResult Run(System.String)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+StatementSearcher
+  Fields:
+  Methods:
+	Void Register(Calculator.Logic.StatementParser)
+	Calculator.Logic.Statement Run(System.String)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+VarSearch
+  Fields:
+  Methods:
+	Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Variables
+  Fields:
+  Methods:
+	Void CreateLocals()
+	Void MergeLocals()
+	Void ClearLocals()
+	Void ClearDictionaries()
+	Void AssignLocal(System.String, Double)
+	Void AssignLocal(Calculator.Logic.Variable, Double)
+	Void CreateUnassigned(System.String)
+	Double GetLocal(System.String)
+	Boolean IsLocal(System.String)
+	Boolean IsVar(System.String)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Assignment
+  Fields:
+  Methods:
+	System.String Process()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+AssignmentParser
+  Fields:
+  Methods:
+	Calculator.Logic.ParsingResult Run(System.String)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Block
+  Fields:
+  Methods:
+	Int32 get_Count()
+	System.String Process()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+BlockParser
+  Fields:
+  Methods:
+	Calculator.Logic.ParsingResult Run(System.String)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Lambda
+  Fields:
+	System.String Name
+  Methods:
+	System.String Process()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+LambdaParser
+  Fields:
+  Methods:
+	Calculator.Logic.ParsingResult Run(System.String)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Scope
+  Fields:
+  Methods:
+	Double get_Item(System.String)
+	Void set_Item(System.String, Double)
+	Void Merge(Calculator.Logic.Scope)
+	Void Assign(System.String, Double)
+	Boolean IsVar(System.String)
+	Void Reserve(System.String, Boolean)
+	Void Reserve(System.String)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+Declaration
+  Fields:
+	System.String alias
+	System.String Keyword
+  Methods:
+	System.String Process()
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+DeclarationParser
+  Fields:
+  Methods:
+	Calculator.Logic.ParsingResult Run(System.String)
+	Int32 FindDeclaration(System.String, Int32)
+	Int32 FindDeclaration(System.String, Calculator.Logic.ParsingResult ByRef)
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+<Evaluate>c__AnonStorey0
+  Fields:
+  Methods:
+	Boolean Equals(System.Object)
+	Int32 GetHashCode()
+	System.Type GetType()
+	System.String ToString()
+
