@@ -25,10 +25,10 @@ namespace Calculator.Tests
 					{
 						sw.WriteLine(output);
 					}
-				}
-				using (StreamWriter sw = File.AppendText(LogPath)) 
-				{
+				} else {
+					using (StreamWriter sw = File.AppendText(LogPath)) {
 					sw.WriteLine(output);
+					}
 				}
 				return true;
 			} catch (Exception e) {

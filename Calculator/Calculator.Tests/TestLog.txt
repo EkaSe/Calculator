@@ -1,5 +1,4 @@
 Test 12 passed
-Test 12 passed
 Test -12 passed
 Test +12.34 passed
 Test 2+3 passed
