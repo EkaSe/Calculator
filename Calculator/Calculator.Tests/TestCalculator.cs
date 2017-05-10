@@ -10,26 +10,26 @@ namespace Calculator.Tests
 	{
 		public static int FailedTestsCount = 0;
 
+		static public Func <string, bool> OutputFunc = (string output) => {
+			Console.WriteLine (output);
+			return true;
+		};
+
 		static public void RunTests ()
 		{
+			TestHelper.SetOutputAction ();
 			CalculatorTest.Run ();
-			Console.WriteLine ();
 			StatementSearcherTest.Run ();
-			Console.WriteLine ();
 			StatementExpressionTest.Run ();
-			Console.WriteLine ();
 			StatementAssignmentTest.Run ();
-			Console.WriteLine ();
 			StatementBlockTest.Run ();
-			Console.WriteLine ();
 			StatementLambdaTest.Run ();
-			Console.WriteLine ();
 			//StatementEmbeddedTest.Run ();
 			//Console.WriteLine ();
 			//StatementInvalidTest.Run ();
 			//Console.WriteLine ();
 
-			Console.WriteLine ("\r\n" + FailedTestsCount + " tests failed\n");
+			OutputFunc ("\r\n" + FailedTestsCount + " tests failed\n");
 
 			MyCollectionTest.Run ();
 		}

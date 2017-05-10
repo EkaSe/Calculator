@@ -5,6 +5,11 @@ namespace Calculator.Tests
 {
 	public class StatementSearcherTest
 	{
+		static public Func <string, bool> OutputFunc = (string output) => {
+			Console.WriteLine (output);
+			return true;
+		};
+
 		static public void SingleTest (string name, string input, string expectedOutput) {
 			string result;
 			try {
@@ -13,12 +18,14 @@ namespace Calculator.Tests
 				result = e.Message;
 			}
 			string testName = "Statement Searcher Test: " + name;
+			string testResult;
 			if (result == expectedOutput)
-				Console.WriteLine (testName + " passed");
+				testResult = testName + " passed";
 			else {
-				Console.WriteLine (testName + " failed: " + result);
+				testResult = testName + " failed: " + result;
 				TestCalculator.FailedTestsCount++;
 			}
+			OutputFunc (testResult);
 		}
 
 		static public void SingleTest (string input, string expectedOutput) {

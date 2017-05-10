@@ -1,0 +1,59 @@
+Test 12 passed
+Test -12 passed
+Test +12.34 passed
+Test 2+3 passed
+Test 2-2 passed
+Test 10-5 passed
+Test 7*8 passed
+Test 32/8 passed
+Test 2+8/2 passed
+Test (2+2)*2 passed
+Test 1+(1+2*(3-2)) passed
+Test 1 * 3 * 4 passed
+Test 10/7*14 passed
+Test 5! passed
+Test 0.5! passed
+Test -7+3 passed
+Test 5.5+2.15 passed
+Statement Searcher Test: Calculator.Logic.Expression passed
+Statement Searcher Test: Calculator.Logic.Assignment passed
+Statement Searcher Test: Calculator.Logic.Assignment passed
+Statement Searcher Test: Calculator.Logic.Assignment passed
+Statement Searcher Test: Calculator.Logic.Declaration passed
+Statement Searcher Test: Calculator.Logic.Assignment failed: Calculator.Logic.Declaration
+Statement Searcher Test: Calculator.Logic.Block passed
+Statement Searcher Test: Calculator.Logic.Block passed
+Statement Searcher Test: Calculator.Logic.Lambda failed: Calculator.Logic.Declaration
+Statement Searcher Test: Calculator.Logic.Lambda failed: Statement type could not be determined
+Test Statement_Expression 0 passed
+Test Statement_Expression 1 passed
+Test Statement_Expression 2 passed
+Test Statement_Expression 3 passed
+Test Statement_Expression 4 passed
+Test Statement_Expression 5 passed
+Test Statement_Expression 6 passed
+Test Statement_Assignment 0 failed: Object reference not set to an instance of an object
+Test Statement_Assignment 1 failed: Statement type could not be determined
+Test Statement_Assignment 2 failed: Statement type could not be determined
+Test Statement_Assignment 3 failed: Object reference not set to an instance of an object
+Test Statement_Assignment 4 failed: Statement type could not be determined
+Test Statement_Block 0 passed
+Test Statement_Block 1 failed: Object reference not set to an instance of an object
+Test Statement_Block 2 failed: Object reference not set to an instance of an object
+Test Statement_Block 3 failed: Object reference not set to an instance of an object
+Test Statement_Lambda 0.0:  failed: Statement type could not be determined
+Test Statement_Lambda 0.1:  failed: Statement type could not be determined
+Test Statement_Lambda 1.0:  failed: Statement type could not be determined
+Test Statement_Lambda 1.2:  failed: Statement type could not be determined
+Test Statement_Lambda 1.3:  failed: Statement type could not be determined
+Test Statement_Lambda 2.0:  failed: Statement type could not be determined
+Test Statement_Lambda 2.1:  failed: Statement type could not be determined
+
+18 tests failed
+
+My list test passed
+My linked list test passed
+My stack test passed
+My dictionary test passed
+My Enumerable Extension test passed
+My Enumerable Extension test passed

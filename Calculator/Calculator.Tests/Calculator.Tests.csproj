@@ -47,6 +47,7 @@
     <Compile Include="InterpreterTests\StatementTests\StatementInvalidTest.cs" />
     <Compile Include="InterpreterTests\StatementTests\StatementLambdaTest.cs" />
     <Compile Include="InterpreterTests\InterpreterTest.cs" />
+    <Compile Include="TestHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

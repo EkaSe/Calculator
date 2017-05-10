@@ -6,8 +6,12 @@ namespace Calculator.Tests
 {
 	public class InterpreterTest
 	{
-		static public void Run (string testName, string[] input, string expectedOutput)
-		{
+		static public Func <string, bool> OutputFunc = (string output) => {
+			Console.WriteLine (output);
+			return true;
+		};
+
+		static public void Run (string testName, string[] input, string expectedOutput) {
 			int expressionIndex = 0;
 			string result = null;
 
@@ -26,14 +30,18 @@ namespace Calculator.Tests
 				}
 			};
 
+			string testResult;
 			Interpreter.Run (getExpression, outputAction, true);
 			if (result == expectedOutput)
-				Console.WriteLine ("Test " + testName + " passed");
+				testResult = "Test " + testName + " passed";
 			else {
-				Console.WriteLine ("Test " + testName + " failed: " + result);
+				testResult = "Test " + testName + " failed: " + result;
 				TestCalculator.FailedTestsCount++;
 			}
+
+			OutputFunc (testResult); 
 		}
+			
 	}
 
 	public class ParserTests {
