@@ -23,10 +23,6 @@ Parser
 	System.String CenterString(System.String, Int32)
 	System.String ConcatPlates(System.String, System.String)
 	Boolean CheckVariableName(System.String)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 ParsedStream
   Fields:
   Methods:
@@ -40,30 +36,18 @@ ParsedStream
 	System.String GetEntity()
 	System.String GetStatement()
 	System.String GetStatement(Boolean ByRef)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Interpreter
   Fields:
 	Calculator.Logic.Scope Globals
   Methods:
 	Void Run(System.Func`1[System.String], System.Func`2[System.String,System.Boolean])
 	Void Run(System.Func`1[System.String], System.Func`2[System.String,System.Boolean], Boolean)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Prerequisites
   Fields:
   Methods:
 	Void RegisterOperators()
 	Void RegisterBIFs()
 	Void RegisterStatements()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Number
   Fields:
 	System.Int32 Priority
@@ -77,10 +61,6 @@ Number
 	Calculator.Logic.Token Clone()
 	System.String Draw()
 	Double Evaluate()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Operand
   Fields:
 	System.Int32 Priority
@@ -94,18 +74,10 @@ Operand
 	Double Evaluate()
 	Calculator.Logic.Token Clone()
 	System.String Draw()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 OperandSearch
   Fields:
   Methods:
 	Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Variable
   Fields:
 	System.String Name
@@ -120,10 +92,6 @@ Variable
 	Calculator.Logic.Token Clone()
 	System.String Draw()
 	Double Evaluate()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Plus
   Fields:
 	System.Int32 Priority
@@ -139,10 +107,6 @@ Plus
 	Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)
 	Int32 get_OperandCount()
 	Double Evaluate()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Minus
   Fields:
 	System.Int32 Priority
@@ -158,10 +122,6 @@ Minus
 	Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)
 	Int32 get_OperandCount()
 	Double Evaluate()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Multiply
   Fields:
 	System.Int32 Priority
@@ -177,10 +137,6 @@ Multiply
 	Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)
 	Int32 get_OperandCount()
 	Double Evaluate()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Divide
   Fields:
 	System.Int32 Priority
@@ -196,10 +152,6 @@ Divide
 	Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)
 	Int32 get_OperandCount()
 	Double Evaluate()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 UnaryOp
   Fields:
 	System.Int32 Priority
@@ -215,10 +167,6 @@ UnaryOp
 	Int32 Search(System.String, Int32)
 	Calculator.Logic.Token Clone()
 	System.String Draw()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 BinaryOp
   Fields:
 	System.Int32 Priority
@@ -234,10 +182,6 @@ BinaryOp
 	Int32 Search(System.String, Int32)
 	Calculator.Logic.Token Clone()
 	System.String Draw()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Factorial
   Fields:
 	System.Int32 Priority
@@ -253,10 +197,6 @@ Factorial
 	Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)
 	Int32 get_OperandCount()
 	Double Evaluate()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Expression
   Fields:
 	Calculator.Logic.Token Root
@@ -265,10 +205,6 @@ Expression
 	Calculator.Logic.Expression Clone()
 	Double Calculate()
 	System.String Process()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Operator
   Fields:
 	System.Int32 Priority
@@ -284,19 +220,11 @@ Operator
 	Int32 Search(System.String, Int32)
 	Calculator.Logic.Token Clone()
 	System.String Draw()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 OperatorSearch
   Fields:
   Methods:
 	Void RegisterOperator(Calculator.Logic.Operator)
 	Int32 Run(System.String, Int32, Calculator.Logic.Operator ByRef)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Subtree
   Fields:
 	Calculator.Logic.Expression tree
@@ -311,19 +239,11 @@ Subtree
 	Calculator.Logic.Token Clone()
 	System.String Draw()
 	Double Evaluate()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Value
   Fields:
 	System.Double RawValue
 	System.Type Type
   Methods:
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Priorities
   Fields:
 	System.Int32 value__
@@ -343,7 +263,6 @@ Priorities
 	System.String ToString(System.IFormatProvider)
 	Boolean HasFlag(System.Enum)
 	System.TypeCode GetTypeCode()
-	System.Type GetType()
 Token
   Fields:
 	System.Int32 Priority
@@ -355,10 +274,6 @@ Token
 	Calculator.Logic.Token Clone()
 	Double Evaluate()
 	System.String Draw()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 BuiltInFunc
   Fields:
 	System.String name
@@ -372,19 +287,11 @@ BuiltInFunc
 	Calculator.Logic.Token Clone()
 	Double Evaluate()
 	System.String Draw()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 BIFSearch
   Fields:
   Methods:
 	Void RegisterBIF(Calculator.Logic.BuiltInFunc)
 	Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 MinBIF
   Fields:
 	System.String name
@@ -398,10 +305,6 @@ MinBIF
 	Double Evaluate()
 	System.String Draw()
 	Void SetArguments(System.String)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 SqrtBIF
   Fields:
 	System.String name
@@ -415,10 +318,6 @@ SqrtBIF
 	Double Evaluate()
 	System.String Draw()
 	Void SetArguments(System.String)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 MaxBIF
   Fields:
 	System.String name
@@ -432,10 +331,6 @@ MaxBIF
 	Double Evaluate()
 	System.String Draw()
 	Void SetArguments(System.String)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 MultiNode`1
   Fields:
 	Calculator.Logic.MultiNode`1[T] Ancestor
@@ -444,10 +339,6 @@ MultiNode`1
 	T Element
 	System.Int32 Index
   Methods:
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 UserFunc
   Fields:
 	System.String Name
@@ -461,19 +352,11 @@ UserFunc
 	Calculator.Logic.Token Clone()
 	Double Evaluate()
 	System.String Draw()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 UFSearcher
   Fields:
   Methods:
 	Void RegisterUF(Calculator.Logic.UserFunc)
 	Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 ExpressionBuilder
   Fields:
   Methods:
@@ -482,61 +365,33 @@ ExpressionBuilder
 	Void AddNext(Calculator.Logic.Token, Int32)
 	Void AddNext(Calculator.Logic.Expression, Int32)
 	Calculator.Logic.Expression ToExpression()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 ExpressionParser
   Fields:
   Methods:
 	Calculator.Logic.ParsingResult Run(System.String)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Statement
   Fields:
   Methods:
 	System.String Process()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 ParsingResult
   Fields:
 	Calculator.Logic.Statement result
 	System.Boolean isMatch
 	System.Boolean isComplete
   Methods:
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 StatementParser
   Fields:
   Methods:
 	Calculator.Logic.ParsingResult Run(System.String)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 StatementSearcher
   Fields:
   Methods:
 	Void Register(Calculator.Logic.StatementParser)
 	Calculator.Logic.Statement Run(System.String)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 VarSearch
   Fields:
   Methods:
 	Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Variables
   Fields:
   Methods:
@@ -550,60 +405,32 @@ Variables
 	Double GetLocal(System.String)
 	Boolean IsLocal(System.String)
 	Boolean IsVar(System.String)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Assignment
   Fields:
   Methods:
 	System.String Process()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 AssignmentParser
   Fields:
   Methods:
 	Calculator.Logic.ParsingResult Run(System.String)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Block
   Fields:
   Methods:
 	Int32 get_Count()
 	System.String Process()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 BlockParser
   Fields:
   Methods:
 	Calculator.Logic.ParsingResult Run(System.String)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Lambda
   Fields:
 	System.String Name
   Methods:
 	System.String Process()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 LambdaParser
   Fields:
   Methods:
 	Calculator.Logic.ParsingResult Run(System.String)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Scope
   Fields:
   Methods:
@@ -614,35 +441,19 @@ Scope
 	Boolean IsVar(System.String)
 	Void Reserve(System.String, Boolean)
 	Void Reserve(System.String)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 Declaration
   Fields:
 	System.String alias
 	System.String Keyword
   Methods:
 	System.String Process()
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 DeclarationParser
   Fields:
   Methods:
 	Calculator.Logic.ParsingResult Run(System.String)
 	Int32 FindDeclaration(System.String, Int32)
 	Int32 FindDeclaration(System.String, Calculator.Logic.ParsingResult ByRef)
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 <Evaluate>c__AnonStorey0
   Fields:
   Methods:
-	Boolean Equals(System.Object)
-	Int32 GetHashCode()
-	System.Type GetType()
-	System.String ToString()
 
