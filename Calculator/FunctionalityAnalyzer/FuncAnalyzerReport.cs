@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using System.Collections;
+using System.Collections.Generic;
 using Calculator.Logic;
 using Calculator.Tests;
 using System.Text;
@@ -14,7 +16,9 @@ namespace FunctionalityAnalyzer
 			Assembly assembly = childClassType.Assembly;
 			string report = GetReportLinqStringBuilder (assembly);
 			PrintReport (report);
-			Console.WriteLine (GetReportLinqString (assembly));
+			Console.WriteLine (GetReportLinqStringBuilder (assembly));
+			//Console.WriteLine (GetReportLinqString (assembly));
+			//Console.WriteLine (GetReportForeach (assembly));
 		}
 
 		public static string LogPath {
@@ -54,15 +58,20 @@ namespace FunctionalityAnalyzer
 		static string GetReportForeach (Assembly assembly) {
 			StringBuilder report = new StringBuilder ();
 			foreach (Type t in assembly.GetTypes()) {
-				if (t.BaseType != null) {
+				if (t.BaseType != typeof (object)) {
 					report.AppendLine (t.Name);
-					report.AppendLine ("  Fields:");
-					foreach (FieldInfo field in t.GetFields()) {
-						if (field.DeclaringType != typeof (object))
-							report.AppendLine ("\t" + field);
+					FieldInfo[] fields = t.GetFields();
+					if (fields.Length > 0) {
+						report.AppendLine ("  Fields:");
+						foreach (FieldInfo field in fields) {
+							if (field.DeclaringType != typeof(object))
+								report.AppendLine ("\t" + field);
+						}
 					}
+					MethodInfo[] methods = t.GetMethods();
+					if (methods.Length > 0)
 					report.AppendLine ("  Methods:");
-					foreach (MethodInfo method in t.GetMethods()) {
+					foreach (MethodInfo method in methods) {
 						if (method.DeclaringType != typeof (object))
 							report.AppendLine ("\t" + method);
 					}
@@ -73,29 +82,44 @@ namespace FunctionalityAnalyzer
 
 		static string GetReportLinqString (Assembly assembly) {
 			return assembly.GetTypes ()
-				.Where ((t) => t.BaseType != null)
+				.Where ((t) => t.BaseType != typeof (object))
 				.Select ((Type t) => t.Name 
 					+ t.GetFields ()
-					   .Where ((field) => field.DeclaringType != typeof (object))
-					   .Aggregate ("\n  Fields:",(string startValue, FieldInfo field) => startValue + "\n\t" + field.ToString ())
+						.Where ((field) => field.DeclaringType != typeof (object))
+						.Aggregate ("",
+							(startValue, field) => startValue + "\n\t" + field.ToString (),
+							(result) => {if (result != "") return "\n  Fields:" + result; else return "";})
 					+ t.GetMethods ()
-					   .Where ((method) => method.DeclaringType != typeof (object))
-					   .Aggregate ("\n  Methods:", 
-						(string startValue, MethodInfo method) => startValue + "\n\t" + method.ToString ()) + "\n")
+						.Where ((method) => method.DeclaringType != typeof (object))
+						.Aggregate ("", 
+						(startValue, method) => startValue + "\n\t" + method.ToString (),
+						(result) => {if (result != "") return "\n  Methods:" + result + "\n"; else return "";}))
 				.Aggregate ((report, nextClass) => report + nextClass);
 		}
+		/*static string GetReportLinqString (Assembly assembly) {
+			return assembly.GetTypes ()
+				.Where ((t) => t.BaseType != typeof (object))
+				.SelectMany ((t) => new string[] {t.Name}
+					.Concat (t.GetMembers ()
+						.Where ((member) => member.DeclaringType != typeof (object))
+						.Select ((member) => "\n\t" + member.ToString ())))
+					.Aggregate ((report, nextClass) => report + nextClass);
+		}*/
 
 		static string GetReportLinqStringBuilder (Assembly assembly) {
 			return assembly.GetTypes ()
-				.Where ((t) => t.BaseType != null)
+				.Where ((t) => t.BaseType != typeof (object))
 				.Aggregate (new StringBuilder (), (report, nextClass) => {
-					nextClass.GetFields ()
-						.Where ((field) => field.DeclaringType != typeof (object))
-						.Aggregate (report.AppendLine (nextClass.Name).AppendLine ("  Fields:"),
+					report.AppendLine (nextClass.Name);
+					var fields = nextClass.GetFields ()
+						.Where ((field) => field.DeclaringType != typeof (object));
+					if (fields.Count () > 0)
+						fields.Aggregate (report.AppendLine ("  Fields:"),
 							(fieldReport, field) => fieldReport.AppendLine ("\t" + field.ToString ()));
-					nextClass.GetMethods ()
-						.Where ((method) => method.DeclaringType != typeof (object))
-						.Aggregate (report.AppendLine ("  Methods:"), 
+					var methods = nextClass.GetMethods ()
+						.Where ((method) => method.DeclaringType != typeof (object));
+					if (methods.Count () > 0)
+						methods.Aggregate (report.AppendLine ("  Methods:"), 
 							(methodReport, method) => methodReport.AppendLine ("\t" + method.ToString ()));
 					return report;
 				}).ToString ();

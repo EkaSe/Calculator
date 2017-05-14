@@ -1,53 +1,3 @@
-Parser
-  Fields:
-  Methods:
-	Int32 CharToDigit(Char)
-	System.String DoubleToString(Double)
-	Char ToLowerCase(Char)
-	System.String ToLowerCase(System.String)
-	Double StringToDouble(System.String, Int32 ByRef)
-	Double StringToDouble(System.String)
-	System.String SkipSpaces(System.String)
-	Boolean IsLetter(Char)
-	Boolean IsIdentifierChar(Char, Boolean)
-	Int32 FindNumber(System.String, Int32, Double ByRef)
-	System.String FindName(System.String, Int32)
-	Int32 FindName(System.String, Int32, System.String ByRef)
-	Int32 FindClosing(System.String, Int32)
-	Int32 FindClosing(System.String, Int32, Char)
-	Int32 FindClosing(System.String, Int32, System.String ByRef)
-	Int32 FindClosing(System.String, Int32, System.String ByRef, Char)
-	Int32[] TextPlateSize(System.String)
-	System.String AdjustPlate(System.String, Int32, Int32)
-	System.String AdjustPlate(System.String)
-	System.String CenterString(System.String, Int32)
-	System.String ConcatPlates(System.String, System.String)
-	Boolean CheckVariableName(System.String)
-ParsedStream
-  Fields:
-  Methods:
-	Boolean get_IsEnd()
-	Calculator.Logic.Token ReadOperand()
-	Void ReadOperator(Calculator.Logic.Operator ByRef)
-	Calculator.Logic.Operator ReadOperator()
-	System.String GetRest()
-	System.String Get(Int32)
-	System.String Get()
-	System.String GetEntity()
-	System.String GetStatement()
-	System.String GetStatement(Boolean ByRef)
-Interpreter
-  Fields:
-	Calculator.Logic.Scope Globals
-  Methods:
-	Void Run(System.Func`1[System.String], System.Func`2[System.String,System.Boolean])
-	Void Run(System.Func`1[System.String], System.Func`2[System.String,System.Boolean], Boolean)
-Prerequisites
-  Fields:
-  Methods:
-	Void RegisterOperators()
-	Void RegisterBIFs()
-	Void RegisterStatements()
 Number
   Fields:
 	System.Int32 Priority
@@ -74,10 +24,6 @@ Operand
 	Double Evaluate()
 	Calculator.Logic.Token Clone()
 	System.String Draw()
-OperandSearch
-  Fields:
-  Methods:
-	Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef)
 Variable
   Fields:
 	System.String Name
@@ -220,11 +166,6 @@ Operator
 	Int32 Search(System.String, Int32)
 	Calculator.Logic.Token Clone()
 	System.String Draw()
-OperatorSearch
-  Fields:
-  Methods:
-	Void RegisterOperator(Calculator.Logic.Operator)
-	Int32 Run(System.String, Int32, Calculator.Logic.Operator ByRef)
 Subtree
   Fields:
 	Calculator.Logic.Expression tree
@@ -239,11 +180,6 @@ Subtree
 	Calculator.Logic.Token Clone()
 	System.String Draw()
 	Double Evaluate()
-Value
-  Fields:
-	System.Double RawValue
-	System.Type Type
-  Methods:
 Priorities
   Fields:
 	System.Int32 value__
@@ -263,17 +199,6 @@ Priorities
 	System.String ToString(System.IFormatProvider)
 	Boolean HasFlag(System.Enum)
 	System.TypeCode GetTypeCode()
-Token
-  Fields:
-	System.Int32 Priority
-	System.Int32 branchCount
-	Calculator.Logic.Token Ancestor
-	Calculator.Logic.Token[] Arguments
-	System.Int32 Index
-  Methods:
-	Calculator.Logic.Token Clone()
-	Double Evaluate()
-	System.String Draw()
 BuiltInFunc
   Fields:
 	System.String name
@@ -287,11 +212,6 @@ BuiltInFunc
 	Calculator.Logic.Token Clone()
 	Double Evaluate()
 	System.String Draw()
-BIFSearch
-  Fields:
-  Methods:
-	Void RegisterBIF(Calculator.Logic.BuiltInFunc)
-	Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef)
 MinBIF
   Fields:
 	System.String name
@@ -331,14 +251,6 @@ MaxBIF
 	Double Evaluate()
 	System.String Draw()
 	Void SetArguments(System.String)
-MultiNode`1
-  Fields:
-	Calculator.Logic.MultiNode`1[T] Ancestor
-	Calculator.Logic.MultiNode`1[T][] Descendants
-	System.Int32 DescendantCount
-	T Element
-	System.Int32 Index
-  Methods:
 UserFunc
   Fields:
 	System.String Name
@@ -352,74 +264,20 @@ UserFunc
 	Calculator.Logic.Token Clone()
 	Double Evaluate()
 	System.String Draw()
-UFSearcher
-  Fields:
-  Methods:
-	Void RegisterUF(Calculator.Logic.UserFunc)
-	Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef)
-ExpressionBuilder
-  Fields:
-  Methods:
-	Void InsertBefore(Calculator.Logic.Token, Int32)
-	Void InsertAfter(Calculator.Logic.Token, Int32, Int32)
-	Void AddNext(Calculator.Logic.Token, Int32)
-	Void AddNext(Calculator.Logic.Expression, Int32)
-	Calculator.Logic.Expression ToExpression()
 ExpressionParser
-  Fields:
   Methods:
 	Calculator.Logic.ParsingResult Run(System.String)
-Statement
-  Fields:
-  Methods:
-	System.String Process()
-ParsingResult
-  Fields:
-	Calculator.Logic.Statement result
-	System.Boolean isMatch
-	System.Boolean isComplete
-  Methods:
-StatementParser
-  Fields:
-  Methods:
-	Calculator.Logic.ParsingResult Run(System.String)
-StatementSearcher
-  Fields:
-  Methods:
-	Void Register(Calculator.Logic.StatementParser)
-	Calculator.Logic.Statement Run(System.String)
-VarSearch
-  Fields:
-  Methods:
-	Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef)
-Variables
-  Fields:
-  Methods:
-	Void CreateLocals()
-	Void MergeLocals()
-	Void ClearLocals()
-	Void ClearDictionaries()
-	Void AssignLocal(System.String, Double)
-	Void AssignLocal(Calculator.Logic.Variable, Double)
-	Void CreateUnassigned(System.String)
-	Double GetLocal(System.String)
-	Boolean IsLocal(System.String)
-	Boolean IsVar(System.String)
 Assignment
-  Fields:
   Methods:
 	System.String Process()
 AssignmentParser
-  Fields:
   Methods:
 	Calculator.Logic.ParsingResult Run(System.String)
 Block
-  Fields:
   Methods:
 	Int32 get_Count()
 	System.String Process()
 BlockParser
-  Fields:
   Methods:
 	Calculator.Logic.ParsingResult Run(System.String)
 Lambda
@@ -428,19 +286,8 @@ Lambda
   Methods:
 	System.String Process()
 LambdaParser
-  Fields:
   Methods:
 	Calculator.Logic.ParsingResult Run(System.String)
-Scope
-  Fields:
-  Methods:
-	Double get_Item(System.String)
-	Void set_Item(System.String, Double)
-	Void Merge(Calculator.Logic.Scope)
-	Void Assign(System.String, Double)
-	Boolean IsVar(System.String)
-	Void Reserve(System.String, Boolean)
-	Void Reserve(System.String)
 Declaration
   Fields:
 	System.String alias
@@ -448,12 +295,8 @@ Declaration
   Methods:
 	System.String Process()
 DeclarationParser
-  Fields:
   Methods:
 	Calculator.Logic.ParsingResult Run(System.String)
 	Int32 FindDeclaration(System.String, Int32)
 	Int32 FindDeclaration(System.String, Calculator.Logic.ParsingResult ByRef)
-<Evaluate>c__AnonStorey0
-  Fields:
-  Methods:
 
