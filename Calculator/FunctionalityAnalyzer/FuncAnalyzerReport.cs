@@ -16,7 +16,7 @@ namespace FunctionalityAnalyzer
 			Assembly assembly = childClassType.Assembly;
 			string report = GetReportLinqStringBuilder (assembly);
 			PrintReport (report);
-			Console.WriteLine (GetReportLinqStringBuilder (assembly));
+			//Console.WriteLine (GetReportLinqStringBuilder (assembly));
 			//Console.WriteLine (GetReportLinqString (assembly));
 			//Console.WriteLine (GetReportForeach (assembly));
 		}
