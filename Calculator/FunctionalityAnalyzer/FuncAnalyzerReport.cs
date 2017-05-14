@@ -14,8 +14,9 @@ namespace FunctionalityAnalyzer
 	{
 		static public void Run (Type childClassType) {
 			Assembly assembly = childClassType.Assembly;
-			string report = GetReportLinqStringBuilder (assembly);
+			string report = GetReportSelectMany (assembly);
 			PrintReport (report);
+			//Console.WriteLine (GetReportSelectMany (assembly));
 			//Console.WriteLine (GetReportLinqStringBuilder (assembly));
 			//Console.WriteLine (GetReportLinqString (assembly));
 			//Console.WriteLine (GetReportForeach (assembly));
@@ -96,15 +97,19 @@ namespace FunctionalityAnalyzer
 						(result) => {if (result != "") return "\n  Methods:" + result + "\n"; else return "";}))
 				.Aggregate ((report, nextClass) => report + nextClass);
 		}
-		/*static string GetReportLinqString (Assembly assembly) {
+
+		static string GetReportSelectMany (Assembly assembly) {
 			return assembly.GetTypes ()
 				.Where ((t) => t.BaseType != typeof (object))
-				.SelectMany ((t) => new string[] {t.Name}
-					.Concat (t.GetMembers ()
-						.Where ((member) => member.DeclaringType != typeof (object))
-						.Select ((member) => "\n\t" + member.ToString ())))
-					.Aggregate ((report, nextClass) => report + nextClass);
-		}*/
+				.SelectMany ((t) => (new string[] {t.Name + "\n"}
+					.Concat (t.GetFields ()
+						.Where ((field) => field.DeclaringType != typeof (object))
+						.Select ((field) => "\t" + field.ToString () + "\n"))
+					.Concat (t.GetMethods ()
+						.Where ((method) => method.DeclaringType != typeof (object))
+						.Select ((method) => "\t" + method.ToString () + "\n"))))
+				.Aggregate ((report, nextClass) => report + nextClass);
+		}
 
 		static string GetReportLinqStringBuilder (Assembly assembly) {
 			return assembly.GetTypes ()

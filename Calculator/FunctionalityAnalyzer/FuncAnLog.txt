@@ -1,51 +1,43 @@
 Number
-  Fields:
 	System.Int32 Priority
 	System.Int32 branchCount
 	Calculator.Logic.Token Ancestor
 	Calculator.Logic.Token[] Arguments
 	System.Int32 Index
-  Methods:
 	Double get_Value()
 	Void set_Value(Double)
 	Calculator.Logic.Token Clone()
 	System.String Draw()
 	Double Evaluate()
 Operand
-  Fields:
 	System.Int32 Priority
 	System.Int32 branchCount
 	Calculator.Logic.Token Ancestor
 	Calculator.Logic.Token[] Arguments
 	System.Int32 Index
-  Methods:
 	Double get_Value()
 	Void set_Value(Double)
 	Double Evaluate()
 	Calculator.Logic.Token Clone()
 	System.String Draw()
 Variable
-  Fields:
 	System.String Name
 	System.Int32 Priority
 	System.Int32 branchCount
 	Calculator.Logic.Token Ancestor
 	Calculator.Logic.Token[] Arguments
 	System.Int32 Index
-  Methods:
 	Double get_Value()
 	Void set_Value(Double)
 	Calculator.Logic.Token Clone()
 	System.String Draw()
 	Double Evaluate()
 Plus
-  Fields:
 	System.Int32 Priority
 	System.Int32 branchCount
 	Calculator.Logic.Token Ancestor
 	Calculator.Logic.Token[] Arguments
 	System.Int32 Index
-  Methods:
 	Int32 Search(System.String, Int32)
 	Calculator.Logic.Token Clone()
 	System.String Draw()
@@ -54,13 +46,11 @@ Plus
 	Int32 get_OperandCount()
 	Double Evaluate()
 Minus
-  Fields:
 	System.Int32 Priority
 	System.Int32 branchCount
 	Calculator.Logic.Token Ancestor
 	Calculator.Logic.Token[] Arguments
 	System.Int32 Index
-  Methods:
 	Int32 Search(System.String, Int32)
 	Calculator.Logic.Token Clone()
 	System.String Draw()
@@ -69,13 +59,11 @@ Minus
 	Int32 get_OperandCount()
 	Double Evaluate()
 Multiply
-  Fields:
 	System.Int32 Priority
 	System.Int32 branchCount
 	Calculator.Logic.Token Ancestor
 	Calculator.Logic.Token[] Arguments
 	System.Int32 Index
-  Methods:
 	Int32 Search(System.String, Int32)
 	Calculator.Logic.Token Clone()
 	System.String Draw()
@@ -84,13 +72,11 @@ Multiply
 	Int32 get_OperandCount()
 	Double Evaluate()
 Divide
-  Fields:
 	System.Int32 Priority
 	System.Int32 branchCount
 	Calculator.Logic.Token Ancestor
 	Calculator.Logic.Token[] Arguments
 	System.Int32 Index
-  Methods:
 	Int32 Search(System.String, Int32)
 	Calculator.Logic.Token Clone()
 	System.String Draw()
@@ -99,13 +85,11 @@ Divide
 	Int32 get_OperandCount()
 	Double Evaluate()
 UnaryOp
-  Fields:
 	System.Int32 Priority
 	System.Int32 branchCount
 	Calculator.Logic.Token Ancestor
 	Calculator.Logic.Token[] Arguments
 	System.Int32 Index
-  Methods:
 	Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand])
 	Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)
 	Int32 get_OperandCount()
@@ -114,13 +98,11 @@ UnaryOp
 	Calculator.Logic.Token Clone()
 	System.String Draw()
 BinaryOp
-  Fields:
 	System.Int32 Priority
 	System.Int32 branchCount
 	Calculator.Logic.Token Ancestor
 	Calculator.Logic.Token[] Arguments
 	System.Int32 Index
-  Methods:
 	Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand])
 	Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)
 	Int32 get_OperandCount()
@@ -129,13 +111,11 @@ BinaryOp
 	Calculator.Logic.Token Clone()
 	System.String Draw()
 Factorial
-  Fields:
 	System.Int32 Priority
 	System.Int32 branchCount
 	Calculator.Logic.Token Ancestor
 	Calculator.Logic.Token[] Arguments
 	System.Int32 Index
-  Methods:
 	Int32 Search(System.String, Int32)
 	Calculator.Logic.Token Clone()
 	System.String Draw()
@@ -144,21 +124,17 @@ Factorial
 	Int32 get_OperandCount()
 	Double Evaluate()
 Expression
-  Fields:
 	Calculator.Logic.Token Root
-  Methods:
 	System.String Draw()
 	Calculator.Logic.Expression Clone()
 	Double Calculate()
 	System.String Process()
 Operator
-  Fields:
 	System.Int32 Priority
 	System.Int32 branchCount
 	Calculator.Logic.Token Ancestor
 	Calculator.Logic.Token[] Arguments
 	System.Int32 Index
-  Methods:
 	Int32 get_OperandCount()
 	Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)
 	Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand])
@@ -167,21 +143,18 @@ Operator
 	Calculator.Logic.Token Clone()
 	System.String Draw()
 Subtree
-  Fields:
 	Calculator.Logic.Expression tree
 	System.Int32 Priority
 	System.Int32 branchCount
 	Calculator.Logic.Token Ancestor
 	Calculator.Logic.Token[] Arguments
 	System.Int32 Index
-  Methods:
 	Double get_Value()
 	Void set_Value(Double)
 	Calculator.Logic.Token Clone()
 	System.String Draw()
 	Double Evaluate()
 Priorities
-  Fields:
 	System.Int32 value__
 	Calculator.Logic.Priorities assign
 	Calculator.Logic.Priorities plus
@@ -189,7 +162,6 @@ Priorities
 	Calculator.Logic.Priorities degree
 	Calculator.Logic.Priorities factorial
 	Calculator.Logic.Priorities operand
-  Methods:
 	Boolean Equals(System.Object)
 	Int32 GetHashCode()
 	System.String ToString()
@@ -200,59 +172,50 @@ Priorities
 	Boolean HasFlag(System.Enum)
 	System.TypeCode GetTypeCode()
 BuiltInFunc
-  Fields:
 	System.String name
 	System.Int32 Priority
 	System.Int32 branchCount
 	Calculator.Logic.Token Ancestor
 	Calculator.Logic.Token[] Arguments
 	System.Int32 Index
-  Methods:
 	Void SetArguments(System.String)
 	Calculator.Logic.Token Clone()
 	Double Evaluate()
 	System.String Draw()
 MinBIF
-  Fields:
 	System.String name
 	System.Int32 Priority
 	System.Int32 branchCount
 	Calculator.Logic.Token Ancestor
 	Calculator.Logic.Token[] Arguments
 	System.Int32 Index
-  Methods:
 	Calculator.Logic.Token Clone()
 	Double Evaluate()
 	System.String Draw()
 	Void SetArguments(System.String)
 SqrtBIF
-  Fields:
 	System.String name
 	System.Int32 Priority
 	System.Int32 branchCount
 	Calculator.Logic.Token Ancestor
 	Calculator.Logic.Token[] Arguments
 	System.Int32 Index
-  Methods:
 	Calculator.Logic.Token Clone()
 	Double Evaluate()
 	System.String Draw()
 	Void SetArguments(System.String)
 MaxBIF
-  Fields:
 	System.String name
 	System.Int32 Priority
 	System.Int32 branchCount
 	Calculator.Logic.Token Ancestor
 	Calculator.Logic.Token[] Arguments
 	System.Int32 Index
-  Methods:
 	Calculator.Logic.Token Clone()
 	Double Evaluate()
 	System.String Draw()
 	Void SetArguments(System.String)
 UserFunc
-  Fields:
 	System.String Name
 	System.String Content
 	System.Int32 Priority
@@ -260,42 +223,30 @@ UserFunc
 	Calculator.Logic.Token Ancestor
 	Calculator.Logic.Token[] Arguments
 	System.Int32 Index
-  Methods:
 	Calculator.Logic.Token Clone()
 	Double Evaluate()
 	System.String Draw()
 ExpressionParser
-  Methods:
 	Calculator.Logic.ParsingResult Run(System.String)
 Assignment
-  Methods:
 	System.String Process()
 AssignmentParser
-  Methods:
 	Calculator.Logic.ParsingResult Run(System.String)
 Block
-  Methods:
 	Int32 get_Count()
 	System.String Process()
 BlockParser
-  Methods:
 	Calculator.Logic.ParsingResult Run(System.String)
 Lambda
-  Fields:
 	System.String Name
-  Methods:
 	System.String Process()
 LambdaParser
-  Methods:
 	Calculator.Logic.ParsingResult Run(System.String)
 Declaration
-  Fields:
 	System.String alias
 	System.String Keyword
-  Methods:
 	System.String Process()
 DeclarationParser
-  Methods:
 	Calculator.Logic.ParsingResult Run(System.String)
 	Int32 FindDeclaration(System.String, Int32)
 	Int32 FindDeclaration(System.String, Calculator.Logic.ParsingResult ByRef)
