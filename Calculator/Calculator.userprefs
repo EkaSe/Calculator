@@ -1,8 +1,9 @@
 ﻿<Properties StartupItem="Calculator.Tests/Calculator.Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Calculator.Logic/Interpreter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FunctionalityAnalyzer/FuncAnalyzerXML.cs">
     <Files>
-      <File FileName="Calculator.Logic/Interpreter.cs" Line="18" Column="28" />
+      <File FileName="Calculator.Tests/InterpreterTests/StatementSearcherTest.cs" Line="1" Column="1" />
+      <File FileName="FunctionalityAnalyzer/FuncAnalyzerXML.cs" Line="59" Column="7" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

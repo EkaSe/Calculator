@@ -1,52 +1,34 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using MyLibrary;
 
 namespace Calculator.Tests
 {
 	public static class TestHelper
 	{
-		public static string LogPath {
-			get {
-				if (logPath == null) {
-					string currentPath = Directory.GetCurrentDirectory ();
-					logPath = currentPath.Substring (0, currentPath.IndexOf (@"Calculator.Tests")) + @"Calculator.Tests/TestLog.txt";
-				}
-				return logPath;
-			}
-		}
-		static string logPath;
+		static public event EventHandler<string> MessageReceived;
 
-		static bool OutputAction (string output) {
-			try {
-				if (!File.Exists (LogPath)) {
-					//File.CreateText (logPath);
-					using (StreamWriter sw = File.CreateText(LogPath)) 
-					{
-						sw.WriteLine(output);
-					}
-				} else {
-					using (StreamWriter sw = File.AppendText(LogPath)) {
-					sw.WriteLine(output);
-					}
-				}
-				return true;
-			} catch (Exception e) {
-				Console.WriteLine (e);
-				Console.WriteLine (LogPath);
-				return false;
+		static public void OnMessageReceived(string message)
+		{
+			EventHandler<string> handler = MessageReceived;
+			if (handler != null)
+			{
+				handler(null, message);
 			}
 		}
 
-		static bool clearLog = true;
-		public static void SetOutputAction () {
-			if (clearLog && File.Exists (LogPath))
-				File.Delete (LogPath);
-			InterpreterTest.OutputFunc = (string output) => OutputAction (output);
-			StatementSearcherTest.OutputFunc = (string output) => OutputAction (output);
-			MyLibrary.MyCollectionTest.OutputFunc = (string output) => OutputAction (output);
-			MyLibrary.MyEnumerableExtensionTest.OutputFunc = (string output) => OutputAction (output);
-			TestCalculator.OutputFunc = (string output) => OutputAction (output);
+		static public void SubscribeToTests () {
+			TestCalculator.OutputMessage += Test_OutputMessage;
+			InterpreterTest.OutputMessage += Test_OutputMessage;
+			StatementSearcherTest.OutputMessage += Test_OutputMessage;
+
+			TestHelper.MessageReceived += OutputPrinter.MessageReceived;
+		}
+
+		static void Test_OutputMessage (object sender, string message)
+		{
+			OnMessageReceived (message);
 		}
 	}
 }

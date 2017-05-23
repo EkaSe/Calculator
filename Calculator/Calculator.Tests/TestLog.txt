@@ -51,9 +51,3 @@ Test Statement_Lambda 2.1:  failed: Statement type could not be determined
 
 18 tests failed
 
-My list test passed
-My linked list test passed
-My stack test passed
-My dictionary test passed
-My Enumerable Extension test passed
-My Enumerable Extension test passed

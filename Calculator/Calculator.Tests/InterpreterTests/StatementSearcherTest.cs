@@ -1,14 +1,21 @@
 ﻿using System;
 using Calculator.Logic;
+using MyLibrary;
 
 namespace Calculator.Tests
 {
 	public class StatementSearcherTest
 	{
-		static public Func <string, bool> OutputFunc = (string output) => {
-			Console.WriteLine (output);
-			return true;
-		};
+		static void OnOutputMessage(string message)
+		{
+			EventHandler<string> handler = OutputMessage;
+			if (handler != null)
+			{
+				handler(null, message);
+			}
+		}
+
+		static public event EventHandler<string> OutputMessage;
 
 		static public void SingleTest (string name, string input, string expectedOutput) {
 			string result;
@@ -25,7 +32,7 @@ namespace Calculator.Tests
 				testResult = testName + " failed: " + result;
 				TestCalculator.FailedTestsCount++;
 			}
-			OutputFunc (testResult);
+			OnOutputMessage (testResult);
 		}
 
 		static public void SingleTest (string input, string expectedOutput) {
@@ -34,7 +41,6 @@ namespace Calculator.Tests
 		}
 
 		static public void Run () {
-			//SingleTest ("", typeof (Expression).ToString ());
 			SingleTest ("1+2", typeof (Expression).ToString ());
 			SingleTest ("xy12_x=1", typeof (Assignment).ToString ());
 			SingleTest ("x=1+sqrt(4)", typeof (Assignment).ToString ());

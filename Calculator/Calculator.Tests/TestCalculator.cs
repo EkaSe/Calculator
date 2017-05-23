@@ -10,14 +10,19 @@ namespace Calculator.Tests
 	{
 		public static int FailedTestsCount = 0;
 
-		static public Func <string, bool> OutputFunc = (string output) => {
-			Console.WriteLine (output);
-			return true;
-		};
+		static void OnOutputMessage(string message)
+		{
+			EventHandler<string> handler = OutputMessage;
+			if (handler != null)
+			{
+				handler(null, message);
+			}
+		}
+
+		static public event EventHandler<string> OutputMessage;
 
 		static public void RunTests ()
 		{
-			TestHelper.SetOutputAction ();
 			CalculatorTest.Run ();
 			StatementSearcherTest.Run ();
 			StatementExpressionTest.Run ();
@@ -25,13 +30,11 @@ namespace Calculator.Tests
 			StatementBlockTest.Run ();
 			StatementLambdaTest.Run ();
 			//StatementEmbeddedTest.Run ();
-			//Console.WriteLine ();
 			//StatementInvalidTest.Run ();
-			//Console.WriteLine ();
 
-			OutputFunc ("\r\n" + FailedTestsCount + " tests failed\n");
+			OnOutputMessage ("\r\n" + FailedTestsCount + " tests failed\n");
 
-			MyCollectionTest.Run ();
+			//MyCollectionTest.Run ();
 		}
 	}
 }
