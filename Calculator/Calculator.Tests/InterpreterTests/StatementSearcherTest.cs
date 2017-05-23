@@ -1,10 +1,22 @@
 ﻿using System;
 using Calculator.Logic;
+using MyLibrary;
 
 namespace Calculator.Tests
 {
 	public class StatementSearcherTest
 	{
+		static void OnOutputMessage(string message)
+		{
+			EventHandler<string> handler = OutputMessage;
+			if (handler != null)
+			{
+				handler(null, message);
+			}
+		}
+
+		static public event EventHandler<string> OutputMessage;
+
 		static public void SingleTest (string name, string input, string expectedOutput) {
 			string result;
 			try {
@@ -13,12 +25,14 @@ namespace Calculator.Tests
 				result = e.Message;
 			}
 			string testName = "Statement Searcher Test: " + name;
+			string testResult;
 			if (result == expectedOutput)
-				Console.WriteLine (testName + " passed");
+				testResult = testName + " passed";
 			else {
-				Console.WriteLine (testName + " failed: " + result);
+				testResult = testName + " failed: " + result;
 				TestCalculator.FailedTestsCount++;
 			}
+			OnOutputMessage (testResult);
 		}
 
 		static public void SingleTest (string input, string expectedOutput) {
@@ -27,7 +41,6 @@ namespace Calculator.Tests
 		}
 
 		static public void Run () {
-			//SingleTest ("", typeof (Expression).ToString ());
 			SingleTest ("1+2", typeof (Expression).ToString ());
 			SingleTest ("xy12_x=1", typeof (Assignment).ToString ());
 			SingleTest ("x=1+sqrt(4)", typeof (Assignment).ToString ());

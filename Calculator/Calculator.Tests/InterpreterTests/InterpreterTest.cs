@@ -1,4 +1,5 @@
 ﻿using System;
+using MyLibrary;
 using Calculator.Logic;
 using static Calculator.Logic.Parser;
 
@@ -6,8 +7,18 @@ namespace Calculator.Tests
 {
 	public class InterpreterTest
 	{
-		static public void Run (string testName, string[] input, string expectedOutput)
+		static void OnOutputMessage(string message)
 		{
+			EventHandler<string> handler = OutputMessage;
+			if (handler != null)
+			{
+				handler(null, message);
+			}
+		}
+
+		static public event EventHandler<string> OutputMessage;
+
+		static public void Run (string testName, string[] input, string expectedOutput) {
 			int expressionIndex = 0;
 			string result = null;
 
@@ -26,14 +37,18 @@ namespace Calculator.Tests
 				}
 			};
 
+			string testResult;
 			Interpreter.Run (getExpression, outputAction, true);
 			if (result == expectedOutput)
-				Console.WriteLine ("Test " + testName + " passed");
+				testResult = "Test " + testName + " passed";
 			else {
-				Console.WriteLine ("Test " + testName + " failed: " + result);
+				testResult = "Test " + testName + " failed: " + result;
 				TestCalculator.FailedTestsCount++;
 			}
+
+			OnOutputMessage (testResult);
 		}
+			
 	}
 
 	public class ParserTests {

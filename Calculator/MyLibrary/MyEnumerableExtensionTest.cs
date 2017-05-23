@@ -6,6 +6,11 @@ namespace MyLibrary
 {
 	public class MyEnumerableExtensionTest
 	{
+		static public Func <string, bool> OutputFunc = (string output) => {
+			Console.WriteLine (output);
+			return true;
+		};
+
 		public static void Run () {
 			var collection = new MyList<int> ();
 			for (int i = 1; i <= 100; i++) {
@@ -32,10 +37,12 @@ namespace MyLibrary
 
 			var resultArray = MyEnumerableExtension.ToArray<int> (result4);
 
+			string testResult;
 			if (resultArray.Length == 8)
-				Console.WriteLine ("My Enumerable Extension test passed");
+				testResult = "My Enumerable Extension test passed";
 			else
-				Console.WriteLine ("My Enumerable Extension test failed: " + resultArray);
+				testResult = "My Enumerable Extension test failed: " + resultArray;
+			OutputFunc (testResult);
 		}
 
 		public static void FluentRun () {
@@ -59,10 +66,12 @@ namespace MyLibrary
 				.Where (containsDigitSix)
 				.ToArray<int> ();
 
+			string testResult;
 			if (result.Length == 8)
-				Console.WriteLine ("My Enumerable Extension test passed");
+				testResult = "My Enumerable Extension test passed";
 			else
-				Console.WriteLine ("My Enumerable Extension test failed: " + result);
+				testResult = "My Enumerable Extension test failed: " + result;
+			OutputFunc (testResult);
 		}
 	}
 }

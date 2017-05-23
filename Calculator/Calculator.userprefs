@@ -2,8 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Calculator.Tests/InterpreterTests/InterpreterTest.cs">
     <Files>
-      <File FileName="Calculator.Logic/Interpreter.cs" Line="3" Column="17" />
-      <File FileName="Calculator.Tests/InterpreterTests/InterpreterTest.cs" Line="34" Column="35" />
+      <File FileName="Calculator.Tests/InterpreterTests/StatementSearcherTest.cs" Line="14" Column="17" />
+      <File FileName="Calculator.Tests/InterpreterTests/InterpreterTest.cs" Line="15" Column="17" />
+      <File FileName="Calculator.Tests/TestCalculator.cs" Line="18" Column="19" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -10,28 +10,31 @@ namespace Calculator.Tests
 	{
 		public static int FailedTestsCount = 0;
 
+		static void OnOutputMessage(string message)
+		{
+			EventHandler<string> handler = OutputMessage;
+			if (handler != null)
+			{
+				handler(null, message);
+			}
+		}
+
+		static public event EventHandler<string> OutputMessage;
+
 		static public void RunTests ()
 		{
 			CalculatorTest.Run ();
-			Console.WriteLine ();
 			StatementSearcherTest.Run ();
-			Console.WriteLine ();
 			StatementExpressionTest.Run ();
-			Console.WriteLine ();
 			StatementAssignmentTest.Run ();
-			Console.WriteLine ();
 			StatementBlockTest.Run ();
-			Console.WriteLine ();
 			StatementLambdaTest.Run ();
-			Console.WriteLine ();
 			//StatementEmbeddedTest.Run ();
-			//Console.WriteLine ();
 			//StatementInvalidTest.Run ();
-			//Console.WriteLine ();
 
-			Console.WriteLine ("\r\n" + FailedTestsCount + " tests failed\n");
+			OnOutputMessage ("\r\n" + FailedTestsCount + " tests failed\n");
 
-			MyCollectionTest.Run ();
+			//MyCollectionTest.Run ();
 		}
 	}
 }
