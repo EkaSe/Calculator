@@ -42,7 +42,6 @@
     <Compile Include="MyEnumerableExtension.cs" />
     <Compile Include="MyEnumerableExtensionTest.cs" />
     <Compile Include="MyCollections\MyHashTable.cs" />
-    <Compile Include="IMyObserver.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

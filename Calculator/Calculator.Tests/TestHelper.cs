@@ -7,14 +7,14 @@ namespace Calculator.Tests
 {
 	public static class TestHelper
 	{
-		static public event EventHandler<string> MessageReceived;
+		static public event EventHandler<MessageReceivedEventArgs> MessageReceived;
 
-		static public void OnMessageReceived(string message)
+		static public void OnMessageReceived(MessageReceivedEventArgs args)
 		{
-			EventHandler<string> handler = MessageReceived;
+			EventHandler<MessageReceivedEventArgs> handler = MessageReceived;
 			if (handler != null)
 			{
-				handler(null, message);
+				handler(null, args);
 			}
 		}
 
@@ -28,8 +28,20 @@ namespace Calculator.Tests
 
 		static void Test_OutputMessage (object sender, string message)
 		{
-			OnMessageReceived (message);
+			MessageReceivedEventArgs args = new MessageReceivedEventArgs { Message = message, LogPath = TestLogPath };
+			OnMessageReceived (args);
 		}
+
+		public static string TestLogPath {
+			get {
+				if (testLogPath == null) {
+					string currentPath = Directory.GetCurrentDirectory ();
+					testLogPath = currentPath.Substring (0, currentPath.IndexOf (@"Calculator.Tests")) + @"Calculator.Tests/TestLog.txt";
+				}
+				return testLogPath;
+			}
+		}
+		static string testLogPath;
 	}
 }
 

@@ -22,7 +22,7 @@ namespace FunctionalityAnalyzer
 			//Console.WriteLine (GetReportForeach (assembly));
 		}
 
-		public static string LogPath {
+		public static string FuncAnLogPath {
 			get {
 				if (logPath == null) {
 					string currentPath = Directory.GetCurrentDirectory ();
@@ -35,25 +35,20 @@ namespace FunctionalityAnalyzer
 		static string logPath;
 		static bool clearLog = true;
 
-		static bool PrintReport (string report) {
-			try {
-				if (clearLog && File.Exists (LogPath))
-					File.Delete (LogPath);
-				if (!File.Exists (LogPath)) {
-					using (StreamWriter sw = File.CreateText (LogPath)) {
-						sw.WriteLine (report);
-					}
-				} else {
-					using (StreamWriter sw = File.AppendText (LogPath)) {
-						sw.WriteLine (report);
-					}
-				}
-				return true;
-			} catch (Exception e) {
-				Console.WriteLine (e);
-				Console.WriteLine (LogPath);
-				return false;
+		static public event EventHandler<MessageReceivedEventArgs> MessageReceived;
+
+		static public void OnMessageReceived(MessageReceivedEventArgs args)
+		{
+			EventHandler<MessageReceivedEventArgs> handler = MessageReceived;
+			if (handler != null)
+			{
+				handler(null, args);
 			}
+		}
+
+		static public void PrintReport (string report) {
+			MessageReceivedEventArgs args = new MessageReceivedEventArgs { Message = report, LogPath = FuncAnLogPath };
+			OnMessageReceived (args);
 		}
 
 		static string GetReportForeach (Assembly assembly) {
