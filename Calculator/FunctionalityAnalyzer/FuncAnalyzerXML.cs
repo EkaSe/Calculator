@@ -46,40 +46,8 @@ namespace FunctionalityAnalyzer
 			);
 			doc.Add (main);
 			doc.Declaration = new XDeclaration("1.0", "utf-8", "true");
-			//doc = XDocument.Parse (XmlFormat (doc.ToString ()), LoadOptions.PreserveWhitespace);
 			Console.WriteLine (doc);
 			doc.Save (LogPath);
-		}
-
-		static public string XmlFormat (string doc) {
-			StringBuilder indented = new StringBuilder ();
-			int tabCount = -1;
-			for (int i = 0; i < doc.Length; i++) {
-				if (doc [i] == '<') {
-					if (i > 0)
-						indented.AppendLine();
-					if (doc [i + 1] != '/')
-						tabCount++;
-					else {
-						if (tabCount > 0)
-							indented.Append ('\t');
-						tabCount--;
-					}
-					for (int j = 0; j < tabCount; j++) {
-						indented.Append ('\t');
-					}
-				}
-				indented.Append (doc [i]);
-				if (doc [i] == '>') {
-					if (i < doc.Length - 1 && doc [i + 1] != '<') {
-						indented.AppendLine ();
-						for (int j = 0; j < tabCount + 1; j++) {
-							indented.Append ('\t');
-						}
-					}
-				}
-			}
-			return indented.ToString ();
 		}
 	}
 }
