@@ -1,7 +1,9 @@
 ﻿using System;
+using Calculator.Logic;
 
 namespace Calculator.Tests
 {
+	[TestFixture]
 	public class CalculatorTest
 	{
 		static public void SingleTest (string input, string expectedOutput)
@@ -11,6 +13,8 @@ namespace Calculator.Tests
 			InterpreterTest.Run (testName, expressionSet, expectedOutput);
 		}
 
+		[Test]
+		[Covers (typeof (Interpreter), nameof (Interpreter.Run))]
 		static public void Run () {
 			SingleTest ("12", "12");
 			SingleTest ("-12", "-12");

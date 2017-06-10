@@ -45,9 +45,41 @@ namespace FunctionalityAnalyzer
 				})
 			);
 			doc.Add (main);
-			doc.Declaration = new XDeclaration("1.0", "utf-8", "true");
+			//doc.Declaration = new XDeclaration("1.0", "utf-8", "true");
+			//doc = XDocument.Parse (XmlFormat (doc.ToString ()), LoadOptions.PreserveWhitespace);
 			Console.WriteLine (doc);
 			doc.Save (LogPath);
+		}
+
+		static public string XmlFormat (string doc) {
+			StringBuilder indentedDoc = new StringBuilder ();
+			int indentationLevel = -1;
+			for (int i = 0; i < doc.Length; i++) {
+				if (doc [i] == '<') {
+					if (i > 0)
+						indentedDoc.AppendLine();
+					if (doc [i + 1] != '/')
+						indentationLevel++;
+					else {
+						if (indentationLevel > 0)
+							indentedDoc.Append ('\t');
+						indentationLevel--;
+					}
+					for (int j = 0; j < indentationLevel; j++) {
+						indentedDoc.Append ('\t');
+					}
+				}
+				indentedDoc.Append (doc [i]);
+				if (doc [i] == '>') {
+					if (i < doc.Length - 1 && doc [i + 1] != '<') {
+						indentedDoc.AppendLine ();
+						for (int j = 0; j < indentationLevel + 1; j++) {
+							indentedDoc.Append ('\t');
+						}
+					}
+				}
+			}
+			return indentedDoc.ToString ();
 		}
 	}
 }

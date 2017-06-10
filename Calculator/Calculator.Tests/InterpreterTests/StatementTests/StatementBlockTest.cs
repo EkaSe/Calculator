@@ -1,7 +1,9 @@
 ﻿using System;
+using Calculator.Logic;
 
 namespace Calculator.Tests
 {
+	[TestFixture]
 	public class StatementBlockTest
 	{
 		static public void TestBlock (string name, string singleInput, string expectedOutput) {
@@ -14,6 +16,9 @@ namespace Calculator.Tests
 			InterpreterTest.Run (testName, input, expectedOutput);
 		}
 
+		[Test]
+		[Covers (typeof (Interpreter), nameof (Interpreter.Run))]
+		[Covers (typeof (Block), "Execute")]
 		static public void Run () {
 			TestBlock ("0", "{1; 1 + 2; -5*(0.5/0.1) }", "1, 3, -25");
 			TestBlock ("1", "{x = 1 \n y = 2; z = x + y }", "x = 1, y = 2, z = 3");

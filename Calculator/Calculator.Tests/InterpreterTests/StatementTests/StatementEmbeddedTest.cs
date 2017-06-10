@@ -1,7 +1,9 @@
 ﻿using System;
+using Calculator.Logic;
 
 namespace Calculator.Tests
 {
+	[TestFixture]
 	public class StatementEmbeddedTest
 	{
 		static public void TestEmbedded (string name, string singleInput, string expectedOutput) {
@@ -14,6 +16,9 @@ namespace Calculator.Tests
 			InterpreterTest.Run (testName, input, expectedOutput);
 		}
 
+		[Test]
+		[Covers (typeof (Interpreter), nameof (Interpreter.Run))]
+		[Covers (typeof (Block), "Execute")]
 		static public void Run () {
 			TestEmbedded ("0: Block in Block", "{{x=3}; {y = mIn (x, 10) \n}}", "x = 3, y = 3");
 

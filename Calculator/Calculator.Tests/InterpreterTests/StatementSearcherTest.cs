@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Reflection;
 using Calculator.Logic;
 using MyLibrary;
 
 namespace Calculator.Tests
 {
+	[TestFixture]
 	public class StatementSearcherTest
 	{
 		static void OnOutputMessage(string message)
@@ -40,6 +42,8 @@ namespace Calculator.Tests
 			SingleTest (name, input, expectedOutput);
 		}
 
+		[Test]
+		[Covers (typeof (StatementSearcher), nameof (StatementSearcher.Run))]
 		static public void Run () {
 			SingleTest ("1+2", typeof (Expression).ToString ());
 			SingleTest ("xy12_x=1", typeof (Assignment).ToString ());

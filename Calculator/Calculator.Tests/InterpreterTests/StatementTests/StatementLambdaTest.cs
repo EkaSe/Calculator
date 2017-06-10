@@ -1,7 +1,9 @@
 ﻿using System;
+using Calculator.Logic;
 
 namespace Calculator.Tests
 {
+	[TestFixture]
 	public class StatementLambdaTest
 	{
 		static public void TestLambda (string name, string singleInput, string expectedOutput) {
@@ -14,6 +16,9 @@ namespace Calculator.Tests
 			InterpreterTest.Run (testName, input, expectedOutput);
 		}
 
+		[Test]
+		[Covers (typeof (Interpreter), nameof (Interpreter.Run))]
+		[Covers (typeof (Lambda), "Execute")]
 		static public void Run () {
 			TestLambda ("0.0: ", 
 				"var f = function (arg1, arg2) { return 0; }",

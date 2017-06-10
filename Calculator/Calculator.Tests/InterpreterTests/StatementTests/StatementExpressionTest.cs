@@ -1,7 +1,9 @@
 ﻿using System;
+using Calculator.Logic;
 
 namespace Calculator.Tests
 {
+	[TestFixture]
 	public class StatementExpressionTest
 	{
 		static public void TestExpression (string name, string singleInput, string expectedOutput) {
@@ -14,6 +16,9 @@ namespace Calculator.Tests
 			InterpreterTest.Run (testName, input, expectedOutput);
 		}
 
+		[Test]
+		[Covers (typeof (Interpreter), nameof (Interpreter.Run))]
+		[Covers (typeof (Expression), nameof (Expression.Calculate))]
 		static public void Run () {
 			TestExpression ("0", "", "q");
 			TestExpression ("1", "1+2", "3");

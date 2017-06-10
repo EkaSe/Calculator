@@ -17,7 +17,7 @@ namespace FunctionalityAnalyzer
 			string report = GetReportSelectMany (assembly);
 			PrintReport (report);
 			//Console.WriteLine (GetReportSelectMany (assembly));
-			//Console.WriteLine (GetReportLinqStringBuilder (assembly));
+			Console.WriteLine (GetReportLinqStringBuilder (assembly));
 			//Console.WriteLine (GetReportLinqString (assembly));
 			//Console.WriteLine (GetReportForeach (assembly));
 		}
@@ -33,7 +33,6 @@ namespace FunctionalityAnalyzer
 			}
 		}
 		static string logPath;
-		static bool clearLog = true;
 
 		static public event EventHandler<MessageReceivedEventArgs> MessageReceived;
 
@@ -107,6 +106,19 @@ namespace FunctionalityAnalyzer
 		}
 
 		static string GetReportLinqStringBuilder (Assembly assembly) {
+			Func<MethodInfo, string> MethodDescription = (MethodInfo methodName) => {
+				Method method = new Method (methodName.GetType(), methodName.Name);
+				StringBuilder result = new StringBuilder ();
+				result.Append ("\t" + methodName.ToString());
+				if (TestCoverage.CoveredMethods.ContainsKey (method)) {
+					result.AppendLine ("\t\ttested by: ");
+					foreach (Method test in TestCoverage.CoveredMethods [method]) {
+							result.Append ("\n\t\t " + test.ToString());
+					}
+				}
+				return result.ToString ();
+			};
+
 			return assembly.GetTypes ()
 				.Where ((t) => t.BaseType != typeof (object))
 				.Aggregate (new StringBuilder (), (report, nextClass) => {
@@ -120,7 +132,7 @@ namespace FunctionalityAnalyzer
 						.Where ((method) => method.DeclaringType != typeof (object));
 					if (methods.Count () > 0)
 						methods.Aggregate (report.AppendLine ("  Methods:"), 
-							(methodReport, method) => methodReport.AppendLine ("\t" + method.ToString ()));
+							(methodReport, method) => methodReport.AppendLine (MethodDescription (method)));
 					return report;
 				}).ToString ();
 		}
