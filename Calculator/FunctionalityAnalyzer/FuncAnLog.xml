@@ -135,13 +135,6 @@
     <method>Int32 get_OperandCount()</method>
     <method>Double Evaluate()</method>
   </class>
-  <class name="Expression">
-    <field>Calculator.Logic.Token Root</field>
-    <method>System.String Draw()</method>
-    <method>Calculator.Logic.Expression Clone()</method>
-    <method>Double Calculate()</method>
-    <method>System.String Process()</method>
-  </class>
   <class name="Operator">
     <field>System.Int32 Priority</field>
     <field>System.Int32 branchCount</field>
@@ -168,24 +161,6 @@
     <method>Calculator.Logic.Token Clone()</method>
     <method>System.String Draw()</method>
     <method>Double Evaluate()</method>
-  </class>
-  <class name="Priorities">
-    <field>System.Int32 value__</field>
-    <field>Calculator.Logic.Priorities assign</field>
-    <field>Calculator.Logic.Priorities plus</field>
-    <field>Calculator.Logic.Priorities mult</field>
-    <field>Calculator.Logic.Priorities degree</field>
-    <field>Calculator.Logic.Priorities factorial</field>
-    <field>Calculator.Logic.Priorities operand</field>
-    <method>Boolean Equals(System.Object)</method>
-    <method>Int32 GetHashCode()</method>
-    <method>System.String ToString()</method>
-    <method>System.String ToString(System.String, System.IFormatProvider)</method>
-    <method>Int32 CompareTo(System.Object)</method>
-    <method>System.String ToString(System.String)</method>
-    <method>System.String ToString(System.IFormatProvider)</method>
-    <method>Boolean HasFlag(System.Enum)</method>
-    <method>System.TypeCode GetTypeCode()</method>
   </class>
   <class name="BuiltInFunc">
     <field>System.String name</field>
@@ -235,21 +210,6 @@
     <method>System.String Draw()</method>
     <method>Void SetArguments(System.String)</method>
   </class>
-  <class name="UserFunc">
-    <field>System.String Name</field>
-    <field>System.String Content</field>
-    <field>System.Int32 Priority</field>
-    <field>System.Int32 branchCount</field>
-    <field>Calculator.Logic.Token Ancestor</field>
-    <field>Calculator.Logic.Token[] Arguments</field>
-    <field>System.Int32 Index</field>
-    <method>Calculator.Logic.Token Clone()</method>
-    <method>Double Evaluate()</method>
-    <method>System.String Draw()</method>
-  </class>
-  <class name="ExpressionParser">
-    <method>Calculator.Logic.ParsingResult Run(System.String)</method>
-  </class>
   <class name="Assignment">
     <method>System.String Process()</method>
   </class>
@@ -279,5 +239,45 @@
     <method>Calculator.Logic.ParsingResult Run(System.String)</method>
     <method>Int32 FindDeclaration(System.String, Int32)</method>
     <method>Int32 FindDeclaration(System.String, Calculator.Logic.ParsingResult ByRef)</method>
+  </class>
+  <class name="Expression">
+    <field>Calculator.Logic.Token Root</field>
+    <method>System.String Draw()</method>
+    <method>Calculator.Logic.Expression Clone()</method>
+    <method>Double Calculate()</method>
+    <method>System.String Process()</method>
+  </class>
+  <class name="ExpressionParser">
+    <method>Calculator.Logic.ParsingResult Run(System.String)</method>
+  </class>
+  <class name="Priorities">
+    <field>System.Int32 value__</field>
+    <field>Calculator.Logic.Priorities assign</field>
+    <field>Calculator.Logic.Priorities plus</field>
+    <field>Calculator.Logic.Priorities mult</field>
+    <field>Calculator.Logic.Priorities degree</field>
+    <field>Calculator.Logic.Priorities factorial</field>
+    <field>Calculator.Logic.Priorities operand</field>
+    <method>Boolean Equals(System.Object)</method>
+    <method>Int32 GetHashCode()</method>
+    <method>System.String ToString()</method>
+    <method>System.String ToString(System.String, System.IFormatProvider)</method>
+    <method>Int32 CompareTo(System.Object)</method>
+    <method>System.String ToString(System.String)</method>
+    <method>System.String ToString(System.IFormatProvider)</method>
+    <method>Boolean HasFlag(System.Enum)</method>
+    <method>System.TypeCode GetTypeCode()</method>
+  </class>
+  <class name="UserFunc">
+    <field>System.String Name</field>
+    <field>System.String Content</field>
+    <field>System.Int32 Priority</field>
+    <field>System.Int32 branchCount</field>
+    <field>Calculator.Logic.Token Ancestor</field>
+    <field>Calculator.Logic.Token[] Arguments</field>
+    <field>System.Int32 Index</field>
+    <method>Calculator.Logic.Token Clone()</method>
+    <method>Double Evaluate()</method>
+    <method>System.String Draw()</method>
   </class>
 </report>

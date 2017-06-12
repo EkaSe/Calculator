@@ -47,7 +47,7 @@ namespace FunctionalityAnalyzer
 			doc.Add (main);
 			//doc.Declaration = new XDeclaration("1.0", "utf-8", "true");
 			//doc = XDocument.Parse (XmlFormat (doc.ToString ()), LoadOptions.PreserveWhitespace);
-			Console.WriteLine (doc);
+			//Console.WriteLine (doc);
 			doc.Save (LogPath);
 		}
 

@@ -46,18 +46,12 @@
     <Compile Include="ExpressionParts\Operators\UnaryOp.cs" />
     <Compile Include="ExpressionParts\Operators\BinaryOp.cs" />
     <Compile Include="ExpressionParts\Operators\Factorial.cs" />
-    <Compile Include="ExpressionParts\Expression.cs" />
     <Compile Include="ExpressionParts\Operators\Operator.cs" />
     <Compile Include="ExpressionParts\Operands\Subtree.cs" />
-    <Compile Include="ExpressionParts\Value.cs" />
-    <Compile Include="ExpressionParts\Token.cs" />
     <Compile Include="ExpressionParts\BuiltInFunctions\BuiltInFunc.cs" />
     <Compile Include="ExpressionParts\BuiltInFunctions\MinBIF.cs" />
     <Compile Include="ExpressionParts\BuiltInFunctions\SqrtBIF.cs" />
     <Compile Include="ExpressionParts\BuiltInFunctions\MaxBIF.cs" />
-    <Compile Include="ExpressionParts\MultiNode.cs" />
-    <Compile Include="ExpressionParts\UserFunc.cs" />
-    <Compile Include="ExpressionParts\ExpressionBuilder.cs" />
     <Compile Include="Statements\Statement.cs" />
     <Compile Include="Statements\StatementSearcher.cs" />
     <Compile Include="ExpressionParts\Operands\Variables.cs" />
@@ -66,6 +60,12 @@
     <Compile Include="Statements\Lambda.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="Statements\Declaration.cs" />
+    <Compile Include="ExpressionParts\Expression.cs" />
+    <Compile Include="ExpressionParts\ExpressionBuilder.cs" />
+    <Compile Include="ExpressionParts\MultiNode.cs" />
+    <Compile Include="ExpressionParts\Token.cs" />
+    <Compile Include="ExpressionParts\UserFunc.cs" />
+    <Compile Include="ExpressionParts\Value.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
