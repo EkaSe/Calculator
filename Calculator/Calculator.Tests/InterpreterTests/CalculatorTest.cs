@@ -14,7 +14,8 @@ namespace Calculator.Tests
 		}
 
 		[Test]
-		[Covers (typeof (Interpreter), nameof (Interpreter.Run))]
+		[Covers (typeof (Interpreter), nameof (Interpreter.Run), 
+			new Type[] { typeof (Func<string>), typeof (Func<string, bool>), typeof (bool)})]
 		static public void Run () {
 			SingleTest ("12", "12");
 			SingleTest ("-12", "-12");

@@ -17,7 +17,8 @@ namespace Calculator.Tests
 		}
 
 		[Test]
-		[Covers (typeof (Interpreter), nameof (Interpreter.Run))]
+		[Covers (typeof (Interpreter), nameof (Interpreter.Run), 
+			new Type[] { typeof (Func<string>), typeof (Func<string, bool>), typeof (bool)})]
 		[Covers (typeof (Statement), "Execute")]
 		static public void Run () {
 			TestInvalidInput ("0", "=>1", "Invalid statement");

@@ -17,7 +17,8 @@ namespace Calculator.Tests
 		}
 
 		[Test]
-		[Covers (typeof (Interpreter), nameof (Interpreter.Run))]
+		[Covers (typeof (Interpreter), nameof (Interpreter.Run), 
+			new Type[] { typeof (Func<string>), typeof (Func<string, bool>), typeof (bool)})]
 		[Covers (typeof (Block), "Execute")]
 		static public void Run () {
 			TestEmbedded ("0: Block in Block", "{{x=3}; {y = mIn (x, 10) \n}}", "x = 3, y = 3");

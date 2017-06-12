@@ -103,7 +103,6 @@ namespace Calculator.Logic
 		override public ParsingResult Run (string input) {
 			//try
 			Expression result = new ExpressionBuilder (input).ToExpression ();
-
 			return new ParsingResult (result);
 		}
 	}

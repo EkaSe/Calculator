@@ -8,11 +8,9 @@ namespace FunctionalityAnalyzer
 	{
 		public static void Main (string[] args)
 		{
-			TestCoverage.Check ();
-
 			FuncAnalyzerReport.MessageReceived += OutputPrinter.MessageReceived;
 			OutputPrinter.ClearLog (FuncAnalyzerReport.FuncAnLogPath);
-			FuncAnalyzerReport.Run (typeof(Interpreter));
+			FuncAnalyzerReport.Run (typeof(Interpreter), typeof (InterpreterTest));
 			FuncAnalyzerXML.Run (typeof(Interpreter));
 		}
 	}

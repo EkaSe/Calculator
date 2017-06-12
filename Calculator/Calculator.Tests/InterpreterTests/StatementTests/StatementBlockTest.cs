@@ -17,7 +17,8 @@ namespace Calculator.Tests
 		}
 
 		[Test]
-		[Covers (typeof (Interpreter), nameof (Interpreter.Run))]
+		[Covers (typeof (Interpreter), nameof (Interpreter.Run), 
+			new Type[] { typeof (Func<string>), typeof (Func<string, bool>), typeof (bool)})]
 		[Covers (typeof (Block), "Execute")]
 		static public void Run () {
 			TestBlock ("0", "{1; 1 + 2; -5*(0.5/0.1) }", "1, 3, -25");

@@ -12,12 +12,15 @@ namespace FunctionalityAnalyzer
 {
 	public static class FuncAnalyzerReport
 	{
-		static public void Run (Type childClassType) {
+		static TestCoverage testCoverage;
+
+		static public void Run (Type childClassType, Type testClassType) {
+			testCoverage = new TestCoverage (testClassType.Assembly);
 			Assembly assembly = childClassType.Assembly;
 			string report = GetReportLinqStringBuilder (assembly);
 			PrintReport (report);
 			//Console.WriteLine (GetReportSelectMany (assembly));
-			//Console.WriteLine (GetReportLinqStringBuilder (assembly));
+			Console.WriteLine (report);
 			//Console.WriteLine (GetReportLinqString (assembly));
 			//Console.WriteLine (GetReportForeach (assembly));
 		}
@@ -49,7 +52,7 @@ namespace FunctionalityAnalyzer
 			MessageReceivedEventArgs args = new MessageReceivedEventArgs { Message = report, LogPath = FuncAnLogPath };
 			OnMessageReceived (args);
 		}
-
+		/*
 		static string GetReportForeach (Assembly assembly) {
 			StringBuilder report = new StringBuilder ();
 			foreach (Type t in assembly.GetTypes()) {
@@ -103,27 +106,11 @@ namespace FunctionalityAnalyzer
 						.Where ((method) => method.DeclaringType != typeof (object))
 						.Select ((method) => "\t" + method.ToString () + "\n"))))
 				.Aggregate ((report, nextClass) => report + nextClass);
-		}
+		}*/
 
 		static string GetReportLinqStringBuilder (Assembly assembly) {
-			Func<MethodInfo, string> MethodDescription = (MethodInfo methodName) => {
-				Method method = new Method (methodName.DeclaringType, methodName.Name);
-				StringBuilder result = new StringBuilder ();
-				result.Append ("\t" + methodName.ToString());
-				if (TestCoverage.CoveredMethods.ContainsKey (method)) {
-					result.Append ("\n\t\ttested by: ");
-					foreach (Method test in TestCoverage.CoveredMethods [method]) {
-							result.Append ("\n\t\t " + test.ToString());
-					}
-				}
-				return result.ToString ();
-			};
-
-			foreach (var type in assembly.GetTypes()) {
-				Console.WriteLine (type.ToString () + " << " + type.GetTypeInfo().ToString());
-			}
-
 			return assembly.GetTypes ()
+				.Where ((type) => !type.Name.Contains("AnonStorey"))
 				.Aggregate (new StringBuilder (), (report, nextClass) => {
 					report.AppendLine (nextClass.Name);
 						var fields = nextClass.GetFields (BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
@@ -131,9 +118,14 @@ namespace FunctionalityAnalyzer
 						fields.Aggregate (report.AppendLine ("  Fields:"),
 							(fieldReport, field) => fieldReport.AppendLine ("\t" + field.ToString ()));
 						var methods = nextClass.GetMethods (BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
-					if (methods.Count () > 0)
+					if (methods.Count () > 0) {
 						methods.Aggregate (report.AppendLine ("  Methods:"), 
-							(methodReport, method) => methodReport.AppendLine (MethodDescription (method)));
+							(methodReport, method) => methodReport.AppendLine ("\t" + method.ToString ()));
+						double testPercentage = 0;
+						if (testCoverage.TestedMethodsCount.ContainsKey (nextClass)) 
+							testPercentage = testCoverage.TestedMethodsCount [nextClass] * 100.0 / methods.Count ();
+						report.AppendLine ("  Test Coverage: " + testPercentage + "%");
+					}
 					return report;
 				}).ToString ();
 		}

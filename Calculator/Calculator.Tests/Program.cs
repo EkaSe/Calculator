@@ -12,8 +12,6 @@ namespace Calculator.Tests
 			TestHelper.SubscribeToTests ();
 			OutputPrinter.ClearLog (TestHelper.TestLogPath);
 			TestCalculator.RunTests ();
-
-			TestCoverage.Check ();
 		}
 	}
 }

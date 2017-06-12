@@ -32,14 +32,12 @@ namespace FunctionalityAnalyzer
 			XDocument doc = new XDocument ();
 			XElement main = new XElement ("report", new XAttribute ("name", "FuncAnReport"));
 			main.Add (assembly.GetTypes ()
-				.Where ((t) => t.BaseType != typeof(object))
+				.Where ((type) => !type.Name.Contains("AnonStorey"))
 				.Select ((t) => {
 					XElement type = new XElement ("class", new XAttribute ("name", t.Name));
-					type.Add (t.GetFields ()
-						.Where ((field) => field.DeclaringType != typeof(object))
+					type.Add (t.GetFields (BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
 						.Select ((FieldInfo field) => new XElement ("field", field.ToString ())));
-					type.Add (t.GetMethods ()
-						.Where ((method) => method.DeclaringType != typeof(object))
+					type.Add (t.GetMethods (BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
 						.Select ((MethodInfo method) => new XElement ("method", method.ToString ())));
 				return type;
 				})
