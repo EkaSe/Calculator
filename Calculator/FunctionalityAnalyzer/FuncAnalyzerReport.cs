@@ -113,11 +113,12 @@ namespace FunctionalityAnalyzer
 				.Where ((type) => !type.Name.Contains("AnonStorey"))
 				.Aggregate (new StringBuilder (), (report, nextClass) => {
 					report.AppendLine (nextClass.Name);
-						var fields = nextClass.GetFields (BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
+					var fields = nextClass.GetFields (BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
 					if (fields.Count () > 0)
 						fields.Aggregate (report.AppendLine ("  Fields:"),
 							(fieldReport, field) => fieldReport.AppendLine ("\t" + field.ToString ()));
-						var methods = nextClass.GetMethods (BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
+					var methods = nextClass.GetMethods (BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
+						.Where ((method) => method.GetBaseDefinition() == method && method.DeclaringType != typeof(object));
 					if (methods.Count () > 0) {
 						methods.Aggregate (report.AppendLine ("  Methods:"), 
 							(methodReport, method) => methodReport.AppendLine ("\t" + method.ToString ()));
