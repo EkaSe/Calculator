@@ -25,15 +25,57 @@ namespace Calculator.Tests
 				}
 				return true;
 			} catch (Exception e) {
-				Console.WriteLine (e);
-				Console.WriteLine (args.LogPath);
+				PrintError ("Couldn't write to log " + args.LogPath);
+				PrintError (e.Message);
 				return false;
 			}
+		}
+
+		static public bool PrintError (string errorMessage) {
+			try {
+				if (!File.Exists (ErrorLogPath)) {
+					using (StreamWriter sw = File.CreateText(ErrorLogPath)) 
+					{
+						sw.WriteLine(errorMessage);
+					}
+				} else {
+					using (StreamWriter sw = File.AppendText(ErrorLogPath)) {
+						sw.WriteLine(errorMessage);
+					}
+				}
+				return true;
+			} catch (Exception e) { 
+				ErrorToConsole ("Couldn't write to error log ");
+				ErrorToConsole ("Error message: ");
+				ErrorToConsole (errorMessage);
+				return false; 
+			}
+		}
+
+		static public void ErrorToConsole (string errorMessage) {
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine (errorMessage);
+			Console.ForegroundColor = ConsoleColor.White;
 		}
 
 		static public void MessageReceived (object sender, MessageReceivedEventArgs args) {
 			PrintTxt (args);
 		}
+
+		static public void ErrorReceived (object sender, string errorMessage) {
+			PrintError (errorMessage);
+		}
+
+		public static string ErrorLogPath {
+			get {
+				if (errorLogPath == null) {
+					string currentPath = Directory.GetCurrentDirectory ();
+					errorLogPath = currentPath.Substring (0, currentPath.IndexOf (@"Calculator/Calculator")) + @"Calculator/Calculator/ErrorLog.txt";
+				}
+				return errorLogPath;
+			}
+		}
+		static string errorLogPath;
 	}
 
 	public class MessageReceivedEventArgs : EventArgs {

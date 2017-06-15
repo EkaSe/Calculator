@@ -10,6 +10,8 @@ namespace FunctionalityAnalyzer
 		{
 			FuncAnalyzerReport.MessageReceived += OutputPrinter.MessageReceived;
 			OutputPrinter.ClearLog (FuncAnalyzerReport.FuncAnLogPath);
+			OutputPrinter.ClearLog (OutputPrinter.ErrorLogPath);
+			TestHelper.SubscribeToTests ();
 			FuncAnalyzerReport.Run (typeof(Interpreter), typeof (InterpreterTest));
 			FuncAnalyzerXML.Run (typeof(Interpreter));
 		}

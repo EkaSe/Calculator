@@ -25,7 +25,9 @@ namespace Calculator.Tests
 			InterpreterTest.OutputMessage += Test_OutputMessage;
 			StatementSearcherTest.OutputMessage += Test_OutputMessage;
 
+			OutputPrinter.ClearLog (TestHelper.TestLogPath);
 			TestHelper.MessageReceived += OutputPrinter.MessageReceived;
+			CoversAttribute.ErrorReceived += OutputPrinter.ErrorReceived;
 		}
 
 		static void Test_OutputMessage (object sender, string message) {
@@ -37,7 +39,8 @@ namespace Calculator.Tests
 			get {
 				if (testLogPath == null) {
 					string currentPath = Directory.GetCurrentDirectory ();
-					testLogPath = currentPath.Substring (0, currentPath.IndexOf (@"Calculator.Tests")) + @"Calculator.Tests/TestLog.txt";
+					testLogPath = currentPath.Substring (0, currentPath.IndexOf (@"Calculator/Calculator")) + 
+						@"Calculator/Calculator/Calculator.Tests/TestLog.txt";
 				}
 				return testLogPath;
 			}
@@ -55,19 +58,24 @@ namespace Calculator.Tests
 
 		public CoversAttribute (Type type, string methodName) {
 			Method = type.GetMethod (methodName);
-			if (Method == null) {
-				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine (type.ToString () + "." + methodName + " not found");
-				Console.ForegroundColor = ConsoleColor.White;
-			}
+			if (Method == null)
+				OnErrorReceived (type.ToString () + "." + methodName + " not found");
 		}
 
 		public CoversAttribute (Type type, string methodName, Type[] args) {
 			Method = type.GetMethod (methodName, args);
-			if (Method == null) {
-				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine (type.ToString () + "." + methodName + " not found");
-				Console.ForegroundColor = ConsoleColor.White;
+			if (Method == null)
+				OnErrorReceived (type.ToString () + "." + methodName + " not found");
+		}
+
+		static public event EventHandler<string> ErrorReceived;
+
+		static public void OnErrorReceived(string args)
+		{
+			EventHandler<string> handler = ErrorReceived;
+			if (handler != null)
+			{
+				handler(null, args);
 			}
 		}
 	}

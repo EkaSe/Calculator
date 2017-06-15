@@ -9,8 +9,8 @@ namespace Calculator.Tests
 			Calculator.Logic.Prerequisites.RegisterOperators ();
 			Calculator.Logic.Prerequisites.RegisterBIFs ();
 			Calculator.Logic.Prerequisites.RegisterStatements ();
+			OutputPrinter.ClearLog (OutputPrinter.ErrorLogPath);
 			TestHelper.SubscribeToTests ();
-			OutputPrinter.ClearLog (TestHelper.TestLogPath);
 			TestCalculator.RunTests ();
 		}
 	}
