@@ -1,265 +1,411 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<report name="FuncAnReport">
-  <class name="Parser">
-    <method>Int32 CharToDigit(Char)</method>
-    <method>System.String DoubleToString(Double)</method>
-    <method>Char ToLowerCase(Char)</method>
-    <method>System.String ToLowerCase(System.String)</method>
-    <method>Double StringToDouble(System.String, Int32 ByRef)</method>
-    <method>Double StringToDouble(System.String)</method>
-    <method>System.String SkipSpaces(System.String)</method>
-    <method>Boolean IsLetter(Char)</method>
-    <method>Boolean IsIdentifierChar(Char, Boolean)</method>
-    <method>Int32 FindNumber(System.String, Int32, Double ByRef)</method>
-    <method>System.String FindName(System.String, Int32)</method>
-    <method>Int32 FindName(System.String, Int32, System.String ByRef)</method>
-    <method>Int32 FindClosing(System.String, Int32)</method>
-    <method>Int32 FindClosing(System.String, Int32, Char)</method>
-    <method>Int32 FindClosing(System.String, Int32, System.String ByRef)</method>
-    <method>Int32 FindClosing(System.String, Int32, System.String ByRef, Char)</method>
-    <method>Int32[] TextPlateSize(System.String)</method>
-    <method>System.String AdjustPlate(System.String, Int32, Int32)</method>
-    <method>System.String AdjustPlate(System.String)</method>
-    <method>System.String CenterString(System.String, Int32)</method>
-    <method>System.String ConcatPlates(System.String, System.String)</method>
-    <method>Boolean CheckVariableName(System.String)</method>
-  </class>
-  <class name="ParsedStream">
-    <method>Boolean get_IsEnd()</method>
-    <method>Calculator.Logic.Token ReadOperand()</method>
-    <method>Void ReadOperator(Calculator.Logic.Operator ByRef)</method>
-    <method>Calculator.Logic.Operator ReadOperator()</method>
-    <method>System.String GetRest()</method>
-    <method>System.String Get(Int32)</method>
-    <method>System.String Get()</method>
-    <method>System.String GetEntity()</method>
-    <method>System.String GetStatement()</method>
-    <method>System.String GetStatement(Boolean ByRef)</method>
-  </class>
-  <class name="Interpreter">
-    <field>Calculator.Logic.Scope Globals</field>
-    <method>Void Run(System.Func`1[System.String], System.Func`2[System.String,System.Boolean])</method>
-    <method>Void Run(System.Func`1[System.String], System.Func`2[System.String,System.Boolean], Boolean)</method>
-  </class>
-  <class name="Prerequisites">
-    <method>Void RegisterOperators()</method>
-    <method>Void RegisterBIFs()</method>
-    <method>Void RegisterStatements()</method>
-  </class>
-  <class name="Number">
-    <method>Double get_Value()</method>
-    <method>Void set_Value(Double)</method>
-    <method>Calculator.Logic.Token Clone()</method>
-    <method>System.String Draw()</method>
-  </class>
-  <class name="Operand">
-    <method>Double get_Value()</method>
-    <method>Void set_Value(Double)</method>
-    <method>Double Evaluate()</method>
-  </class>
-  <class name="OperandSearch">
-    <method>Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef)</method>
-  </class>
-  <class name="Variable">
-    <field>System.String Name</field>
-    <method>Double get_Value()</method>
-    <method>Void set_Value(Double)</method>
-    <method>Calculator.Logic.Token Clone()</method>
-    <method>System.String Draw()</method>
-  </class>
-  <class name="Plus">
-    <method>Int32 Search(System.String, Int32)</method>
-    <method>Calculator.Logic.Token Clone()</method>
-    <method>System.String Draw()</method>
-  </class>
-  <class name="Minus">
-    <method>Int32 Search(System.String, Int32)</method>
-    <method>Calculator.Logic.Token Clone()</method>
-    <method>System.String Draw()</method>
-  </class>
-  <class name="Multiply">
-    <method>Int32 Search(System.String, Int32)</method>
-    <method>Calculator.Logic.Token Clone()</method>
-    <method>System.String Draw()</method>
-  </class>
-  <class name="Divide">
-    <method>Int32 Search(System.String, Int32)</method>
-    <method>Calculator.Logic.Token Clone()</method>
-    <method>System.String Draw()</method>
-  </class>
-  <class name="UnaryOp">
-    <method>Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand])</method>
-    <method>Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)</method>
-  </class>
-  <class name="BinaryOp">
-    <method>Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand])</method>
-    <method>Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)</method>
-  </class>
-  <class name="Factorial">
-    <method>Int32 Search(System.String, Int32)</method>
-    <method>Calculator.Logic.Token Clone()</method>
-    <method>System.String Draw()</method>
-  </class>
-  <class name="Operator">
-    <method>Int32 get_OperandCount()</method>
-    <method>Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)</method>
-    <method>Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand])</method>
-    <method>Double Evaluate()</method>
-    <method>Int32 Search(System.String, Int32)</method>
-  </class>
-  <class name="OperatorSearch">
-    <method>Void RegisterOperator(Calculator.Logic.Operator)</method>
-    <method>Int32 Run(System.String, Int32, Calculator.Logic.Operator ByRef)</method>
-  </class>
-  <class name="Subtree">
-    <field>Calculator.Logic.Expression tree</field>
-    <method>Double get_Value()</method>
-    <method>Void set_Value(Double)</method>
-    <method>Calculator.Logic.Token Clone()</method>
-    <method>System.String Draw()</method>
-  </class>
-  <class name="BuiltInFunc">
-    <field>System.String name</field>
-    <method>Void SetArguments(System.String)</method>
-  </class>
-  <class name="BIFSearch">
-    <method>Void RegisterBIF(Calculator.Logic.BuiltInFunc)</method>
-    <method>Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef)</method>
-  </class>
-  <class name="MinBIF">
-    <method>Calculator.Logic.Token Clone()</method>
-    <method>Double Evaluate()</method>
-    <method>System.String Draw()</method>
-  </class>
-  <class name="SqrtBIF">
-    <method>Calculator.Logic.Token Clone()</method>
-    <method>Double Evaluate()</method>
-    <method>System.String Draw()</method>
-  </class>
-  <class name="MaxBIF">
-    <method>Calculator.Logic.Token Clone()</method>
-    <method>Double Evaluate()</method>
-    <method>System.String Draw()</method>
-  </class>
-  <class name="Statement">
-    <method>System.String Process()</method>
-  </class>
-  <class name="ParsingResult">
-    <field>Calculator.Logic.Statement result</field>
-    <field>System.Boolean isMatch</field>
-    <field>System.Boolean isComplete</field>
-  </class>
-  <class name="StatementParser">
-    <method>Calculator.Logic.ParsingResult Run(System.String)</method>
-  </class>
-  <class name="StatementSearcher">
-    <method>Void Register(Calculator.Logic.StatementParser)</method>
-    <method>Calculator.Logic.Statement Run(System.String)</method>
-  </class>
-  <class name="VarSearch">
-    <method>Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef)</method>
-  </class>
-  <class name="Variables">
-    <method>Void CreateLocals()</method>
-    <method>Void MergeLocals()</method>
-    <method>Void ClearLocals()</method>
-    <method>Void ClearDictionaries()</method>
-    <method>Void AssignLocal(System.String, Double)</method>
-    <method>Void AssignLocal(Calculator.Logic.Variable, Double)</method>
-    <method>Void CreateUnassigned(System.String)</method>
-    <method>Double GetLocal(System.String)</method>
-    <method>Boolean IsLocal(System.String)</method>
-    <method>Boolean IsVar(System.String)</method>
-  </class>
-  <class name="Assignment" />
-  <class name="AssignmentParser">
-    <method>Calculator.Logic.ParsingResult Run(System.String)</method>
-  </class>
-  <class name="Block">
-    <method>Int32 get_Count()</method>
-  </class>
-  <class name="BlockParser">
-    <method>Calculator.Logic.ParsingResult Run(System.String)</method>
-  </class>
-  <class name="Lambda">
-    <field>System.String Name</field>
-  </class>
-  <class name="LambdaParser">
-    <method>Calculator.Logic.ParsingResult Run(System.String)</method>
-  </class>
-  <class name="Scope">
-    <method>Double get_Item(System.String)</method>
-    <method>Void set_Item(System.String, Double)</method>
-    <method>Void Merge(Calculator.Logic.Scope)</method>
-    <method>Void Assign(System.String, Double)</method>
-    <method>Boolean IsVar(System.String)</method>
-    <method>Void Reserve(System.String, Boolean)</method>
-    <method>Void Reserve(System.String)</method>
-  </class>
-  <class name="Declaration">
-    <field>System.String alias</field>
-    <field>System.String Keyword</field>
-  </class>
-  <class name="DeclarationParser">
-    <method>Calculator.Logic.ParsingResult Run(System.String)</method>
-    <method>Int32 FindDeclaration(System.String, Int32)</method>
-    <method>Int32 FindDeclaration(System.String, Calculator.Logic.ParsingResult ByRef)</method>
-  </class>
-  <class name="Expression">
-    <field>Calculator.Logic.Token Root</field>
-    <method>System.String Draw()</method>
-    <method>Calculator.Logic.Expression Clone()</method>
-    <method>Double Calculate()</method>
-  </class>
-  <class name="ExpressionBuilder">
-    <method>Void InsertBefore(Calculator.Logic.Token, Int32)</method>
-    <method>Void InsertAfter(Calculator.Logic.Token, Int32, Int32)</method>
-    <method>Void AddNext(Calculator.Logic.Token, Int32)</method>
-    <method>Void AddNext(Calculator.Logic.Expression, Int32)</method>
-    <method>Calculator.Logic.Expression ToExpression()</method>
-  </class>
-  <class name="ExpressionParser">
-    <method>Calculator.Logic.ParsingResult Run(System.String)</method>
-  </class>
-  <class name="MultiNode`1">
-    <field>Calculator.Logic.MultiNode`1[T] Ancestor</field>
-    <field>Calculator.Logic.MultiNode`1[T][] Descendants</field>
-    <field>System.Int32 DescendantCount</field>
-    <field>T Element</field>
-    <field>System.Int32 Index</field>
-  </class>
-  <class name="Priorities">
-    <field>System.Int32 value__</field>
-    <field>Calculator.Logic.Priorities assign</field>
-    <field>Calculator.Logic.Priorities plus</field>
-    <field>Calculator.Logic.Priorities mult</field>
-    <field>Calculator.Logic.Priorities degree</field>
-    <field>Calculator.Logic.Priorities factorial</field>
-    <field>Calculator.Logic.Priorities operand</field>
-  </class>
-  <class name="Token">
-    <field>System.Int32 Priority</field>
-    <field>System.Int32 branchCount</field>
-    <field>Calculator.Logic.Token Ancestor</field>
-    <field>Calculator.Logic.Token[] Arguments</field>
-    <field>System.Int32 Index</field>
-    <method>Calculator.Logic.Token Clone()</method>
-    <method>Double Evaluate()</method>
-    <method>System.String Draw()</method>
-  </class>
-  <class name="UserFunc">
-    <field>System.String Name</field>
-    <field>System.String Content</field>
-    <method>Calculator.Logic.Token Clone()</method>
-    <method>Double Evaluate()</method>
-    <method>System.String Draw()</method>
-  </class>
-  <class name="UFSearcher">
-    <method>Void RegisterUF(Calculator.Logic.UserFunc)</method>
-    <method>Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef)</method>
-  </class>
-  <class name="Value">
-    <field>System.Double RawValue</field>
-    <field>System.Type Type</field>
-  </class>
+﻿<?xml version="1.0" encoding="utf-8"?>  
+<report> FuncAnReport 
+	<class name="Parser" baseClass="Object">  
+		<method> Int32 CharToDigit(Char) </method>  
+		<method> System.String DoubleToString(Double) </method>  
+		<method> Char ToLowerCase(Char) </method>  
+		<method> System.String ToLowerCase(System.String) </method>  
+		<method> Double StringToDouble(System.String, Int32 ByRef) </method>  
+		<method> Double StringToDouble(System.String) </method>  
+		<method> System.String SkipSpaces(System.String) </method>  
+		<method> Boolean IsLetter(Char) </method>  
+		<method> Boolean IsIdentifierChar(Char, Boolean) </method>  
+		<method> Int32 FindNumber(System.String, Int32, Double ByRef) </method>  
+		<method> System.String FindName(System.String, Int32) </method>  
+		<method> Int32 FindName(System.String, Int32, System.String ByRef) </method>  
+		<method> Int32 FindClosing(System.String, Int32) </method>  
+		<method> Int32 FindClosing(System.String, Int32, Char) </method>  
+		<method> Int32 FindClosing(System.String, Int32, System.String ByRef) </method>  
+		<method> Int32 FindClosing(System.String, Int32, System.String ByRef, Char) </method>  
+		<method> Int32[] TextPlateSize(System.String) </method>  
+		<method> System.String AdjustPlate(System.String, Int32, Int32) </method>  
+		<method> System.String AdjustPlate(System.String) </method>  
+		<method> System.String CenterString(System.String, Int32) </method>  
+		<method> System.String ConcatPlates(System.String, System.String) </method>  
+		<method> Boolean CheckVariableName(System.String) </method>  
+	</class>  
+	<class name="ParsedStream" baseClass="Object">  
+		<method> Boolean get_IsEnd() </method>  
+		<method> Calculator.Logic.Token ReadOperand() </method>  
+		<method> Void ReadOperator(Calculator.Logic.Operator ByRef) </method>  
+		<method> Calculator.Logic.Operator ReadOperator() </method>  
+		<method> System.String GetRest() </method>  
+		<method> System.String Get(Int32) </method>  
+		<method> System.String Get() </method>  
+		<method> System.String GetEntity() </method>  
+		<method> System.String GetStatement() </method>  
+		<method> System.String GetStatement(Boolean ByRef) </method>  
+	</class>  
+	<class name="Interpreter" baseClass="Object">  
+		<field> Calculator.Logic.Scope Globals </field>  
+		<method> Void Run(System.Func`1[System.String], System.Func`2[System.String,System.Boolean]) </method>  
+		<method> Void Run(System.Func`1[System.String], System.Func`2[System.String,System.Boolean], Boolean) </method>  
+	</class>  
+	<class name="Prerequisites" baseClass="Object">  
+		<method> Void RegisterOperators() </method>  
+		<method> Void RegisterBIFs() </method>  
+		<method> Void RegisterStatements() </method>  
+	</class>  
+	<class name="Number" baseClass="Operand">  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Double get_Value() </method>  
+		<method> Void set_Value(Double) </method>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> System.String Draw() </method>  
+		<method> Double Evaluate() </method>  
+	</class>  
+	<class name="Operand" baseClass="Token">  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Double get_Value() </method>  
+		<method> Void set_Value(Double) </method>  
+		<method> Double Evaluate() </method>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> System.String Draw() </method>  
+	</class>  
+	<class name="OperandSearch" baseClass="Object">  
+		<method> Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef) </method>  
+	</class>  
+	<class name="Variable" baseClass="Operand">  
+		<field> System.String Name </field>  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Double get_Value() </method>  
+		<method> Void set_Value(Double) </method>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> System.String Draw() </method>  
+		<method> Double Evaluate() </method>  
+	</class>  
+	<class name="Plus" baseClass="BinaryOp">  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Int32 Search(System.String, Int32) </method>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> System.String Draw() </method>  
+		<method> Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand]) </method>  
+		<method> Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef) </method>  
+		<method> Int32 get_OperandCount() </method>  
+		<method> Double Evaluate() </method>  
+	</class>  
+	<class name="Minus" baseClass="BinaryOp">  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Int32 Search(System.String, Int32) </method>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> System.String Draw() </method>  
+		<method> Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand]) </method>  
+		<method> Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef) </method>  
+		<method> Int32 get_OperandCount() </method>  
+		<method> Double Evaluate() </method>  
+	</class>  
+	<class name="Multiply" baseClass="BinaryOp">  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Int32 Search(System.String, Int32) </method>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> System.String Draw() </method>  
+		<method> Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand]) </method>  
+		<method> Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef) </method>  
+		<method> Int32 get_OperandCount() </method>  
+		<method> Double Evaluate() </method>  
+	</class>  
+	<class name="Divide" baseClass="BinaryOp">  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Int32 Search(System.String, Int32) </method>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> System.String Draw() </method>  
+		<method> Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand]) </method>  
+		<method> Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef) </method>  
+		<method> Int32 get_OperandCount() </method>  
+		<method> Double Evaluate() </method>  
+	</class>  
+	<class name="UnaryOp" baseClass="Operator">  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand]) </method>  
+		<method> Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef) </method>  
+		<method> Int32 get_OperandCount() </method>  
+		<method> Double Evaluate() </method>  
+		<method> Int32 Search(System.String, Int32) </method>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> System.String Draw() </method>  
+	</class>  
+	<class name="BinaryOp" baseClass="Operator">  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand]) </method>  
+		<method> Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef) </method>  
+		<method> Int32 get_OperandCount() </method>  
+		<method> Double Evaluate() </method>  
+		<method> Int32 Search(System.String, Int32) </method>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> System.String Draw() </method>  
+	</class>  
+	<class name="Factorial" baseClass="UnaryOp">  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Int32 Search(System.String, Int32) </method>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> System.String Draw() </method>  
+		<method> Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand]) </method>  
+		<method> Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef) </method>  
+		<method> Int32 get_OperandCount() </method>  
+		<method> Double Evaluate() </method>  
+	</class>  
+	<class name="Operator" baseClass="Token">  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Int32 get_OperandCount() </method>  
+		<method> Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef) </method>  
+		<method> Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand]) </method>  
+		<method> Double Evaluate() </method>  
+		<method> Int32 Search(System.String, Int32) </method>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> System.String Draw() </method>  
+	</class>  
+	<class name="OperatorSearch" baseClass="Object">  
+		<method> Void RegisterOperator(Calculator.Logic.Operator) </method>  
+		<method> Int32 Run(System.String, Int32, Calculator.Logic.Operator ByRef) </method>  
+	</class>  
+	<class name="Subtree" baseClass="Operand">  
+		<field> Calculator.Logic.Expression tree </field>  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Double get_Value() </method>  
+		<method> Void set_Value(Double) </method>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> System.String Draw() </method>  
+		<method> Double Evaluate() </method>  
+	</class>  
+	<class name="BuiltInFunc" baseClass="Token">  
+		<field> System.String name </field>  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Void SetArguments(System.String) </method>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> Double Evaluate() </method>  
+		<method> System.String Draw() </method>  
+	</class>  
+	<class name="BIFSearch" baseClass="Object">  
+		<method> Void RegisterBIF(Calculator.Logic.BuiltInFunc) </method>  
+		<method> Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef) </method>  
+	</class>  
+	<class name="MinBIF" baseClass="BuiltInFunc">  
+		<field> System.String name </field>  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> Double Evaluate() </method>  
+		<method> System.String Draw() </method>  
+		<method> Void SetArguments(System.String) </method>  
+	</class>  
+	<class name="SqrtBIF" baseClass="BuiltInFunc">  
+		<field> System.String name </field>  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> Double Evaluate() </method>  
+		<method> System.String Draw() </method>  
+		<method> Void SetArguments(System.String) </method>  
+	</class>  
+	<class name="MaxBIF" baseClass="BuiltInFunc">  
+		<field> System.String name </field>  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> Double Evaluate() </method>  
+		<method> System.String Draw() </method>  
+		<method> Void SetArguments(System.String) </method>  
+	</class>  
+	<class name="Statement" baseClass="Object">  
+		<method> System.String Process() </method>  
+	</class>  
+	<class name="ParsingResult" baseClass="Object">  
+		<field> Calculator.Logic.Statement result </field>  
+		<field> System.Boolean isMatch </field>  
+		<field> System.Boolean isComplete </field>  
+	</class>  
+	<class name="StatementParser" baseClass="Object">  
+		<method> Calculator.Logic.ParsingResult Run(System.String) </method>  
+	</class>  
+	<class name="StatementSearcher" baseClass="Object">  
+		<method> Void Register(Calculator.Logic.StatementParser) </method>  
+		<method> Calculator.Logic.Statement Run(System.String) </method>  
+	</class>  
+	<class name="VarSearch" baseClass="Object">  
+		<method> Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef) </method>  
+	</class>  
+	<class name="Variables" baseClass="Object">  
+		<method> Void CreateLocals() </method>  
+		<method> Void MergeLocals() </method>  
+		<method> Void ClearLocals() </method>  
+		<method> Void ClearDictionaries() </method>  
+		<method> Void AssignLocal(System.String, Double) </method>  
+		<method> Void AssignLocal(Calculator.Logic.Variable, Double) </method>  
+		<method> Void CreateUnassigned(System.String) </method>  
+		<method> Double GetLocal(System.String) </method>  
+		<method> Boolean IsLocal(System.String) </method>  
+		<method> Boolean IsVar(System.String) </method>  
+	</class>  
+	<class name="Assignment" baseClass="Statement">  
+		<method> System.String Process() </method>  
+	</class>  
+	<class name="AssignmentParser" baseClass="StatementParser">  
+		<method> Calculator.Logic.ParsingResult Run(System.String) </method>  
+	</class>  
+	<class name="Block" baseClass="Statement">  
+		<method> Int32 get_Count() </method>  
+		<method> System.String Process() </method>  
+	</class>  
+	<class name="BlockParser" baseClass="StatementParser">  
+		<method> Calculator.Logic.ParsingResult Run(System.String) </method>  
+	</class>  
+	<class name="Lambda" baseClass="Statement">  
+		<field> System.String Name </field>  
+		<method> System.String Process() </method>  
+	</class>  
+	<class name="LambdaParser" baseClass="StatementParser">  
+		<method> Calculator.Logic.ParsingResult Run(System.String) </method>  
+	</class>  
+	<class name="Scope" baseClass="Object">  
+		<method> Double get_Item(System.String) </method>  
+		<method> Void set_Item(System.String, Double) </method>  
+		<method> Void Merge(Calculator.Logic.Scope) </method>  
+		<method> Void Assign(System.String, Double) </method>  
+		<method> Boolean IsVar(System.String) </method>  
+		<method> Void Reserve(System.String, Boolean) </method>  
+		<method> Void Reserve(System.String) </method>  
+	</class>  
+	<class name="Declaration" baseClass="Statement">  
+		<field> System.String alias </field>  
+		<field> System.String Keyword </field>  
+		<method> System.String Process() </method>  
+	</class>  
+	<class name="DeclarationParser" baseClass="StatementParser">  
+		<method> Calculator.Logic.ParsingResult Run(System.String) </method>  
+		<method> Int32 FindDeclaration(System.String, Int32) </method>  
+		<method> Int32 FindDeclaration(System.String, Calculator.Logic.ParsingResult ByRef) </method>  
+	</class>  
+	<class name="Expression" baseClass="Statement">  
+		<field> Calculator.Logic.Token Root </field>  
+		<method> System.String Draw() </method>  
+		<method> Calculator.Logic.Expression Clone() </method>  
+		<method> Double Calculate() </method>  
+		<method> System.String Process() </method>  
+	</class>  
+	<class name="ExpressionBuilder" baseClass="Object">  
+		<method> Void InsertBefore(Calculator.Logic.Token, Int32) </method>  
+		<method> Void InsertAfter(Calculator.Logic.Token, Int32, Int32) </method>  
+		<method> Void AddNext(Calculator.Logic.Token, Int32) </method>  
+		<method> Void AddNext(Calculator.Logic.Expression, Int32) </method>  
+		<method> Calculator.Logic.Expression ToExpression() </method>  
+	</class>  
+	<class name="ExpressionParser" baseClass="StatementParser">  
+		<method> Calculator.Logic.ParsingResult Run(System.String) </method>  
+	</class>  
+	<class name="MultiNode`1" baseClass="Object">  
+		<field> Calculator.Logic.MultiNode`1[T] Ancestor </field>  
+		<field> Calculator.Logic.MultiNode`1[T][] Descendants </field>  
+		<field> System.Int32 DescendantCount </field>  
+		<field> T Element </field>  
+		<field> System.Int32 Index </field>  
+	</class>  
+	<class name="Priorities" baseClass="Enum">  
+		<field> System.Int32 value__ </field>  
+		<field> Calculator.Logic.Priorities assign </field>  
+		<field> Calculator.Logic.Priorities plus </field>  
+		<field> Calculator.Logic.Priorities mult </field>  
+		<field> Calculator.Logic.Priorities degree </field>  
+		<field> Calculator.Logic.Priorities factorial </field>  
+		<field> Calculator.Logic.Priorities operand </field>  
+		<method> Boolean Equals(System.Object) </method>  
+		<method> Int32 GetHashCode() </method>  
+		<method> System.String ToString() </method>  
+		<method> System.String ToString(System.String, System.IFormatProvider) </method>  
+		<method> Int32 CompareTo(System.Object) </method>  
+		<method> System.String ToString(System.String) </method>  
+		<method> System.String ToString(System.IFormatProvider) </method>  
+		<method> Boolean HasFlag(System.Enum) </method>  
+		<method> System.TypeCode GetTypeCode() </method>  
+	</class>  
+	<class name="Token" baseClass="Object">  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> Double Evaluate() </method>  
+		<method> System.String Draw() </method>  
+	</class>  
+	<class name="UserFunc" baseClass="Token">  
+		<field> System.String Name </field>  
+		<field> System.String Content </field>  
+		<field> System.Int32 Priority </field>  
+		<field> System.Int32 branchCount </field>  
+		<field> Calculator.Logic.Token Ancestor </field>  
+		<field> Calculator.Logic.Token[] Arguments </field>  
+		<field> System.Int32 Index </field>  
+		<method> Calculator.Logic.Token Clone() </method>  
+		<method> Double Evaluate() </method>  
+		<method> System.String Draw() </method>  
+	</class>  
+	<class name="UFSearcher" baseClass="Object">  
+		<method> Void RegisterUF(Calculator.Logic.UserFunc) </method>  
+		<method> Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef) </method>  
+	</class>  
+	<class name="Value" baseClass="Object">  
+		<field> System.Double RawValue </field>  
+		<field> System.Type Type </field>  
+	</class>  
 </report>

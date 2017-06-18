@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Calculator.Logic;
 
 namespace FunctionalityAnalyzer
 {
@@ -30,28 +31,50 @@ namespace FunctionalityAnalyzer
 
 		static void GetReport (Assembly assembly) {
 			XDocument doc = new XDocument ();
-			XElement main = new XElement ("report", new XAttribute ("name", "FuncAnReport"));
+			XElement main = new XElement ("report", "FuncAnReport");
 			main.Add (assembly.GetTypes ()
 				.Where ((type) => !type.Name.Contains("AnonStorey"))
 				.Select ((t) => {
-					XElement type = new XElement ("class", new XAttribute ("name", t.Name));
-					type.Add (t.GetFields (BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
+					XElement type = new XElement ("class", new XAttribute ("name", t.Name), 
+						new XAttribute ("baseClass", t.BaseType.Name));
+					type.Add (t.GetFields ().Where ((field) => field.DeclaringType != typeof (object))
 						.Select ((FieldInfo field) => new XElement ("field", field.ToString ())));
-					type.Add (t.GetMethods (BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
+					type.Add (t.GetMethods ().Where ((method) => method.DeclaringType != typeof (object))
 						.Select ((MethodInfo method) => new XElement ("method", method.ToString ())));
 				return type;
 				})
 			);
 			doc.Add (main);
-			//doc.Declaration = new XDeclaration("1.0", "utf-8", "true");
-			//doc = XDocument.Parse (XmlFormat (doc.ToString ()), LoadOptions.PreserveWhitespace);
-			//Console.WriteLine (doc);
+			doc = XDocument.Parse (XmlFormat (doc.ToString ()), LoadOptions.PreserveWhitespace);
+			//XmlFormat (doc.ToString ());
+			Console.WriteLine (doc);
 			doc.Save (LogPath);
 		}
 
 		static public string XmlFormat (string doc) {
 			StringBuilder indentedDoc = new StringBuilder ();
 			int indentationLevel = -1;
+			int position = 0;
+			bool previousTagIsClosing = false;
+			while (position >= 0 && position < doc.Length - 1) {
+				int nextPosition = doc.IndexOf ('<', position);
+				string freeText = doc.Substring (position, nextPosition - position);
+				indentedDoc.Append (' ' + freeText + ' ');
+				string nextTag = FindTag (doc, ref nextPosition);
+				if (IsClosingTag (nextTag)) {
+					if (previousTagIsClosing)
+						indentedDoc.Append ('\n' + Indents (indentationLevel));
+					indentedDoc.Append(nextTag);
+					previousTagIsClosing = true;
+					indentationLevel--;
+				} else {
+					indentationLevel++;
+					indentedDoc.Append ('\n' + Indents (indentationLevel) + nextTag);
+					previousTagIsClosing = false;
+				}
+				position = nextPosition;
+			}
+			/*
 			for (int i = 0; i < doc.Length; i++) {
 				if (doc [i] == '<') {
 					if (i > 0)
@@ -76,8 +99,32 @@ namespace FunctionalityAnalyzer
 						}
 					}
 				}
-			}
+			}*/
+			Console.WriteLine (indentedDoc.ToString ());
 			return indentedDoc.ToString ();
+		}
+
+		static string FindTag (string doc, ref int position) {
+			position = doc.IndexOf ('<', position);
+			string result = "";
+			if (position >= 0)
+				position = Parser.FindClosing (doc, position, out result, '<') + 1;
+			return '<' + result + '>';
+		}
+
+		static bool IsClosingTag (string tag) {
+			if (tag.Length >= 3 && tag [0] == '<' && tag [1] == '/' && tag [tag.Length - 1] == '>')
+				return true;
+			else
+				return false;
+		}
+
+		static string Indents (int level) {
+			StringBuilder result = new StringBuilder ();
+			for (int i = 0; i < level; i++) {
+				result.Append ('\t');
+			}
+			return result.ToString ();
 		}
 	}
 }
