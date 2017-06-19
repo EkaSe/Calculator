@@ -27,7 +27,7 @@ namespace Calculator.Tests
 
 			OutputPrinter.ClearLog (TestHelper.TestLogPath);
 			TestHelper.MessageReceived += OutputPrinter.MessageReceived;
-			CoversAttribute.ErrorReceived += OutputPrinter.ErrorReceived;
+			TestCoverage.ErrorReceived += OutputPrinter.ErrorReceived;
 		}
 
 		static void Test_OutputMessage (object sender, string message) {
@@ -50,33 +50,42 @@ namespace Calculator.Tests
 
 	public class TestAttribute : Attribute {}
 
-	public class TestFixtureAttribute : Attribute {}
+	public class TestFixtureAttribute : Attribute {
+		public Type Class { get; private set; }
+
+		public TestFixtureAttribute (Type type) {
+			Class = type;
+		}
+
+		public TestFixtureAttribute () {
+			Class = null;
+		}
+	}
 
 	[AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
 	public class CoversAttribute : Attribute {
-		public MethodInfo Method { get; private set; }
+		public string MethodName = "";
+		public Type Class = null;
+		public Type[] Args = null;
 
 		public CoversAttribute (Type type, string methodName) {
-			Method = type.GetMethod (methodName);
-			if (Method == null)
-				OnErrorReceived (type.ToString () + "." + methodName + " not found");
+			Class = type;
+			MethodName = methodName;
 		}
 
 		public CoversAttribute (Type type, string methodName, Type[] args) {
-			Method = type.GetMethod (methodName, args);
-			if (Method == null)
-				OnErrorReceived (type.ToString () + "." + methodName + " not found");
+			Class = type;
+			MethodName = methodName;
+			Args = args;
 		}
 
-		static public event EventHandler<string> ErrorReceived;
+		public CoversAttribute (string methodName) {
+			MethodName = methodName;
+		}
 
-		static public void OnErrorReceived(string args)
-		{
-			EventHandler<string> handler = ErrorReceived;
-			if (handler != null)
-			{
-				handler(null, args);
-			}
+		public CoversAttribute (string methodName, Type[] args) {
+			MethodName = methodName;
+			Args = args;
 		}
 	}
 
@@ -89,14 +98,18 @@ namespace Calculator.Tests
 				.SelectMany ((testClass) => testClass.GetMethods ()
 					.SelectMany ((mInfo) => Attribute.GetCustomAttributes (mInfo)
 						.Where ((attribute) => attribute.GetType () == typeof(CoversAttribute))
-						.Where ((attribute) => ((CoversAttribute)attribute).Method != null)
 						.Select ((attribute) => {
-							MethodInfo coveredMethod = ((CoversAttribute)attribute).Method;
-							if (!CoveredMethods.ContainsKey (coveredMethod))
-								CoveredMethods.Add (coveredMethod, new List<MethodInfo> ());
-							CoveredMethods [coveredMethod].Add (mInfo);
+							MethodInfo coveredMethod = GetTestMethod (
+								(TestFixtureAttribute) testClass.GetCustomAttribute (typeof (TestFixtureAttribute)),
+								(CoversAttribute)attribute);
+							if (coveredMethod != null) {
+								if (!CoveredMethods.ContainsKey (coveredMethod))
+									CoveredMethods.Add (coveredMethod, new List<MethodInfo> ());
+								CoveredMethods [coveredMethod].Add (mInfo);
+							}
 							return coveredMethod;
-			})));			
+						})
+						.Where ((method) => method != null)));			
 			methodList.GetEnumerator ();
 
 			TestedMethodsCount = methodList.Select ((method) => method.DeclaringType)
@@ -104,6 +117,29 @@ namespace Calculator.Tests
 				.ToDictionary ((type) => type, (type) => 
 					CoveredMethods.Count ((method1) => method1.Key.DeclaringType == type));
 			TestedMethodsCount.GetEnumerator();
+		}
+
+		private MethodInfo GetTestMethod (TestFixtureAttribute testFixture, CoversAttribute covers) {
+			Type type = covers.Class ?? testFixture.Class;
+			MethodInfo method;
+			if (covers.Args != null)
+				method = type.GetMethod (covers.MethodName, covers.Args);
+			else
+				method = type.GetMethod (covers.MethodName);
+			if (method == null)
+				OnErrorReceived (type.ToString () + "." + covers.MethodName + " not found");
+			return method;
+		}
+
+		static public event EventHandler<string> ErrorReceived;
+
+		static public void OnErrorReceived(string args)
+		{
+			EventHandler<string> handler = ErrorReceived;
+			if (handler != null)
+			{
+				handler(null, args);
+			}
 		}
 	}
 }

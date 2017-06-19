@@ -46,8 +46,7 @@ namespace FunctionalityAnalyzer
 			);
 			doc.Add (main);
 			doc = XDocument.Parse (XmlFormat (doc.ToString ()), LoadOptions.PreserveWhitespace);
-			//XmlFormat (doc.ToString ());
-			Console.WriteLine (doc);
+			//Console.WriteLine (doc);
 			doc.Save (LogPath);
 		}
 
@@ -100,7 +99,7 @@ namespace FunctionalityAnalyzer
 					}
 				}
 			}*/
-			Console.WriteLine (indentedDoc.ToString ());
+			//Console.WriteLine (indentedDoc.ToString ());
 			return indentedDoc.ToString ();
 		}
 

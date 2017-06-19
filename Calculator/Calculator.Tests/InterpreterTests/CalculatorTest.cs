@@ -3,7 +3,7 @@ using Calculator.Logic;
 
 namespace Calculator.Tests
 {
-	[TestFixture]
+	[TestFixture (typeof (Interpreter))]
 	public class CalculatorTest
 	{
 		static public void SingleTest (string input, string expectedOutput)
@@ -14,7 +14,7 @@ namespace Calculator.Tests
 		}
 
 		[Test]
-		[Covers (typeof (Interpreter), nameof (Interpreter.Run), 
+		[Covers (nameof (Interpreter.Run), 
 			new Type[] { typeof (Func<string>), typeof (Func<string, bool>), typeof (bool)})]
 		static public void Run () {
 			SingleTest ("12", "12");
