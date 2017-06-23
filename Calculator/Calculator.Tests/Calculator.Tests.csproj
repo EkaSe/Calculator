@@ -49,6 +49,7 @@
     <Compile Include="InterpreterTests\InterpreterTest.cs" />
     <Compile Include="TestHelper.cs" />
     <Compile Include="OutputPrinter.cs" />
+    <Compile Include="TestRunner.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

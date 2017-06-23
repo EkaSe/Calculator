@@ -89,6 +89,14 @@ namespace Calculator.Tests
 		}
 	}
 
+	[AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
+	public class TestCaseAttribute : Attribute {
+		public object[] Args { get; private set; }
+		public TestCaseAttribute (params object[] args) {
+			Args = args;
+		}
+	}
+
 	public class TestCoverage {
 		public Dictionary <MethodInfo, List<MethodInfo>> CoveredMethods = new Dictionary <MethodInfo, List<MethodInfo>> ();
 		public Dictionary <Type, int> TestedMethodsCount  = new Dictionary<Type, int> ();
