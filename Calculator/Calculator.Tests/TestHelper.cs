@@ -97,6 +97,8 @@ namespace Calculator.Tests
 		}
 	}
 
+	public class ThrowsAttribute : Attribute {}
+
 	public class TestCoverage {
 		public Dictionary <MethodInfo, List<MethodInfo>> CoveredMethods = new Dictionary <MethodInfo, List<MethodInfo>> ();
 		public Dictionary <Type, int> TestedMethodsCount  = new Dictionary<Type, int> ();
