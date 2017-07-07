@@ -12,6 +12,8 @@ namespace Calculator.Tests
 			OutputPrinter.ClearLog (OutputPrinter.ErrorLogPath);
 			TestHelper.SubscribeToTests ();
 			TestCalculator.RunTests ();
+
+			TestRunner.RunTests (typeof (InterpreterTest).Assembly);
 		}
 	}
 }

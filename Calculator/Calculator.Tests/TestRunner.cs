@@ -7,8 +7,8 @@ namespace Calculator.Tests
 {
 	public static class TestRunner
 	{
-		public static void RunTests (Assembly assembly) {
-			var testList = assembly.GetTypes ()
+		public static void RunTests (Assembly testsAssembly) {
+			var testList = testsAssembly.GetTypes ()
 				.Where ((type) => type.GetCustomAttribute (typeof (TestFixtureAttribute)) != null)
 				.SelectMany ((testClass) => testClass.GetMethods ())
 				.Where ((mInfo) => mInfo.GetCustomAttribute (typeof (TestAttribute)) != null);
@@ -66,5 +66,19 @@ namespace Calculator.Tests
 		}
 
 		static public event EventHandler<string> OutputMessage;
+
+		public static void ShouldBeEqual (this object testResult, object expected) {
+			if (!testResult.Equals (expected))
+				throw new TestFailedException ();
+		}
+	}
+
+	public class TestFailedException: Exception
+	{
+		public TestFailedException() {}
+
+		public TestFailedException(string message) : base(message) {}
+
+		public TestFailedException(string message, Exception inner) : base(message, inner) {}
 	}
 }

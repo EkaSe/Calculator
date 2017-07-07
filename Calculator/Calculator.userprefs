@@ -1,4 +1,4 @@
-﻿<Properties StartupItem="FunctionalityAnalyzer/FunctionalityAnalyzer.csproj">
+﻿<Properties StartupItem="Calculator.Tests/Calculator.Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="FunctionalityAnalyzer/FuncAnalyzerXML.cs">
     <Files>

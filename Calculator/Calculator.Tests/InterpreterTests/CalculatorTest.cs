@@ -37,6 +37,16 @@ namespace Calculator.Tests
 			//CalculatorTest ("4^(1/2)", "2");
 			//CalculatorTest ("0.125^(-1/3)", "2");
 		}
+
+		[Test]
+		[Covers (nameof (Interpreter.Run), 
+			new Type[] { typeof (Func<string>), typeof (Func<string, bool>), typeof (bool)})]
+		[TestCase ("12", "12")]
+		public static void ShouldCalculateSingleExpression (string input, string expectedOutput) {
+			string [] expressionSet = new string [] {input};
+			string result = InterpreterTest.RunInterpreter (expressionSet);
+			result.ShouldBeEqual (expectedOutput);
+		}
 	}
 }
 
