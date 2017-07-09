@@ -52,6 +52,7 @@ namespace Calculator.Tests
 			});
 
 			foreach (StringBuilder result in testResults) {
+				Console.WriteLine (result.ToString ());
 				OnOutputMessage (result.ToString ());
 			}
 		}
