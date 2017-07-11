@@ -73,14 +73,14 @@ namespace Calculator.Tests
 
 	[AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
 	public class CoversAttribute : Attribute {
-		public MethodInfo Method { get; private set; }
+		public MethodInfo TestedMethod { get; private set; }
 
 		public CoversAttribute (Type type, string methodName, Type[] args = null) {
 			if (args == null)
-				Method = type.GetMethod (methodName);
+				TestedMethod = type.GetMethod (methodName);
 			else
-				Method = type.GetMethod (methodName, args);
-			if (Method == null)
+				TestedMethod = type.GetMethod (methodName, args);
+			if (TestedMethod == null)
 				OnErrorReceived (type.ToString () + "." + methodName + " not found");
 		}
 
@@ -105,26 +105,36 @@ namespace Calculator.Tests
 				.SelectMany ((testClass) => testClass.GetMethods ()
 					.SelectMany ((mInfo) => Attribute.GetCustomAttributes (mInfo)
 						.OfType<CoversAttribute> ()
-						.Where ((attribute) => ((CoversAttribute)attribute).Method != null)
-						.ToDictionarySafe <Attribute, MethodInfo, List<MethodInfo>> (
-							(attribute) => ((CoversAttribute)attribute).Method,
-							(attribute) => {
-								List<MethodInfo> mInfoList = new List<MethodInfo> ();
-								mInfoList.Add (mInfo);
-								return mInfoList;
-							},
-							(attribute, mInfoList) => {
-								mInfoList.Add (mInfo);
-								return mInfoList;
-							}
-						)));
-			//exception: Specified cast is not valid
-			CoveredMethods = (Dictionary <MethodInfo, List<MethodInfo>>) enumCoveredMethods;
+						.Where ((attribute) => ((CoversAttribute)attribute).TestedMethod != null)
+						.Select ((attribute) => new TestForMethod (mInfo, ((CoversAttribute)attribute).TestedMethod) )
+					));
+			
+			CoveredMethods = enumCoveredMethods.ToDictionarySafe <TestForMethod, MethodInfo, List<MethodInfo>> (
+				(tfm) => tfm.TestedMethod,
+				(tfm) => {
+					List<MethodInfo> mInfoList = new List<MethodInfo> ();
+					mInfoList.Add (tfm.TestMethod);
+					return mInfoList;
+				},
+				(tfm, mInfoList) => {
+					mInfoList.Add (tfm.TestMethod);
+					return mInfoList;
+				});
 
 			TestedMethodsCount = CoveredMethods.Select ((method) => method.Key.DeclaringType)
 				.Distinct ()
 				.ToDictionary ((type) => type, (type) => 
 					CoveredMethods.Count ((method1) => method1.Key.DeclaringType == type));
+		}
+
+		struct TestForMethod {
+			public MethodInfo TestMethod;
+			public MethodInfo TestedMethod;
+
+			public TestForMethod (MethodInfo test, MethodInfo method) {
+				TestMethod = test; 
+				TestedMethod = method;
+			}
 		}
 	}
 }

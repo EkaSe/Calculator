@@ -51,6 +51,7 @@ namespace FunctionalityAnalyzer
 		static public void PrintReport (string report) {
 			MessageReceivedEventArgs args = new MessageReceivedEventArgs { Message = report, LogPath = FuncAnLogPath };
 			OnMessageReceived (args);
+			//Console.WriteLine (report);
 		}
 		/*
 		static string GetReportForeach (Assembly assembly) {
