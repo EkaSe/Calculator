@@ -30,22 +30,18 @@ namespace FunctionalityAnalyzer
 		static string logPath;
 
 		static void GetReport (Assembly assembly) {
-			XDocument doc = new XDocument ();
-			XElement main = new XElement ("report", "FuncAnReport");
-			main.Add (assembly.GetTypes ()
-				.Where ((type) => !type.Name.Contains("AnonStorey"))
-				.Select ((t) => {
-					XElement type = new XElement ("class", new XAttribute ("name", t.Name), 
-						new XAttribute ("baseClass", t.BaseType.Name));
-					type.Add (t.GetFields ().Where ((field) => field.DeclaringType != typeof (object))
-						.Select ((FieldInfo field) => new XElement ("field", field.ToString ())));
-					type.Add (t.GetMethods ().Where ((method) => method.DeclaringType != typeof (object))
-						.Select ((MethodInfo method) => new XElement ("method", method.ToString ())));
-				return type;
-				})
-			);
-			doc.Add (main);
-			doc = XDocument.Parse (XmlFormat (doc.ToString ()), LoadOptions.PreserveWhitespace);
+			XDocument doc = new XDocument (
+				new XElement ("report", new XAttribute ("name", "FuncAnReport"),
+					 assembly.GetTypes ()
+						.Where ((type) => !type.Name.Contains ("AnonStorey"))
+						.Select ((t) => new XElement ("class", new XAttribute ("name", t.Name), 
+							new XAttribute ("baseClass", t.BaseType.Name),
+							t.GetFields ().Where ((field) => field.DeclaringType != typeof(object))
+								.Select ((FieldInfo field) => new XElement ("field", field.ToString ())),
+							t.GetMethods ().Where ((method) => method.DeclaringType != typeof(object))
+								.Select ((MethodInfo method) => new XElement ("method", method.ToString ())))
+						)));
+			//doc = XDocument.Parse (XmlFormat (doc.ToString ()), LoadOptions.PreserveWhitespace);
 			//XmlFormat (doc.ToString ());
 			Console.WriteLine (doc);
 			doc.Save (LogPath);
