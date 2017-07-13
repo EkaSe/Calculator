@@ -20,7 +20,7 @@ namespace FunctionalityAnalyzer
 			string report = GetReportLinqStringBuilder (assembly);
 			PrintReport (report);
 			//Console.WriteLine (GetReportSelectMany (assembly));
-			//Console.WriteLine (report);
+			Console.WriteLine (report);
 			//Console.WriteLine (GetReportLinqString (assembly));
 			//Console.WriteLine (GetReportForeach (assembly));
 		}

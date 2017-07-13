@@ -101,40 +101,29 @@ namespace Calculator.Tests
 		public Dictionary <Type, int> TestedMethodsCount  = new Dictionary<Type, int> ();
 
 		public TestCoverage (Assembly assembly) {
-			var enumCoveredMethods = assembly.GetTypes ()
+			CoveredMethods = assembly.GetTypes ()
 				.SelectMany ((testClass) => testClass.GetMethods ()
 					.SelectMany ((mInfo) => Attribute.GetCustomAttributes (mInfo)
 						.OfType<CoversAttribute> ()
 						.Where ((attribute) => ((CoversAttribute)attribute).TestedMethod != null)
-						.Select ((attribute) => new TestForMethod (mInfo, ((CoversAttribute)attribute).TestedMethod) )
-					));
-			
-			CoveredMethods = enumCoveredMethods.ToDictionarySafe <TestForMethod, MethodInfo, List<MethodInfo>> (
-				(tfm) => tfm.TestedMethod,
-				(tfm) => {
-					List<MethodInfo> mInfoList = new List<MethodInfo> ();
-					mInfoList.Add (tfm.TestMethod);
-					return mInfoList;
-				},
-				(tfm, mInfoList) => {
-					mInfoList.Add (tfm.TestMethod);
-					return mInfoList;
+						.Select ((attribute) => 
+							new {testMethod = mInfo, targetMethod = ((CoversAttribute)attribute).TestedMethod} )
+					))
+				.ToDictionarySafe ((tfm) => tfm.targetMethod,
+					(tfm) => {
+						List<MethodInfo> mInfoList = new List<MethodInfo> ();
+						mInfoList.Add (tfm.testMethod);
+						return mInfoList;
+					},
+					(tfm, mInfoList) => {
+						mInfoList.Add (tfm.testMethod);
+						return mInfoList;
 				});
 
 			TestedMethodsCount = CoveredMethods.Select ((method) => method.Key.DeclaringType)
 				.Distinct ()
 				.ToDictionary ((type) => type, (type) => 
 					CoveredMethods.Count ((method1) => method1.Key.DeclaringType == type));
-		}
-
-		struct TestForMethod {
-			public MethodInfo TestMethod;
-			public MethodInfo TestedMethod;
-
-			public TestForMethod (MethodInfo test, MethodInfo method) {
-				TestMethod = test; 
-				TestedMethod = method;
-			}
 		}
 	}
 }
