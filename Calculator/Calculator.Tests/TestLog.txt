@@ -51,6 +51,25 @@ Test Statement_Lambda 2.1:  failed: Statement type could not be determined
 
 18 tests failed
 
+ShouldCalculateSingleExpressionSystem.Object[][pass]
+ShouldCalculateSingleExpressionSystem.Object[][pass]
+ShouldCalculateSingleExpressionSystem.Object[][pass]
+ShouldCalculateSingleExpressionSystem.Object[][pass]
+ShouldCalculateSingleExpressionSystem.Object[][pass]
+ShouldCalculateSingleExpressionSystem.Object[][pass]
+ShouldCalculateSingleExpressionSystem.Object[][pass]
+ShouldCalculateSingleExpressionSystem.Object[][pass]
+ShouldCalculateSingleExpressionSystem.Object[][pass]
+ShouldCalculateSingleExpressionSystem.Object[][pass]
+ShouldCalculateSingleExpressionSystem.Object[][pass]
+ShouldCalculateSingleExpressionSystem.Object[][pass]
+ShouldCalculateSingleExpressionSystem.Object[][pass]
+ShouldCalculateSingleExpressionSystem.Object[][pass]
+ShouldCalculateSingleExpressionSystem.Object[][pass]
+ShouldCalculateSingleExpressionSystem.Object[][pass]
+ShouldCalculateSingleExpressionSystem.Object[][pass]
+ShouldCalculateSingleExpression [fail, given, input = 1+1 returns Exception has been thrown by the target of an invocation. instead of 1+1]
+
 Statement Searcher Test: Calculator.Logic.Expression passed
 Statement Searcher Test: Calculator.Logic.Assignment passed
 Statement Searcher Test: Calculator.Logic.Assignment passed
@@ -81,8 +100,6 @@ Test 0.5! passed
 Test -7+3 passed
 Test 5.5+2.15 passed
 Run[pass]
-
-ShouldCalculateSingleExpression[fail]
 
 Test Statement_Assignment 0 failed: Object reference not set to an instance of an object
 Test Statement_Assignment 1 failed: Statement type could not be determined

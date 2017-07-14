@@ -13,44 +13,58 @@ namespace Calculator.Tests
 				.SelectMany ((testClass) => testClass.GetMethods ())
 				.Where ((mInfo) => mInfo.GetCustomAttribute (typeof (TestAttribute)) != null);
 
-			var testResults = testList.SelectMany<MethodInfo, StringBuilder> ((mInfo) => {
-				mInfo.GetCustomAttributes (typeof (TestCaseAttribute))
-					.Select ((attribute) => (TestCaseAttribute) attribute)
-					.Select <TestCaseAttribute, StringBuilder> ((testCase) => {
-						try {
-							mInfo.Invoke (null, testCase.Args);
-							return (new StringBuilder (mInfo.Name + "[pass]"));
-						} catch (Exception e) {
-							int argCount = 0;
-							StringBuilder args = mInfo.GetParameters ().Take (mInfo.GetParameters().Count() - 1)
-								.Aggregate (new StringBuilder(), (sentence, pInfo) => 
-									sentence.AppendFormat (", {1} = {2}", pInfo.Name, testCase.Args [argCount++]));
-							StringBuilder testResult = new StringBuilder ();
-							return (testResult.AppendFormat ("{0} [fail, given {1} returns {2} instead of {3}]\n",
-								mInfo.Name, args.ToString (), e.Message, testCase.Args [argCount]));
-						}
-					})
-					.Concat (mInfo.GetCustomAttributes (typeof (ThrowsAttribute))
-						.Select ((attribute) => {
-							try {
-								mInfo.Invoke (null, null);
-								return (new StringBuilder (mInfo.Name + "[fail]\n"));
-							} catch (Exception e) {
-								//to do
-								return (new StringBuilder (mInfo.Name + "[pass]\n"));
-							}
-						})
-					);
-				try {
-					mInfo.Invoke (null, null);
-					StringBuilder[] result = {new StringBuilder (mInfo.Name + "[pass]\n")};
-					return (result);
-				} catch (Exception e) {
-					StringBuilder[] result = {new StringBuilder (mInfo.Name + "[fail]\n")};
-					return (result);
-				};
-			});
+			var testCaseList = testList.Where ((mInfo) => (mInfo.GetCustomAttributes (typeof(TestCaseAttribute)).Count () > 0));
+			var throwsList = testList.Where ((mInfo) => mInfo.GetCustomAttributes (typeof(ThrowsAttribute)).Count () > 0);
+			var simpleTestList = testList.Except (testCaseList).Except (throwsList);
+			Console.WriteLine (testCaseList.Count ());
 
+			var testResults = 
+				testCaseList.SelectMany <MethodInfo, StringBuilder> ((mInfo) => {
+					var testCaseResults = mInfo.GetCustomAttributes (typeof (TestCaseAttribute))
+						.Select ((attribute) => (TestCaseAttribute) attribute)
+						.Select <TestCaseAttribute, StringBuilder> ((testCase) => {
+							try {
+								mInfo.Invoke (null, testCase.Args);
+								Console.WriteLine ((new StringBuilder (mInfo.Name + "[pass]")).ToString ());
+								return (new StringBuilder (mInfo.Name + testCase.Args + "[pass]"));
+							} catch (Exception e) {
+								int argCount = 0;
+								StringBuilder args = mInfo.GetParameters ().Take (mInfo.GetParameters().Count() - 1)
+									.Aggregate (new StringBuilder(), (sentence, pInfo) => 
+										sentence.AppendFormat (", {0} = {1}", pInfo.Name, testCase.Args [argCount]));
+								StringBuilder testResult = new StringBuilder ();
+								return (testResult.AppendFormat ("{0} [fail, given{1} returns {2} instead of {3}]\n",
+									mInfo.Name, args.ToString (), e.Message, testCase.Args [argCount++]));
+							} 
+						});
+					return (testCaseResults);
+					}
+				)
+				.Concat (throwsList.SelectMany <MethodInfo, StringBuilder> ((mInfo) => {
+					var throwsResults = mInfo.GetCustomAttributes (typeof (ThrowsAttribute))
+					.Select ((attribute) => {
+						try {
+							mInfo.Invoke (null, null);
+							return (new StringBuilder (mInfo.Name + "[fail]\n"));
+						} catch (Exception e) {
+							//to do
+							return (new StringBuilder (mInfo.Name + "[pass]\n"));
+							}});
+					//not all codepaths return a value
+					return (throwsResults);
+				}))
+				.Concat (simpleTestList.Select <MethodInfo, StringBuilder> ((mInfo) => {
+					try {
+						mInfo.Invoke (null, null);
+						return (new StringBuilder (mInfo.Name + "[pass]\n"));
+					} catch (Exception e) {
+						return (new StringBuilder (mInfo.Name + "[fail]\n"));
+					}
+					//not all codepaths return a value
+					return (new StringBuilder ());
+				})
+				);
+			
 			foreach (StringBuilder result in testResults) {
 				Console.WriteLine (result.ToString ());
 				OnOutputMessage (result.ToString ());
