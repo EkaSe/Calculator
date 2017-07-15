@@ -16,7 +16,6 @@ namespace Calculator.Tests
 			var testCaseList = testList.Where ((mInfo) => (mInfo.GetCustomAttributes (typeof(TestCaseAttribute)).Count () > 0));
 			var throwsList = testList.Where ((mInfo) => mInfo.GetCustomAttributes (typeof(ThrowsAttribute)).Count () > 0);
 			var simpleTestList = testList.Except (testCaseList).Except (throwsList);
-			Console.WriteLine (testCaseList.Count ());
 
 			var testResults = 
 				testCaseList.SelectMany <MethodInfo, StringBuilder> ((mInfo) => {
@@ -50,7 +49,6 @@ namespace Calculator.Tests
 							//to do
 							return (new StringBuilder (mInfo.Name + "[pass]\n"));
 							}});
-					//not all codepaths return a value
 					return (throwsResults);
 				}))
 				.Concat (simpleTestList.Select <MethodInfo, StringBuilder> ((mInfo) => {
@@ -60,7 +58,6 @@ namespace Calculator.Tests
 					} catch (Exception e) {
 						return (new StringBuilder (mInfo.Name + "[fail]\n"));
 					}
-					//not all codepaths return a value
 					return (new StringBuilder ());
 				})
 				);
