@@ -25,8 +25,6 @@ namespace Calculator.Tests
 			InterpreterTest.OutputMessage += Test_OutputMessage;
 			StatementSearcherTest.OutputMessage += Test_OutputMessage;
 
-			TestRunner.OutputMessage += Test_OutputMessage;
-
 			OutputPrinter.ClearLog (TestHelper.TestLogPath);
 			TestHelper.MessageReceived += OutputPrinter.MessageReceived;
 			TestCoverage.ErrorReceived += OutputPrinter.ErrorReceived;
@@ -48,6 +46,25 @@ namespace Calculator.Tests
 			}
 		}
 		static string testLogPath;
+
+		/// <param name="keySelector">Function that gets key for the dictionary from the given source element. Usage: el => el.Name</param>
+		/// <param name="onNewKeyValueSelector">Function that gets value for the dictionary in a case when corresponding key not yet exists in the dictionary. Usage: el => el.Value</param>
+		/// <param name="onKeyExistsValueSelector">Function that gets value for the dictionary in a case when corresponding key is already exists in the dictionary. Usage: (el, oldValue) => oldValue + el.Value</param>
+		public static Dictionary<TKey, TValue> ToDictionarySafe<TItem, TKey, TValue>(
+			this IEnumerable<TItem> source,
+			Func<TItem, TKey> keySelector,
+			Func<TItem, TValue> onNewKeyValueSelector,
+			Func<TItem, TValue, TValue> onKeyExistsValueSelector) {
+			Dictionary<TKey, TValue> result = new Dictionary<TKey, TValue> ();
+			foreach (var item in source) {
+				TKey key = keySelector (item);
+				if (result.ContainsKey (key))
+					result [key] = onKeyExistsValueSelector (item, result [key]);
+				else
+					result.Add (key, onNewKeyValueSelector (item));
+			}
+			return result;
+		}
 	}
 
 	public class TestAttribute : Attribute {}
@@ -91,6 +108,7 @@ namespace Calculator.Tests
 		}
 	}
 
+
 	[AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
 	public class TestCaseAttribute : Attribute {
 		public object[] Args { get; private set; }
@@ -106,29 +124,33 @@ namespace Calculator.Tests
 		public Dictionary <Type, int> TestedMethodsCount  = new Dictionary<Type, int> ();
 
 		public TestCoverage (Assembly assembly) {
-			var methodList = assembly.GetTypes ()
+			CoveredMethods = assembly.GetTypes ()
 				.SelectMany ((testClass) => testClass.GetMethods ()
 					.SelectMany ((mInfo) => Attribute.GetCustomAttributes (mInfo)
-						.Where ((attribute) => attribute.GetType () == typeof(CoversAttribute))
-						.Select ((attribute) => {
-							MethodInfo coveredMethod = GetTestMethod (
-								(TestFixtureAttribute) testClass.GetCustomAttribute (typeof (TestFixtureAttribute)),
-								(CoversAttribute)attribute);
-							if (coveredMethod != null) {
-								if (!CoveredMethods.ContainsKey (coveredMethod))
-									CoveredMethods.Add (coveredMethod, new List<MethodInfo> ());
-								CoveredMethods [coveredMethod].Add (mInfo);
-							}
-							return coveredMethod;
-						})
-						.Where ((method) => method != null)));			
-			methodList.GetEnumerator ();
+						.OfType<CoversAttribute> ()
+						.Where ((attribute) => (GetTestMethod (
+							(TestFixtureAttribute) testClass.GetCustomAttribute (typeof (TestFixtureAttribute)),
+							(CoversAttribute)attribute) != null))
+						.Select ((attribute) => 
+								new {testMethod = mInfo, targetMethod = GetTestMethod (
+									(TestFixtureAttribute) testClass.GetCustomAttribute (typeof (TestFixtureAttribute)),
+									(CoversAttribute)attribute)} )
+					))
+				.ToDictionarySafe ((tfm) => tfm.targetMethod,
+					(tfm) => {
+						List<MethodInfo> mInfoList = new List<MethodInfo> ();
+						mInfoList.Add (tfm.testMethod);
+						return mInfoList;
+					},
+					(tfm, mInfoList) => {
+						mInfoList.Add (tfm.testMethod);
+						return mInfoList;
+					});
 
-			TestedMethodsCount = methodList.Select ((method) => method.DeclaringType)
+			TestedMethodsCount = CoveredMethods.Select ((method) => method.Key.DeclaringType)
 				.Distinct ()
 				.ToDictionary ((type) => type, (type) => 
 					CoveredMethods.Count ((method1) => method1.Key.DeclaringType == type));
-			TestedMethodsCount.GetEnumerator();
 		}
 
 		private MethodInfo GetTestMethod (TestFixtureAttribute testFixture, CoversAttribute covers) {
@@ -155,4 +177,3 @@ namespace Calculator.Tests
 		}
 	}
 }
-
