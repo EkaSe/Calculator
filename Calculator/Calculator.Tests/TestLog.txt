@@ -51,24 +51,28 @@ Test Statement_Lambda 2.1:  failed: Statement type could not be determined
 
 18 tests failed
 
-ShouldCalculateSingleExpressionSystem.Object[][pass]
-ShouldCalculateSingleExpressionSystem.Object[][pass]
-ShouldCalculateSingleExpressionSystem.Object[][pass]
-ShouldCalculateSingleExpressionSystem.Object[][pass]
-ShouldCalculateSingleExpressionSystem.Object[][pass]
-ShouldCalculateSingleExpressionSystem.Object[][pass]
-ShouldCalculateSingleExpressionSystem.Object[][pass]
-ShouldCalculateSingleExpressionSystem.Object[][pass]
-ShouldCalculateSingleExpressionSystem.Object[][pass]
-ShouldCalculateSingleExpressionSystem.Object[][pass]
-ShouldCalculateSingleExpressionSystem.Object[][pass]
-ShouldCalculateSingleExpressionSystem.Object[][pass]
-ShouldCalculateSingleExpressionSystem.Object[][pass]
-ShouldCalculateSingleExpressionSystem.Object[][pass]
-ShouldCalculateSingleExpressionSystem.Object[][pass]
-ShouldCalculateSingleExpressionSystem.Object[][pass]
-ShouldCalculateSingleExpressionSystem.Object[][pass]
-ShouldCalculateSingleExpression [fail, given, input = 1+1 returns Exception has been thrown by the target of an invocation. instead of 1+1]
+ShouldCalculateSingleExpression[pass]
+ShouldCalculateSingleExpression[pass]
+ShouldCalculateSingleExpression[pass]
+ShouldCalculateSingleExpression[pass]
+ShouldCalculateSingleExpression[pass]
+ShouldCalculateSingleExpression[pass]
+ShouldCalculateSingleExpression[pass]
+ShouldCalculateSingleExpression[pass]
+ShouldCalculateSingleExpression[pass]
+ShouldCalculateSingleExpression[pass]
+ShouldCalculateSingleExpression[pass]
+ShouldCalculateSingleExpression[pass]
+ShouldCalculateSingleExpression[pass]
+ShouldCalculateSingleExpression[pass]
+ShouldCalculateSingleExpression[pass]
+ShouldCalculateSingleExpression[pass]
+ShouldCalculateSingleExpression[pass]
+TestFailedTestCase [fail, given, input = 1+1 returns 2 instead of Test test cases: failed test]
+
+ShouldThrowProperException[pass]
+
+ShouldThrowFails[fail]
 
 Statement Searcher Test: Calculator.Logic.Expression passed
 Statement Searcher Test: Calculator.Logic.Assignment passed

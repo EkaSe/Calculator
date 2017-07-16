@@ -58,7 +58,6 @@ namespace Calculator.Tests
 		[TestCase ("0.5!", "Invalid expression: Factorial is defined only for non-negative integers")]
 		[TestCase ("-7+3", "-4")]
 		[TestCase ("5.5+2.15", "7.65")]
-		[TestCase ("1+1", "Test test cases: failed test")]
 		public static void ShouldCalculateSingleExpression (string input, string expectedOutput) {
 			string [] expressionSet = new string [] {input};
 			string result = InterpreterTest.RunInterpreter (expressionSet);

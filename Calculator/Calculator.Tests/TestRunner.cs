@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Linq;
 using System.Text;
+using Calculator.Logic;
 
 namespace Calculator.Tests
 {
@@ -22,19 +23,22 @@ namespace Calculator.Tests
 					var testCaseResults = mInfo.GetCustomAttributes (typeof (TestCaseAttribute))
 						.Select ((attribute) => (TestCaseAttribute) attribute)
 						.Select <TestCaseAttribute, StringBuilder> ((testCase) => {
-							try {
-								mInfo.Invoke (null, testCase.Args);
-								Console.WriteLine ((new StringBuilder (mInfo.Name + "[pass]")).ToString ());
-								return (new StringBuilder (mInfo.Name + testCase.Args + "[pass]"));
-							} catch (Exception e) {
+							try{	
+								try {
+									mInfo.Invoke (null, testCase.Args);
+									return (new StringBuilder (mInfo.Name + "[pass]"));
+								} catch (TargetInvocationException e) {
+									throw e.InnerException;
+								}
+							} catch (TestFailedException e) {
 								int argCount = 0;
 								StringBuilder args = mInfo.GetParameters ().Take (mInfo.GetParameters().Count() - 1)
 									.Aggregate (new StringBuilder(), (sentence, pInfo) => 
 										sentence.AppendFormat (", {0} = {1}", pInfo.Name, testCase.Args [argCount]));
 								StringBuilder testResult = new StringBuilder ();
 								return (testResult.AppendFormat ("{0} [fail, given{1} returns {2} instead of {3}]\n",
-									mInfo.Name, args.ToString (), e.Message, testCase.Args [argCount++]));
-							} 
+									mInfo.Name, args.ToString (), e.Message, testCase.Args [argCount+1]));
+							}
 						});
 					return (testCaseResults);
 					}
@@ -43,12 +47,16 @@ namespace Calculator.Tests
 					var throwsResults = mInfo.GetCustomAttributes (typeof (ThrowsAttribute))
 					.Select ((attribute) => {
 						try {
-							mInfo.Invoke (null, null);
+							try {
+								mInfo.Invoke (null, null);
+								return (new StringBuilder (mInfo.Name + "[pass]\n"));
+							} catch (TargetInvocationException e) {
+								throw e.InnerException;
+							}
+						} catch (TestFailedException e) {
 							return (new StringBuilder (mInfo.Name + "[fail]\n"));
-						} catch (Exception e) {
-							//to do
-							return (new StringBuilder (mInfo.Name + "[pass]\n"));
-							}});
+						}
+						});
 					return (throwsResults);
 				}))
 				.Concat (simpleTestList.Select <MethodInfo, StringBuilder> ((mInfo) => {
@@ -81,7 +89,16 @@ namespace Calculator.Tests
 
 		public static void ShouldBeEqual (this object testResult, object expected) {
 			if (!testResult.Equals (expected))
-				throw new TestFailedException ();
+				throw new TestFailedException (testResult.ToString ());
+		}
+
+		public static void ShouldThrow (this MethodBase method, string message) {
+			try {
+				method.Invoke (null, null);
+			} catch (Exception e) {
+				if (e.InnerException.Message != message)
+					throw new TestFailedException (e.InnerException.Message);
+			}
 		}
 	}
 
@@ -92,5 +109,38 @@ namespace Calculator.Tests
 		public TestFailedException(string message) : base(message) {}
 
 		public TestFailedException(string message, Exception inner) : base(message, inner) {}
+	}
+
+	[TestFixture (typeof (Interpreter))]
+	public class TestRunnerTest {
+		[Test]
+		[Covers (nameof (Interpreter.Run), 
+			new Type[] { typeof (Func<string>), typeof (Func<string, bool>), typeof (bool)})]
+		[TestCase ("1+1", "Test test cases: failed test")]
+		public static void TestFailedTestCase (string input, string expectedOutput) {
+			string [] expressionSet = new string [] {input};
+			string result = InterpreterTest.RunInterpreter (expressionSet);
+			result.ShouldBeEqual (expectedOutput);
+		}
+
+		[Test]
+		[Covers (nameof (TestThrow))]
+		[Throws ()]
+		public static void ShouldThrowProperException () {
+			var testThrow = typeof (TestRunnerTest).GetMethod (nameof (TestThrow));
+			testThrow.ShouldThrow ("exception text");
+		}
+
+		[Test]
+		[Covers (nameof (TestThrow))]
+		[Throws ()]
+		public static void ShouldThrowFails () {
+			var testThrow = typeof (TestRunnerTest).GetMethod (nameof (TestThrow));
+			testThrow.ShouldThrow ("some other exception text");
+		}
+
+		static public void TestThrow () {
+			throw new Exception ("exception text");
+		}
 	}
 }
