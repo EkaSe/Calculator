@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Xml.Linq;
 using System.IO;
@@ -96,7 +96,7 @@ namespace FunctionalityAnalyzer
 					}
 				}
 			}*/
-			Console.WriteLine (indentedDoc.ToString ());
+			//Console.WriteLine (indentedDoc.ToString ());
 			return indentedDoc.ToString ();
 		}
 

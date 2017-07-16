@@ -19,6 +19,20 @@ namespace Calculator.Tests
 		static public event EventHandler<string> OutputMessage;
 
 		static public void Run (string testName, string[] input, string expectedOutput) {
+			string result = RunInterpreter (input);
+
+			string testResult;
+			if (result == expectedOutput)
+				testResult = "Test " + testName + " passed";
+			else {
+				testResult = "Test " + testName + " failed: " + result;
+				TestCalculator.FailedTestsCount++;
+			}
+
+			OnOutputMessage (testResult);
+		}
+
+		static public string RunInterpreter (string[] input) {
 			int expressionIndex = 0;
 			string result = null;
 
@@ -37,16 +51,8 @@ namespace Calculator.Tests
 				}
 			};
 
-			string testResult;
 			Interpreter.Run (getExpression, outputAction, true);
-			if (result == expectedOutput)
-				testResult = "Test " + testName + " passed";
-			else {
-				testResult = "Test " + testName + " failed: " + result;
-				TestCalculator.FailedTestsCount++;
-			}
-
-			OnOutputMessage (testResult);
+			return result;
 		}
 			
 	}
