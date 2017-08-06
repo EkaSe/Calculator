@@ -92,12 +92,12 @@ namespace Calculator.Tests
 				throw new TestFailedException (testResult.ToString ());
 		}
 
-		public static void ShouldThrow (this MethodBase method, 
-			Type exceptionType, params object[] args) {
+		public static void ShouldThrow (this MethodBase method, Type exceptionType, object instance,
+			params object[] args) {
 
 			bool exceptionThrown = false;
 			try {
-				method.Invoke (null, args);
+				method.Invoke (instance, args);
 			} catch (Exception e) {
 				exceptionThrown = true;
 				if (e.InnerException.GetType () != exceptionType)
@@ -134,7 +134,7 @@ namespace Calculator.Tests
 		[Throws (typeof (CalculatorException))]
 		public static void ShouldThrowProperException () {
 			var testThrow = typeof (TestRunnerTest).GetMethod (nameof (TestThrow));
-			testThrow.ShouldThrow (typeof (CalculatorException), true);
+			testThrow.ShouldThrow (typeof (CalculatorException), null, true);
 		}
 
 		[Test]
@@ -142,7 +142,7 @@ namespace Calculator.Tests
 		[Throws (typeof (CalculatorException))]
 		public static void ShouldThrowFails () {
 			var testThrow = typeof (TestRunnerTest).GetMethod (nameof (TestThrow));
-			testThrow.ShouldThrow (typeof (CalculatorException), false);
+			testThrow.ShouldThrow (typeof (CalculatorException), null, false);
 		}
 
 		static public void TestThrow (bool throwException) {
