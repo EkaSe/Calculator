@@ -63,7 +63,7 @@ namespace Calculator.Logic
 
 		private ExpressionBuilder (ParsedStream stream) {
 			if (stream.IsEnd)
-				throw new Exception ("Invalid expression: no operand found");
+				throw new CalculatorException ("Invalid expression: no operand found");
 			Root = stream.ReadOperand ();
 			activeNode = Root;
 			Token newPart;

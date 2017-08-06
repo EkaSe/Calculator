@@ -18,7 +18,7 @@ namespace Calculator.Logic
 			if (branchCount == 1) {
 				result = System.Math.Sqrt (Arguments [0].Evaluate());
 			} else 
-				throw new Exception ("sqrt function can have only 1 argument");
+				throw new CalculatorException ("sqrt function can have only 1 argument");
 			return result;
 		}
 

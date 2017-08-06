@@ -259,7 +259,7 @@ namespace Calculator.Logic
 				close = '>';
 				break;
 			default:
-				throw new Exception ("No such parenthesis type is defined");
+				throw new CalculatorException ("No such parenthesis type is defined");
 			}
 			int parenthesisCount = 1;
 			int j = startPosition + 1;

@@ -21,7 +21,7 @@ namespace Calculator.Logic
 						result = Arguments [i].Evaluate();
 				}
 			} else 
-				throw new Exception ("min function cannot have empty list of arguments");
+				throw new CalculatorException ("min function cannot have empty list of arguments");
 			return result;
 		}
 

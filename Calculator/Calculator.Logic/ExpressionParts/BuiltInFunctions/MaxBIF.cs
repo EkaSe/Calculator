@@ -21,7 +21,7 @@ namespace Calculator.Logic
 						result = Arguments [i].Evaluate();
 				}
 			} else 
-				throw new Exception ("max function cannot have empty list of arguments");
+				throw new CalculatorException ("max function cannot have empty list of arguments");
 			return result;
 		}
 

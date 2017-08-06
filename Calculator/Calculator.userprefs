@@ -1,9 +1,9 @@
 ﻿<Properties StartupItem="Calculator.Tests/Calculator.Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Calculator.Tests/InterpreterTests/CalculatorTest.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Calculator.Tests/TestRunner.cs">
     <Files>
+      <File FileName="Calculator.Tests/TestRunner.cs" Line="104" Column="5" />
       <File FileName="Calculator.Tests/TestHelper.cs" Line="1" Column="1" />
-      <File FileName="Calculator.Tests/InterpreterTests/CalculatorTest.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
+using Calculator.Logic;
 
 namespace Calculator.Tests
 {
@@ -99,7 +100,16 @@ namespace Calculator.Tests
 		}
 	}
 
-	public class ThrowsAttribute : Attribute {}
+	public class ThrowsAttribute : Attribute {
+		public CalculatorException ExpectedException { private set; get; }
+
+		public ThrowsAttribute (Type exceptionType) {
+			ExpectedException = Activator.CreateInstance (exceptionType) as CalculatorException;
+		}
+		public ThrowsAttribute (Type exceptionType, string message) {
+			ExpectedException = Activator.CreateInstance (exceptionType, args: message) as CalculatorException;
+		}
+	}
 
 	public class TestCoverage {
 		public Dictionary <MethodInfo, List<MethodInfo>> CoveredMethods = new Dictionary <MethodInfo, List<MethodInfo>> ();

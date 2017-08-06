@@ -408,4 +408,33 @@
 		<field> System.Double RawValue </field>  
 		<field> System.Type Type </field>  
 	</class>  
+	<class name="CalculatorException" baseClass="Exception">  
+		<method> System.String get_Message() </method>  
+		<method> System.Collections.IDictionary get_Data() </method>  
+		<method> System.Exception GetBaseException() </method>  
+		<method> System.Exception get_InnerException() </method>  
+		<method> System.Reflection.MethodBase get_TargetSite() </method>  
+		<method> System.String get_StackTrace() </method>  
+		<method> System.String get_HelpLink() </method>  
+		<method> Void set_HelpLink(System.String) </method>  
+		<method> System.String get_Source() </method>  
+		<method> Void set_Source(System.String) </method>  
+		<method> System.String ToString() </method>  
+		<method> Void GetObjectData(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext) </method>  
+		<method> Int32 get_HResult() </method>  
+		<method> System.Type GetType() </method>  
+	</class>  
+	<class name="&lt;&gt;c" baseClass="Object">  
+		<field> Calculator.Logic.ParsedStream+&lt;&gt;c &lt;&gt;9 </field>  
+		<field> System.Func`3[System.String,System.Int32,System.Boolean] &lt;&gt;9__7_0 </field>  
+	</class>  
+	<class name="&lt;&gt;c" baseClass="Object">  
+		<field> Calculator.Logic.BuiltInFunc+&lt;&gt;c &lt;&gt;9 </field>  
+		<field> System.Func`3[System.String,System.Int32,System.Boolean] &lt;&gt;9__4_0 </field>  
+	</class>  
+	<class name="&lt;&gt;c__DisplayClass4_0" baseClass="Object">  
+		<field> System.Int32 contentPosition </field>  
+		<field> System.Double result </field>  
+		<field> Calculator.Logic.UserFunc &lt;&gt;4__this </field>  
+	</class>  
 </report>

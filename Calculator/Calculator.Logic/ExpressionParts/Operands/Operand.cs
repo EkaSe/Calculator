@@ -55,7 +55,7 @@ namespace Calculator.Logic
 				endPosition = Parser.FindNumber (input, i, out number);
 				operand = new Number (number);
 			} else
-				throw new Exception ("Invalid expression: no operand found");
+				throw new CalculatorException ("Invalid expression: no operand found");
 			return endPosition + 1;
 		}
 	}

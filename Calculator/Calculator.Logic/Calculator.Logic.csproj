@@ -66,6 +66,7 @@
     <Compile Include="ExpressionParts\Token.cs" />
     <Compile Include="ExpressionParts\UserFunc.cs" />
     <Compile Include="ExpressionParts\Value.cs" />
+    <Compile Include="CalculatorException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

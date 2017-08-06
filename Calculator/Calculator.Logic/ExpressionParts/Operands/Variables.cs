@@ -17,7 +17,7 @@ namespace Calculator.Logic
 					operand = new Variable (alias, 0);
 					Variables.CreateUnassigned (alias);
 				} else
-					throw new Exception ("Invalid expression: " + alias + " doesn't exist yet");
+					throw new CalculatorException ("Invalid expression: " + alias + " doesn't exist yet");
 			}
 			return endPosition;
 		}

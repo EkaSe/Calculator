@@ -14,7 +14,7 @@ namespace Calculator.Logic
 		}
 
 		protected override string Execute () {
-			throw new Exception ("Not implemented");
+			throw new CalculatorException ("Not implemented");
 			string result = content.Process ();
 			return result;
 		}

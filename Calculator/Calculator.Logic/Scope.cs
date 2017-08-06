@@ -37,7 +37,7 @@ namespace Calculator.Logic
 			if (reserved.Contains (name) && !reserved [name])
 				numbers [name] = value;
 			else
-				throw new Exception (name + " is not declared");
+				throw new CalculatorException (name + " is not declared");
 		}
 
 		public bool IsVar (string name) {
@@ -49,7 +49,7 @@ namespace Calculator.Logic
 
 		public void Reserve (string name, bool isKeyword) {
 			if (reserved.Contains (name))
-				throw new Exception (name + " is already reserved");
+				throw new CalculatorException (name + " is already reserved");
 			else
 				reserved.Add (name,isKeyword);
 		}

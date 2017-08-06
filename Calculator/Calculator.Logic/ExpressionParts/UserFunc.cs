@@ -64,7 +64,7 @@ namespace Calculator.Logic
 			int endPosition = Parser.FindName (input, startPosition, out alias);
 			if (endPosition != input.Length - 1 && input [endPosition + 1] == '{') {
 				if (UFList.Contains (alias))
-					throw new Exception ("User function " + alias + " is already defined");
+					throw new CalculatorException ("User function " + alias + " is already defined");
 				else {
 					string content; 
 					endPosition = Parser.FindClosing (input, endPosition + 1, out content, '{');

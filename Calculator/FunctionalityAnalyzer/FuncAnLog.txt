@@ -54,8 +54,6 @@ Operand
   Methods:
 	Double get_Value()
 	Void set_Value(Double)
-	Calculator.Logic.Token Clone()
-	System.String Draw()
   Test Coverage: 0%
 OperandSearch
   Methods:
@@ -65,47 +63,18 @@ Variable
   Fields:
 	System.String Name
 Plus
-  Methods:
-	Int32 get_OperandCount()
-  Test Coverage: 0%
 Minus
-  Methods:
-	Int32 get_OperandCount()
-  Test Coverage: 0%
 Multiply
-  Methods:
-	Int32 get_OperandCount()
-  Test Coverage: 0%
 Divide
-  Methods:
-	Int32 get_OperandCount()
-  Test Coverage: 0%
 UnaryOp
-  Methods:
-	Int32 get_OperandCount()
-	Int32 Search(System.String, Int32)
-	Calculator.Logic.Token Clone()
-	System.String Draw()
-  Test Coverage: 0%
 BinaryOp
-  Methods:
-	Int32 get_OperandCount()
-	Int32 Search(System.String, Int32)
-	Calculator.Logic.Token Clone()
-	System.String Draw()
-  Test Coverage: 0%
 Factorial
-  Methods:
-	Int32 get_OperandCount()
-  Test Coverage: 0%
 Operator
   Methods:
 	Int32 get_OperandCount()
 	Void PushOperands(MyLibrary.MyStack`1[Calculator.Logic.Operand], MyLibrary.Node`1[Calculator.Logic.Operand] ByRef)
 	Void Perform(MyLibrary.MyStack`1[Calculator.Logic.Operand])
 	Int32 Search(System.String, Int32)
-	Calculator.Logic.Token Clone()
-	System.String Draw()
   Test Coverage: 0%
 OperatorSearch
   Methods:
@@ -120,9 +89,6 @@ BuiltInFunc
 	System.String name
   Methods:
 	Void SetArguments(System.String)
-	Calculator.Logic.Token Clone()
-	Double Evaluate()
-	System.String Draw()
   Test Coverage: 0%
 BIFSearch
   Methods:
@@ -130,17 +96,8 @@ BIFSearch
 	Int32 Run(System.String, Int32, Calculator.Logic.Token ByRef)
   Test Coverage: 0%
 MinBIF
-  Methods:
-	Void SetArguments(System.String)
-  Test Coverage: 0%
 SqrtBIF
-  Methods:
-	Void SetArguments(System.String)
-  Test Coverage: 0%
 MaxBIF
-  Methods:
-	Void SetArguments(System.String)
-  Test Coverage: 0%
 Statement
   Methods:
 	System.String Process()
@@ -177,22 +134,15 @@ Variables
 	Boolean IsVar(System.String)
   Test Coverage: 0%
 Assignment
-  Methods:
-	System.String Process()
-  Test Coverage: 0%
 AssignmentParser
 Block
   Methods:
 	Int32 get_Count()
-	System.String Process()
   Test Coverage: 0%
 BlockParser
 Lambda
   Fields:
 	System.String Name
-  Methods:
-	System.String Process()
-  Test Coverage: 0%
 LambdaParser
 Scope
   Methods:
@@ -208,9 +158,6 @@ Declaration
   Fields:
 	System.String alias
 	System.String Keyword
-  Methods:
-	System.String Process()
-  Test Coverage: 0%
 DeclarationParser
   Methods:
 	Int32 FindDeclaration(System.String, Int32)
@@ -223,8 +170,7 @@ Expression
 	System.String Draw()
 	Calculator.Logic.Expression Clone()
 	Double Calculate()
-	System.String Process()
-  Test Coverage: 25%
+  Test Coverage: 33.3333333333333%
 ExpressionBuilder
   Methods:
 	Void InsertBefore(Calculator.Logic.Token, Int32)
@@ -250,14 +196,6 @@ Priorities
 	Calculator.Logic.Priorities degree
 	Calculator.Logic.Priorities factorial
 	Calculator.Logic.Priorities operand
-  Methods:
-	System.String ToString(System.String, System.IFormatProvider)
-	Int32 CompareTo(System.Object)
-	System.String ToString(System.String)
-	System.String ToString(System.IFormatProvider)
-	Boolean HasFlag(System.Enum)
-	System.TypeCode GetTypeCode()
-  Test Coverage: 0%
 Token
   Fields:
 	System.Int32 Priority
@@ -283,4 +221,18 @@ Value
   Fields:
 	System.Double RawValue
 	System.Type Type
+CalculatorException
+<>c
+  Fields:
+	Calculator.Logic.ParsedStream+<>c <>9
+	System.Func`3[System.String,System.Int32,System.Boolean] <>9__7_0
+<>c
+  Fields:
+	Calculator.Logic.BuiltInFunc+<>c <>9
+	System.Func`3[System.String,System.Int32,System.Boolean] <>9__4_0
+<>c__DisplayClass4_0
+  Fields:
+	System.Int32 contentPosition
+	System.Double result
+	Calculator.Logic.UserFunc <>4__this
 

@@ -79,7 +79,7 @@ namespace Calculator.Logic
 			} else try {
 				result = new ExpressionBuilder (input).ToExpression ();
 			} catch {
-				throw new Exception ("Statement type could not be determined");
+				throw new CalculatorException ("Statement type could not be determined");
 			}
 			return result;
 		}

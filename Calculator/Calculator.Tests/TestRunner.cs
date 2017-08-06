@@ -92,13 +92,19 @@ namespace Calculator.Tests
 				throw new TestFailedException (testResult.ToString ());
 		}
 
-		public static void ShouldThrow (this MethodBase method, string message) {
+		public static void ShouldThrow (this MethodBase method, 
+			Type exceptionType, params object[] args) {
+
+			bool exceptionThrown = false;
 			try {
-				method.Invoke (null, null);
+				method.Invoke (null, args);
 			} catch (Exception e) {
-				if (e.InnerException.Message != message)
+				exceptionThrown = true;
+				if (e.InnerException.GetType () != exceptionType)
 					throw new TestFailedException (e.InnerException.Message);
 			}
+			if (!exceptionThrown)
+				throw new TestFailedException ();
 		}
 	}
 
@@ -125,22 +131,23 @@ namespace Calculator.Tests
 
 		[Test]
 		[Covers (nameof (TestThrow))]
-		[Throws ()]
+		[Throws (typeof (CalculatorException))]
 		public static void ShouldThrowProperException () {
 			var testThrow = typeof (TestRunnerTest).GetMethod (nameof (TestThrow));
-			testThrow.ShouldThrow ("exception text");
+			testThrow.ShouldThrow (typeof (CalculatorException), true);
 		}
 
 		[Test]
 		[Covers (nameof (TestThrow))]
-		[Throws ()]
+		[Throws (typeof (CalculatorException))]
 		public static void ShouldThrowFails () {
 			var testThrow = typeof (TestRunnerTest).GetMethod (nameof (TestThrow));
-			testThrow.ShouldThrow ("some other exception text");
+			testThrow.ShouldThrow (typeof (CalculatorException), false);
 		}
 
-		static public void TestThrow () {
-			throw new Exception ("exception text");
+		static public void TestThrow (bool throwException) {
+			if (throwException)
+				throw new CalculatorException ("exception text");
 		}
 	}
 }
