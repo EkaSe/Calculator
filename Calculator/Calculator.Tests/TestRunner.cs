@@ -36,7 +36,7 @@ namespace Calculator.Tests
 									.Aggregate (new StringBuilder(), (sentence, pInfo) => 
 										sentence.AppendFormat (", {0} = {1}", pInfo.Name, testCase.Args [argCount]));
 								StringBuilder testResult = new StringBuilder ();
-								return (testResult.AppendFormat ("{0} [fail, given{1} returns {2} instead of {3}]\n",
+								return (testResult.AppendFormat ("{0} [fail, given{1} returns {2} instead of {3}]",
 									mInfo.Name, args.ToString (), e.Message, testCase.Args [argCount+1]));
 							}
 						});
@@ -49,12 +49,12 @@ namespace Calculator.Tests
 						try {
 							try {
 								mInfo.Invoke (null, null);
-								return (new StringBuilder (mInfo.Name + "[pass]\n"));
+								return (new StringBuilder (mInfo.Name + "[pass]"));
 							} catch (TargetInvocationException e) {
 								throw e.InnerException;
 							}
 						} catch (TestFailedException e) {
-							return (new StringBuilder (mInfo.Name + "[fail]\n"));
+							return (new StringBuilder (mInfo.Name + "[fail]"));
 						}
 						});
 					return (throwsResults);
@@ -62,9 +62,9 @@ namespace Calculator.Tests
 				.Concat (simpleTestList.Select <MethodInfo, StringBuilder> ((mInfo) => {
 					try {
 						mInfo.Invoke (null, null);
-						return (new StringBuilder (mInfo.Name + "[pass]\n"));
+						return (new StringBuilder (mInfo.Name + "[pass]"));
 					} catch (Exception e) {
-						return (new StringBuilder (mInfo.Name + "[fail]\n"));
+						return (new StringBuilder (mInfo.Name + "[fail]"));
 					}
 					return (new StringBuilder ());
 				})

@@ -69,11 +69,8 @@ ShouldCalculateSingleExpression[pass]
 ShouldCalculateSingleExpression[pass]
 ShouldCalculateSingleExpression[pass]
 TestFailedTestCase [fail, given, input = 1+1 returns 2 instead of Test test cases: failed test]
-
 ShouldThrowProperException[pass]
-
 ShouldThrowFails[fail]
-
 Statement Searcher Test: Calculator.Logic.Expression passed
 Statement Searcher Test: Calculator.Logic.Assignment passed
 Statement Searcher Test: Calculator.Logic.Assignment passed
@@ -85,7 +82,6 @@ Statement Searcher Test: Calculator.Logic.Block passed
 Statement Searcher Test: Calculator.Logic.Lambda failed: Calculator.Logic.Declaration
 Statement Searcher Test: Calculator.Logic.Lambda failed: Statement type could not be determined
 Run[pass]
-
 Test 12 passed
 Test -12 passed
 Test +12.34 passed
@@ -104,23 +100,19 @@ Test 0.5! passed
 Test -7+3 passed
 Test 5.5+2.15 passed
 Run[pass]
-
 Test Statement_Assignment 0 failed: Object reference not set to an instance of an object
 Test Statement_Assignment 1 failed: Statement type could not be determined
 Test Statement_Assignment 2 failed: Statement type could not be determined
 Test Statement_Assignment 3 failed: Object reference not set to an instance of an object
 Test Statement_Assignment 4 failed: Statement type could not be determined
 Run[pass]
-
 Test Statement_Block 0 passed
 Test Statement_Block 1 failed: Object reference not set to an instance of an object
 Test Statement_Block 2 failed: Object reference not set to an instance of an object
 Test Statement_Block 3 failed: Object reference not set to an instance of an object
 Run[pass]
-
 Test Statement_Embedded 0: Block in Block failed: Object reference not set to an instance of an object
 Run[pass]
-
 Test Statement_Expression 0 passed
 Test Statement_Expression 1 passed
 Test Statement_Expression 2 passed
@@ -129,12 +121,10 @@ Test Statement_Expression 4 passed
 Test Statement_Expression 5 passed
 Test Statement_Expression 6 passed
 Run[pass]
-
 Test Statement_InvalidInput 0 failed: Statement type could not be determined
 Test Statement_InvalidInput 1 failed: Statement type could not be determined
 Test Statement_InvalidInput 2 failed: Statement type could not be determined
 Run[pass]
-
 Test Statement_Lambda 0.0:  failed: Statement type could not be determined
 Test Statement_Lambda 0.1:  failed: Statement type could not be determined
 Test Statement_Lambda 1.0:  failed: Statement type could not be determined
@@ -143,4 +133,3 @@ Test Statement_Lambda 1.3:  failed: Statement type could not be determined
 Test Statement_Lambda 2.0:  failed: Statement type could not be determined
 Test Statement_Lambda 2.1:  failed: Statement type could not be determined
 Run[pass]
-

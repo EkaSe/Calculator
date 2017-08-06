@@ -27,8 +27,10 @@ namespace Calculator.Tests
 			StatementSearcherTest.OutputMessage += Test_OutputMessage;
 
 			TestRunner.OutputMessage += Test_OutputMessage;
+			TestRunner.OutputMessage += TestReporter.MessageReceived;
 
 			OutputPrinter.ClearLog (TestHelper.TestLogPath);
+			TestReporter.ClearReport ();
 			TestHelper.MessageReceived += OutputPrinter.MessageReceived;
 			TestCoverage.ErrorReceived += OutputPrinter.ErrorReceived;
 		}
