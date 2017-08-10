@@ -122,7 +122,7 @@ namespace Calculator.Tests
 		[Test]
 		[Covers (nameof (Interpreter.Run), 
 			new Type[] { typeof (Func<string>), typeof (Func<string, bool>), typeof (bool)})]
-		[TestCase ("1+1", "Test test cases: failed test")]
+		[TestCase ("1+1", "some other expected result")]
 		public static void TestFailedTestCase (string input, string expectedOutput) {
 			string [] expressionSet = new string [] {input};
 			string result = InterpreterTest.RunInterpreter (expressionSet);

@@ -68,7 +68,7 @@ ShouldCalculateSingleExpression[pass]
 ShouldCalculateSingleExpression[pass]
 ShouldCalculateSingleExpression[pass]
 ShouldCalculateSingleExpression[pass]
-TestFailedTestCase [fail, given, input = 1+1 returns 2 instead of Test test cases: failed test]
+TestFailedTestCase [fail, given, input = 1+1 returns 2 instead of some other expected result]
 ShouldThrowProperException[pass]
 ShouldThrowFails[fail]
 Statement Searcher Test: Calculator.Logic.Expression passed

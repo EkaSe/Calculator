@@ -1,13 +1,18 @@
-﻿<Properties StartupItem="Calculator.Tests/Calculator.Tests.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+﻿<Properties StartupConfiguration="{E62A620B-DB42-466A-896E-DA2116A94046}|Default" StartupItem="Calculator.Tests/Calculator.Tests.csproj">
   <MonoDevelop.Ide.Workbench ActiveDocument="Calculator.Tests/TestRunner.cs">
     <Files>
-      <File FileName="Calculator.Tests/TestRunner.cs" Line="104" Column="5" />
+      <File FileName="Calculator.Tests/TestRunner.cs" Line="130" Column="4" />
       <File FileName="Calculator.Tests/TestHelper.cs" Line="1" Column="1" />
+      <File FileName="Calculator.Tests/TestReporter.cs" Line="1" Column="1" />
+      <File FileName="Calculator.Tests/OutputPrinter.cs" Line="1" Column="1" />
+      <File FileName="Calculator.Tests/Program.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.Calculator.Tests PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>
