@@ -10,7 +10,7 @@ namespace Calculator.Tests
 		}
 
 		static public void MessageReceived (object sender, string message) {
-			string line = message.Contains ("[fail]") ? "**" + message + "**" : message;
+			string line = message.Contains ("[fail]") ? " * **" + message + "**" : " * " + message;
 			using (StreamWriter sw = File.AppendText (ReportPath)) {
 				sw.WriteLine (line);
 			}
